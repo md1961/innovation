@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  age_id: 
+  color_id: 
+  title: MyString
+  title_eng: MyString
+  effect: MyString
+  effect_eng: MyString
+  image: 
+
+two:
+  age_id: 
+  color_id: 
+  title: MyString
+  title_eng: MyString
+  effect: MyString
+  effect_eng: MyString
+  image: 
