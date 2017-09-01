@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170901073630) do
+ActiveRecord::Schema.define(version: 20170901073900) do
 
   create_table "ages", force: :cascade do |t|
     t.integer "level",    null: false
@@ -24,5 +24,14 @@ ActiveRecord::Schema.define(version: 20170901073630) do
     t.string "name_eng", null: false
     t.string "rgb",      null: false
   end
+
+  create_table "resources", force: :cascade do |t|
+    t.string  "name",     null: false
+    t.string  "name_eng"
+    t.integer "color_id"
+    t.binary  "image"
+  end
+
+  add_index "resources", ["color_id"], name: "index_resources_on_color_id"
 
 end
