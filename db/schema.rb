@@ -11,13 +11,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170901074604) do
+ActiveRecord::Schema.define(version: 20170901075019) do
 
   create_table "ages", force: :cascade do |t|
     t.integer "level",    null: false
     t.string  "name",     null: false
     t.string  "name_eng"
   end
+
+  create_table "card_resources", force: :cascade do |t|
+    t.integer "card_id"
+    t.integer "resource_id"
+    t.integer "resource_position_id"
+  end
+
+  add_index "card_resources", ["card_id"], name: "index_card_resources_on_card_id"
+  add_index "card_resources", ["resource_id"], name: "index_card_resources_on_resource_id"
+  add_index "card_resources", ["resource_position_id"], name: "index_card_resources_on_resource_position_id"
 
   create_table "cards", force: :cascade do |t|
     t.integer  "age_id"
