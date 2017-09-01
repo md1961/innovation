@@ -36,3 +36,4 @@ resource          : name color:references image:binary
 card              : age:references color:references title effect image:binary
 resource_position : name abbr is_left:boolean is_right:boolean is_bottom:boolean
 card_resource     : card:references resource:references resource_position:references
+category          : name name_eng condition condition_eng note note_eng

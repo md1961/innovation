@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170901075019) do
+ActiveRecord::Schema.define(version: 20170901210509) do
 
   create_table "ages", force: :cascade do |t|
     t.integer "level",    null: false
@@ -43,6 +43,15 @@ ActiveRecord::Schema.define(version: 20170901075019) do
 
   add_index "cards", ["age_id"], name: "index_cards_on_age_id"
   add_index "cards", ["color_id"], name: "index_cards_on_color_id"
+
+  create_table "categories", force: :cascade do |t|
+    t.string "name",          null: false
+    t.string "name_eng"
+    t.string "condition",     null: false
+    t.string "condition_eng"
+    t.string "note",          null: false
+    t.string "note_eng"
+  end
 
   create_table "colors", force: :cascade do |t|
     t.string "name"
