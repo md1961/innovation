@@ -13,15 +13,31 @@
 # resource_position : name abbr is_left:boolean is_right:boolean is_bottom:boolean
 # card_resource     : card:references resource:references resource_position:references
 
-%w[].each.with_index(1) do |name, level|
+%w[
+  先史時代 古代 中世 ルネッサンス 大航海時代 啓蒙時代 産業革命 近代 宇宙時代 情報時代
+].each.with_index(1) do |name, level|
   Age.create!(level: level, name: name)
 end
 
-%w[].each do |name, rgb|
-  Color.create!(name: name, rgb: rgb)
+[
+  %w[赤 Red    #FF0000],
+  %w[緑 Green  #00FF00],
+  %w[青 Blue   #0000FF],
+  %w[黄 Yellow #FFFF00],
+  %w[紫 Purple #800080],
+  %w[灰 Gray   #808080],
+].each do |name, name_eng, rgb|
+  Color.create!(name: name, name_eng: name_eng, rgb: rgb)
 end
 
-%w[].each do |name, name_eng, color_name|
+[
+  %w[石   Stone       灰],
+  %w[木   Woods       緑],
+  %w[金属 Metal       黄],
+  %w[電気 Electricity 紫],
+  %w[工業 Industry    赤],
+  %w[時間 Time        青],
+].each do |name, name_eng, color_name|
   color = Color.find_by(name: color_name)
   Resource.create!(name: name, name_eng: name_eng, color: color)
 end
@@ -42,4 +58,9 @@ ResourcePosition.create!(name: '右下', abbr: 'RB', is_left: false, is_right: t
     position = ResourcePosition.find_by(abbr: position_abbr)
     CardResource.create!(card: card, resource: resource, resource_position: position)
   end
+end
+
+%w[
+].each do |name, condition, note|
+  Category.create!(name: name, condition: condition, note: note)
 end
