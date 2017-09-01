@@ -60,7 +60,12 @@ ResourcePosition.create!(name: '右下', abbr: 'RB', is_left: false, is_right: t
   end
 end
 
-%w[
-].each do |name, condition, note|
-  Category.create!(name: name, condition: condition, note: note)
+[
+  %w[文化 Culture あなたの領域に５つの色があり、それらがすべて右か上に展開されている場合、ただちにこの分野を制覇する。 ルネッサンス（４）の「発明」により制覇することもできる。],
+  %w[技術 Technology あなたが１ターンの間に保存または得点したカードが合わせて６枚以上になった場合、ただちにこの分野を制覇する。（他のプレイヤーから譲渡されたカードや、あなたの手札や影響から交換されたカードは、この数に含まない。） 先史時代（１）の「石工」により制覇することもできる。],
+  %w[外交 Diplomacy あなたが資源の「時間」１２以上生み出している場合、ただちにこの分野を制覇する。 中世（３）の「翻訳」により制覇することもできる。],
+  %w[軍事 Military あなたが資源６種類のそれぞれを３つ以上生み出している場合、ただちにこの分野を制覇する。 古代（２）の「建築」により制覇することもできる。],
+  %w[科学 Science あなたの５つのアクティブなカードの値がすべて[８]以上である場合、ただちにこの分野を制覇する。 大航海時代（５）の「天文学」により制覇することもできる。],
+].each do |name, name_eng, condition, note|
+  Category.create!(name: name, name_eng: name_eng, condition: condition, note: note)
 end
