@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  name_eng: MyString
+  abbr: MyString
+  abbr_eng: MyString
+  is_left: false
+  is_right: false
+  is_bottom: false
+
+two:
+  name: MyString
+  name_eng: MyString
+  abbr: MyString
+  abbr_eng: MyString
+  is_left: false
+  is_right: false
+  is_bottom: false
