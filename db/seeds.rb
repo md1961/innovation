@@ -47,19 +47,6 @@ ResourcePosition.create!(name: '左下', abbr: 'LB', is_left: true , is_right: f
 ResourcePosition.create!(name: '下'  , abbr: 'CB', is_left: false, is_right: false, is_bottom: true )
 ResourcePosition.create!(name: '右下', abbr: 'RB', is_left: false, is_right: true , is_bottom: true )
 
-%w[
-].each do |age_level, color_name, title, effect, resource_names|
-  age = Age.find_by(level: age_level)
-  color = Color.find_by(name: color_name)
-  card = Card.create!(age: age, color: color, title: title, effect: effect)
-  resource_names.zip(%w[LT LB CB RB]) do |resource_name, position_abbr|
-    next unless resource_name.present?
-    resource = Resource.find_by(name_eng: resource_name)
-    position = ResourcePosition.find_by(abbr: position_abbr)
-    CardResource.create!(card: card, resource: resource, resource_position: position)
-  end
-end
-
 [
   %w[文化 Culture あなたの領域に５つの色があり、それらがすべて右か上に展開されている場合、ただちにこの分野を制覇する。 ルネッサンス（４）の「発明」により制覇することもできる。],
   %w[技術 Technology あなたが１ターンの間に保存または得点したカードが合わせて６枚以上になった場合、ただちにこの分野を制覇する。（他のプレイヤーから譲渡されたカードや、あなたの手札や影響から交換されたカードは、この数に含まない。） 先史時代（１）の「石工」により制覇することもできる。],
@@ -68,4 +55,24 @@ end
   %w[科学 Science あなたの５つのアクティブなカードの値がすべて[８]以上である場合、ただちにこの分野を制覇する。 大航海時代（５）の「天文学」により制覇することもできる。],
 ].each do |name, name_eng, condition, note|
   Category.create!(name: name, name_eng: name_eng, condition: condition, note: note)
+end
+
+[
+  [1, '緑', '車輪', [
+    %w[石, [１]を２枚引く。],
+  ], %w[nil 石 石 石]],
+].each do |age_level, color_name, title, effects, resource_names|
+  age = Age.find_by(level: Integer(age_level))
+  color = Color.find_by(name: color_name)
+  card = Card.create!(age: age, color: color, title: title)
+  effects.each do |resource_name, content|
+    resource = Resource.find_by(name: resource_name)
+    card.effects.create!(resource: resource, content: content)
+  end
+  resource_names.zip(%w[LT LB CB RB]) do |resource_name, position_abbr|
+    resource = Resource.find_by(name: resource_name)
+    next unless resource
+    position = ResourcePosition.find_by(abbr: position_abbr)
+    card.card_resources.create!(resource: resource, position: position)
+  end
 end
