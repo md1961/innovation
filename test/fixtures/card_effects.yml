@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  card: 
+  resource_id: 
+  content: MyString
+
+two:
+  card: 
+  resource_id: 
+  content: MyString
