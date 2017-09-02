@@ -23,7 +23,7 @@ ActiveRecord::Schema.define(version: 20170902004647) do
     t.integer "card_id"
     t.integer "resource_id"
     t.string  "content",     null: false
-    t.string  "content_eng", null: false
+    t.string  "content_eng"
   end
 
   add_index "card_effects", ["card_id"], name: "index_card_effects_on_card_id"
@@ -44,8 +44,6 @@ ActiveRecord::Schema.define(version: 20170902004647) do
     t.integer  "color_id"
     t.string   "title",      null: false
     t.string   "title_eng"
-    t.string   "effect",     null: false
-    t.string   "effect_eng"
     t.binary   "image"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

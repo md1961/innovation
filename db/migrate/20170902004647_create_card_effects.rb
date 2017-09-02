@@ -5,7 +5,7 @@ class CreateCardEffects < ActiveRecord::Migration
       t.references :card       , index: true, foreign_key: true
       t.references :resource   , index: true, foreign_key: true
       t.string     :content    , null: false
-      t.string     :content_eng, null: false
+      t.string     :content_eng
     end
   end
 end
