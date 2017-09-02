@@ -59,19 +59,30 @@ end
 
 [
   [1, '緑', '車輪', [
-    %w[石, [１]を２枚引く。],
+    %w[石 true [１]を２枚引く。],
   ], %w[nil 石 石 石]],
+  [1, '黄', '牧畜', [
+    %w[石 true あなたの手札の最も低い値のカードを１枚場に出す。[１]を１枚引く。],
+  ], %w[石 金属 nil 石]],
+  [1, '黄', '石工', [
+    %w[石 true あなたの手札にある「石」を生み出すカードを望む枚数場に出してよい。これにより４枚以上のカードを場に出した場合、「技術」の分野を制覇する。],
+  ], %w[石 nil 石 石]],
 ].each do |age_level, color_name, title, effects, resource_names|
   age = Age.find_by(level: Integer(age_level))
+  raise "Unknown Age '#{age_level}' for Card '#{title}'" unless age
   color = Color.find_by(name: color_name)
+  raise "Unknown Color '#{resource_name}' for Card '#{title}'" unless color
   card = Card.create!(age: age, color: color, title: title)
-  effects.each do |resource_name, content|
+  effects.each do |resource_name, is_for_all, content|
     resource = Resource.find_by(name: resource_name)
-    card.effects.create!(resource: resource, content: content)
+    raise "Unknown Resource '#{resource_name}' for Card '#{title}'" unless resource
+    raise "Illegal boolean '#{is_for_all}' for Card '#{title}'" unless %w[true false].include?(is_for_all)
+    card.effects.create!(resource: resource, is_for_all: is_for_all == 'true', content: content)
   end
   resource_names.zip(%w[LT LB CB RB]) do |resource_name, position_abbr|
+    next if resource_name == 'nil'
     resource = Resource.find_by(name: resource_name)
-    next unless resource
+    raise "Unknown Resource '#{resource_name}' for Card '#{title}'" unless resource
     position = ResourcePosition.find_by(abbr: position_abbr)
     card.card_resources.create!(resource: resource, position: position)
   end

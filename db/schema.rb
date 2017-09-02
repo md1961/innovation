@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 20170902004647) do
   create_table "card_effects", force: :cascade do |t|
     t.integer "card_id"
     t.integer "resource_id"
+    t.boolean "is_for_all",  null: false
     t.string  "content",     null: false
     t.string  "content_eng"
   end
