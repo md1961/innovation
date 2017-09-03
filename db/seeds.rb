@@ -98,7 +98,7 @@ end
   age = Age.find_by(level: Integer(age_level))
   raise "Unknown Age '#{age_level}' for Card '#{title}'" unless age
   color = Color.find_by(name: color_name)
-  raise "Unknown Color '#{resource_name}' for Card '#{title}'" unless color
+  raise "Unknown Color '#{color_name}' for Card '#{title}'" unless color
   card = Card.create!(age: age, color: color, title: title)
   effects.each do |resource_name, is_for_all, content|
     resource = Resource.find_by(name: resource_name)
