@@ -1,17 +1,19 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
-
-# age               : level:integer name
-# color             : name rgb
-# resource          : name color:references image:binary
-# card              : age:references color:references title effect image:binary
-# resource_position : name abbr is_left:boolean is_right:boolean is_bottom:boolean
-# card_resource     : card:references resource:references resource_position:references
+# == アクション ==
+# ドロー： あなたのアクティブな最も高いカードの値と同じ時代から１枚引く。
+#          [10]より高い時代から引くことになった場合、ゲームは終了する。
+# プレイ： 手札を１枚、あなたの領域の同じ色の山の上に置く。
+# 制覇  ： 時代を制覇するには、影響ポイントが制覇しようとする時代の値の５倍以上で、かつ、
+#          あなたのアクティブなカードの値のいずれかが、その時代以上でなければならない。
+#          勝利条件： ２人ゲーム = ６枚制覇、３人 = ５枚、４人 = ４枚。
+# 発動  ： あなたのアクティブなカードを１枚選び、書かれている順に教義を実行する。
+#          優越型教義： 必要リソースの数があなたより少ないプレイヤーに効果を発揮。
+#          協力型教義： 必要リソースがあなた以上のプレイヤーにも効果を発揮。
+#                       あなたの左側から近い順に実行し、最後にあなたが実行する。
+#                       他のプレイヤーが恩恵を得た場合、最後に追加のドローを１回行う。
+# == ゲームの効果 ==
+# 保存する： カードを領域の同じ色の山の底に置く。その色がない場合は１枚の山となる。
+# 再生する： カードを裏向きに、その時代の山札の底に戻す。
+# 引いて何々する： 引いたそのカードを使用しなければならない。
 
 %w[
   先史時代 古代 中世 ルネッサンス 大航海時代 啓蒙時代 産業革命 近代 宇宙時代 情報時代
@@ -141,6 +143,17 @@ end
   [2, '黄', '発酵', [
     %w[木 true あなたが生み出す「木」２つにつき[2]を１枚引く。],
   ], %w[木 木 nil 石]],
+  [3, '黄', '医術', [
+    %w[木 false 要求する。お前の影響の最も高いカードを１枚、我が影響の最も低いカード１枚と交換せよ。],
+  ], %w[金属 木 木 nil]],
+  [3, '黄', '機械', [
+    %w[木 false 要求する。お前の手札のすべてを、我が手札の最も高いすべてのカードと交換せよ。],
+    %w[木 true あなたの手札の「石」を生み出すカードを１枚得点する。あなたの赤のカードを左に展開してよい。],
+  ], %w[木 木 nil 石]],
+  [3, '紫', '封建主義', [
+    %w[石 false 要求する。お前の手札の「石」を生み出すカードを１枚、我が影響に譲渡せよ。],
+    %w[石 true あなたの黄か紫のカードを左に展開してよい。],
+  ], %w[nil 石 木 石]],
 ].each do |age_level, color_name, title, effects, resource_names|
   age = Age.find_by(level: Integer(age_level))
   raise "Unknown Age '#{age_level}' for Card '#{title}'" unless age
