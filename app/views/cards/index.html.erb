@@ -1,0 +1,9 @@
+<table class="table_base">
+  <% @cards.each do |card| -%>
+    <tr>
+      <td><%= card.age.level %></td>
+      <td><%= card.title %></td>
+      <td><%= card_effects_display(card) %></td>
+    </tr>
+  <% end -%>
+</table>
