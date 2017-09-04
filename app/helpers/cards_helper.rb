@@ -1,17 +1,16 @@
 module CardsHelper
 
-  def card_effect_display(effect)
+  def card_effect_in_span(effect)
     content_tag :span do
-      concat '['
       concat (
         content_tag :span, effect.resource, class: effect.resource.color.name_eng
       )
-      concat "]#{effect.is_for_all ? '+' : '>'} #{effect.content}"
+      concat "#{effect.is_for_all ? '+' : '>'} #{effect.content}"
     end
   end
 
   def card_effects_display(card)
-    safe_join(card.effects.map { |e| card_effect_display(e) }, '<br>'.html_safe)
+    safe_join(card.effects.map { |e| card_effect_in_span(e) }, '<br>'.html_safe)
   end
 
   def card_resource_in_div(card, pos)

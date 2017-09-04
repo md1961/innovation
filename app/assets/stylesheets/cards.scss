@@ -1,5 +1,5 @@
 div.card {
-  width: 80px;
+  width: 100px;
   border: 1px solid black;
 }
 
@@ -16,6 +16,22 @@ div.card_top, div.card_bottom {
   }
 }
 
-div.card_bottom {
+div.card_effect, div.card_bottom {
   margin-top: 5px;
+}
+
+div#card_navi {
+  position: fixed;
+  top: 300px;
+  left: 50px;
+  border: 1px solid gray;
+  padding: 5px 20px;
+
+  a {
+    font-size: 1.5rem;
+    text-decoration: none;
+    border: 1px solid gray;
+    padding: 2px 10px;
+    margin: 2px 10px;
+  }
 }

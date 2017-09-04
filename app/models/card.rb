@@ -16,4 +16,12 @@ class Card < ActiveRecord::Base
   def resource_at(position_abbr)
     card_resources.joins(:position).where('resource_positions.abbr = ?', position_abbr).first&.resource
   end
+
+  def prev
+    self.class.where('id < ?', id).order(id: :desc).first || self
+  end
+
+  def next
+    self.class.where('id > ?', id).order(id: :asc ).first || self
+  end
 end

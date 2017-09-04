@@ -1,1 +1,6 @@
 <%= render @card %>
+
+<div id="card_navi">
+  <%= link_to '<', card_path(@card.prev) %>
+  <%= link_to '>', card_path(@card.next) %>
+</div>

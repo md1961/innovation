@@ -6,6 +6,9 @@
     </div>
   </div>
   <div class="card_effect">
+    <% card.effects.each do |effect| -%>
+      <%= card_effect_in_span(effect) %>
+    <% end -%>
   </div>
   <div class="card_bottom">
     <% Card::POSITIONS_AT_BOTTOM.each do |pos| -%>
