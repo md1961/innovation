@@ -22,12 +22,12 @@
 end
 
 [
-  %w[赤 Red    #FF0000],
-  %w[緑 Green  #00FF00],
-  %w[青 Blue   #0000FF],
-  %w[黄 Yellow #FFFF00],
-  %w[紫 Purple #800080],
-  %w[灰 Gray   #808080],
+  %w[赤 red    #FF0000],
+  %w[緑 green  #00FF00],
+  %w[青 blue   #0000FF],
+  %w[黄 yellow #FFFF00],
+  %w[紫 purple #800080],
+  %w[灰 gray   #808080],
 ].each do |name, name_eng, rgb|
   Color.create!(name: name, name_eng: name_eng, rgb: rgb)
 end

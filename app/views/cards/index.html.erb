@@ -1,12 +1,16 @@
 <table class="table_base">
   <% @cards.each do |card| -%>
     <tr>
-      <td><%= card.age.level %></td>
+      <td class="<%= card.color.name_eng %>">
+        <%= card.age.level %>
+      </td>
       <td><%= card.title %></td>
-      <td><%= card.resource_at(Card::POS_LT) %></td>
-      <td><%= card.resource_at(Card::POS_LB) %></td>
-      <td><%= card.resource_at(Card::POS_CB) %></td>
-      <td><%= card.resource_at(Card::POS_RB) %></td>
+      <% Card::POSITIONS.each do |pos| -%>
+        <% resource = card.resource_at(pos) %>
+        <td class="<%= resource&.color&.name_eng %>">
+          <%= resource %>
+        </td>
+      <% end -%>
       <td><%= card_effects_display(card) %></td>
     </tr>
   <% end -%>
