@@ -3,6 +3,10 @@
     <tr>
       <td><%= card.age.level %></td>
       <td><%= card.title %></td>
+      <td><%= card.resource_at(Card::POS_LT) %></td>
+      <td><%= card.resource_at(Card::POS_LB) %></td>
+      <td><%= card.resource_at(Card::POS_CB) %></td>
+      <td><%= card.resource_at(Card::POS_RB) %></td>
       <td><%= card_effects_display(card) %></td>
     </tr>
   <% end -%>
