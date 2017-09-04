@@ -1,7 +1,7 @@
 <table id="card_list" class="table_base">
   <% @cards.each do |card| -%>
     <tr>
-      <td class="<%= card.color.name_eng %>">
+      <td class="<%= color_class(card) %>">
         <%= card.age.level %>
       </td>
       <td class="card_title">
@@ -9,7 +9,7 @@
       </td>
       <% Card::POSITIONS.each do |pos| -%>
         <% resource = card.resource_at(pos) %>
-        <td class="<%= resource&.color&.name_eng %>">
+        <td class="<%= color_class(resource) %>">
           <%= resource %>
         </td>
       <% end -%>

@@ -1,5 +1,17 @@
 class ApplicationController < ActionController::Base
-  # Prevent CSRF attacks by raising an exception.
-  # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
+
+  before_action :set_color
+
+  protected
+
+    def set_color
+      case params[:color]
+      when 'true'
+        session[:uses_color] = true
+      when 'false'
+        session[:uses_color] = false
+      end
+      @uses_color = session[:uses_color]
+    end
 end
