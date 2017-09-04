@@ -40,5 +40,5 @@ category          : name name_eng condition condition_eng note note_eng
 
 player    : name is_dealer(?)
 card_list : type player:references age:references color:references
-  type: [Stock(Age), Hand(Player), Board(Player,Color), Influence(Player), Point(Player)]
+  type: [Stock(Age), Hand(Player), Board(Player,Color), Influence(Player)]
 card_list_item : card_list:references card:references
