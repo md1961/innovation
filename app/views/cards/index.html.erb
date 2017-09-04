@@ -1,10 +1,12 @@
-<table class="table_base">
+<table id="card_list" class="table_base">
   <% @cards.each do |card| -%>
     <tr>
       <td class="<%= card.color.name_eng %>">
         <%= card.age.level %>
       </td>
-      <td><%= card.title %></td>
+      <td class="card_title">
+        <%= link_to card.title, card %>
+      </td>
       <% Card::POSITIONS.each do |pos| -%>
         <% resource = card.resource_at(pos) %>
         <td class="<%= resource&.color&.name_eng %>">
