@@ -15,12 +15,16 @@
 # 再生する： カードを裏向きに、その時代の山札の底に戻す。
 # 引いて何々する： 引いたそのカードを使用しなければならない。
 
+STDOUT.puts
+
+STDOUT.puts "Seeding Age's..."
 %w[
   先史時代 古代 中世 ルネッサンス 大航海時代 啓蒙時代 産業革命 近代 宇宙時代 情報時代
 ].each.with_index(1) do |name, level|
   Age.create!(level: level, name: name)
 end
 
+STDOUT.puts "Seeding Color's..."
 [
   %w[赤 red    #FF0000],
   %w[緑 green  #00FF00],
@@ -32,6 +36,7 @@ end
   Color.create!(name: name, name_eng: name_eng, rgb: rgb)
 end
 
+STDOUT.puts "Seeding Resource's..."
 [
   %w[石   Stone       灰],
   %w[木   Woods       緑],
@@ -49,6 +54,7 @@ ResourcePosition.create!(name: '左下', abbr: 'LB', is_left: true , is_right: f
 ResourcePosition.create!(name: '下'  , abbr: 'CB', is_left: false, is_right: false, is_bottom: true )
 ResourcePosition.create!(name: '右下', abbr: 'RB', is_left: false, is_right: true , is_bottom: true )
 
+STDOUT.puts "Seeding Category's..."
 [
   %w[文化 Culture あなたの領域に５つの色があり、それらがすべて右か上に展開されている場合、ただちにこの分野を制覇する。 ルネッサンス（４）の「発明」により制覇することもできる。],
   %w[技術 Technology あなたが１ターンの間に保存または得点したカードが合わせて６枚以上になった場合、ただちにこの分野を制覇する。（他のプレイヤーから譲渡されたカードや、あなたの手札や影響から交換されたカードは、この数に含まない。） 先史時代（１）の「石工」により制覇することもできる。],
@@ -59,7 +65,7 @@ ResourcePosition.create!(name: '右下', abbr: 'RB', is_left: false, is_right: t
   Category.create!(name: name, name_eng: name_eng, condition: condition, note: note)
 end
 
-[
+DATA_CARDS = [
   [1, '緑', '車輪', [
     %w[石 true [1]を２枚引く。],
   ], %w[nil 石 石 石]],
@@ -250,7 +256,10 @@ end
     %w[木 false お前の影響の最も高いカードを１枚、お前の手札に戻せ。そうした場合、お前の手札が１枚しかないなら、この教義を繰り返せ。],
     %w[木 true あなたの黄のカードを右に展開してよい。],
   ], %w[木 電気 木 nil]],
-].each do |age_level, color_name, title, effects, resource_names|
+]
+size = DATA_CARDS.size
+DATA_CARDS.each.with_index(1) do |(age_level, color_name, title, effects, resource_names), index|
+  STDOUT.print "Seeding Card #{index}/#{size}...\r"
   age = Age.find_by(level: Integer(age_level))
   raise "Unknown Age '#{age_level}' for Card '#{title}'" unless age
   color = Color.find_by(name: color_name)
@@ -270,3 +279,4 @@ end
     card.card_resources.create!(resource: resource, position: position)
   end
 end
+STDOUT.puts
