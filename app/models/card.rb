@@ -11,6 +11,7 @@ class Card < ActiveRecord::Base
   POS_RB = 'RB'
 
   POSITIONS = [POS_LT, POS_LB, POS_CB, POS_RB]
+  POSITIONS_AT_BOTTOM = POSITIONS[1, 3]
 
   def resource_at(position_abbr)
     card_resources.joins(:position).where('resource_positions.abbr = ?', position_abbr).first&.resource

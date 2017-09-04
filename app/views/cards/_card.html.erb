@@ -1,0 +1,15 @@
+<div class="card">
+  <div class="card_top">
+    <%= card_resource_in_div(card, Card::POS_LT) %>
+    <div class="card_title <%= card.color.name_eng %>">
+      <%= card.title %>
+    </div>
+  </div>
+  <div class="card_effect">
+  </div>
+  <div class="card_bottom">
+    <% Card::POSITIONS_AT_BOTTOM.each do |pos| -%>
+      <%= card_resource_in_div(card, pos) %>
+    <% end -%>
+  </div>
+</div>

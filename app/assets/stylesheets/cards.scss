@@ -1,29 +1,21 @@
-.red {
-  color: white;
-  background-color: red;
+div.card {
+  width: 80px;
+  border: 1px solid black;
 }
 
-.green {
-  color: white;
-  background-color: green;
+div.card_top, div.card_bottom {
+  display: flex;
+
+  div {
+    flex: 1;
+    text-align: center;
+  }
+
+  div.card_title {
+    flex: 2;
+  }
 }
 
-.blue {
-  color: white;
-  background-color: blue;
-}
-
-.yellow {
-  color: black;
-  background-color: yellow;
-}
-
-.purple {
-  color: white;
-  background-color: purple;
-}
-
-.gray {
-  color: white;
-  background-color: gray;
+div.card_bottom {
+  margin-top: 5px;
 }
