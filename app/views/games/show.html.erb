@@ -1,5 +1,10 @@
 <div class="game_area">
   <div class="stocks">
+    <% @game.stocks.each do |stock| -%>
+      <div class="stock">
+        <%= render stock %>
+      </div>
+    <% end -%>
   </div>
   <div class="boards">
     <% @game.players.each do |player| -%>

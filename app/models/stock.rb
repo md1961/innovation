@@ -1,6 +1,10 @@
 class Stock < CardList
   after_create :prepare
 
+  def to_partial_path
+    'games/stock'
+  end
+
   private
 
     def prepare
