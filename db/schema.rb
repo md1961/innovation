@@ -91,10 +91,11 @@ ActiveRecord::Schema.define(version: 20170905025044) do
   end
 
   create_table "games", force: :cascade do |t|
-    t.integer  "num_players", default: 2, null: false
+    t.integer  "num_players",       default: 2, null: false
+    t.integer  "current_player_id"
     t.string   "remark"
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
   end
 
   create_table "players", force: :cascade do |t|
@@ -105,6 +106,7 @@ ActiveRecord::Schema.define(version: 20170905025044) do
   create_table "playings", force: :cascade do |t|
     t.integer "game_id"
     t.integer "player_id"
+    t.integer "ordering",  null: false
   end
 
   add_index "playings", ["game_id"], name: "index_playings_on_game_id"
