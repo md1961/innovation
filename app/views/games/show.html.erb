@@ -1,0 +1,11 @@
+<div class="game_area">
+  <div class="stocks">
+  </div>
+  <div class="boards">
+    <% @game.players.each do |player| -%>
+      <div class="board" data-player_id="<%= player.id %>">
+        <div><%= player %></div>
+      </div>
+    <% end -%>
+  </div>
+</div>
