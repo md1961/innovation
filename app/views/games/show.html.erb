@@ -15,7 +15,7 @@
   </div>
   <div class="hand">
     <div class="hand_cards">
-      <% @game.current_player.hand.cards.each do |card| -%>
+      <% @game.current_player.hand_for(@game).cards.each do |card| -%>
         <div class="hand_card">
           <%= render card %>
         </div>

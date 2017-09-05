@@ -1,15 +1,20 @@
 class GamesController < ApplicationController
   before_action :set_game, only: %i[show draw]
 
+  # TODO: Move player adding process to a model or a service.
   def index
     if Game.count.zero?
       Game.transaction do
         Game.create!(num_players: 2).tap { |game|
-          player0 = Player.create!(name: 'Hmn', is_computer: false)
-          player1 = Player.create!(name: 'Cmp', is_computer: true )
-          game.playings.create!(player: player0, ordering: 0)
-          game.playings.create!(player: player1, ordering: 1)
-          game.update!(current_player: player0)
+          [
+            ['Hmn', false],
+            ['Cmp', true ],
+          ].each_with_index do |(name, is_computer), index|
+            player = Player.create!(name: name, is_computer: is_computer)
+            game.playings.create!(player: player, ordering: index)
+            player.hands.create!(game: game)
+          end
+          game.update!(current_player: game.players.first)
         }
       end
     end
@@ -23,10 +28,7 @@ class GamesController < ApplicationController
     age_level = Integer(params[:age_level])
     age = Age.find_by(level: age_level)
     stock = @game.stocks.find_by(age: age)
-    Game.transaction do
-      card = stock.draw
-      @game.current_player.hand.add(card)
-    end
+    @game.current_player.draw_from(stock)
 
     redirect_to @game
   end
