@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170905021123) do
+ActiveRecord::Schema.define(version: 20170905025044) do
 
   create_table "ages", force: :cascade do |t|
     t.integer "level",    null: false
@@ -29,6 +29,28 @@ ActiveRecord::Schema.define(version: 20170905021123) do
 
   add_index "card_effects", ["card_id"], name: "index_card_effects_on_card_id"
   add_index "card_effects", ["resource_id"], name: "index_card_effects_on_resource_id"
+
+  create_table "card_list_items", force: :cascade do |t|
+    t.integer "card_list_id"
+    t.integer "card_id"
+    t.integer "ordering"
+  end
+
+  add_index "card_list_items", ["card_id"], name: "index_card_list_items_on_card_id"
+  add_index "card_list_items", ["card_list_id"], name: "index_card_list_items_on_card_list_id"
+
+  create_table "card_lists", force: :cascade do |t|
+    t.string  "type"
+    t.integer "game_id"
+    t.integer "player_id"
+    t.integer "age_id"
+    t.integer "color_id"
+  end
+
+  add_index "card_lists", ["age_id"], name: "index_card_lists_on_age_id"
+  add_index "card_lists", ["color_id"], name: "index_card_lists_on_color_id"
+  add_index "card_lists", ["game_id"], name: "index_card_lists_on_game_id"
+  add_index "card_lists", ["player_id"], name: "index_card_lists_on_player_id"
 
   create_table "card_resources", force: :cascade do |t|
     t.integer "card_id"
