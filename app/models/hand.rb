@@ -1,0 +1,2 @@
+class Hand < CardList
+end
