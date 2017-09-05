@@ -3,6 +3,13 @@ class Stock < CardList
 
   after_create :prepare
 
+  def draw
+    raise "No card left" if cards.empty?
+    card = cards.first
+    card_list_items.first.destroy
+    card
+  end
+
   def to_partial_path
     'games/stock'
   end
