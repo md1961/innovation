@@ -1,5 +1,6 @@
 <span class="stock_age">
-  <%= link_to stock.age.level %>
+  <% age_level = stock.age.level -%>
+  <%= link_to age_level, draw_game_path(@game, age_level: age_level) %>
 </span>
 <span class="stock_size">
   (<%= stock.cards.size %>)

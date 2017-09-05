@@ -1,4 +1,5 @@
 class GamesController < ApplicationController
+  before_action :set_game, only: %i[show draw]
 
   def index
     if Game.count.zero?
@@ -16,6 +17,23 @@ class GamesController < ApplicationController
   end
 
   def show
-    @game = Game.find(params[:id])
   end
+
+  def draw
+    age_level = Integer(params[:age_level])
+    age = Age.find_by(level: age_level)
+    stock = @game.stocks.find_by(age: age)
+    Game.transaction do
+      card = stock.draw
+      @game.current_player.hand.add(card)
+    end
+
+    redirect_to @game
+  end
+
+  private
+
+    def set_game
+      @game = Game.find(params[:id])
+    end
 end

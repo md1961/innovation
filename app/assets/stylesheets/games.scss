@@ -13,3 +13,15 @@
     font-weight: bold;
   }
 }
+
+.hand_cards {
+  display: flex;
+}
+
+.hand_card {
+  flex: 1 0 content;
+
+  .card {
+    margin-right: 5px;
+  }
+}
