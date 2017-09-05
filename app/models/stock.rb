@@ -1,4 +1,6 @@
 class Stock < CardList
+  belongs_to :age
+
   after_create :prepare
 
   def to_partial_path
