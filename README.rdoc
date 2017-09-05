@@ -39,7 +39,7 @@ card_resource     : card:references resource:references resource_position:refere
 category          : name name_eng condition condition_eng note note_eng
 
 game      num_players:integer remark
-player    name is_computer
+player    name is_computer:boolean
 playing   game:references player:references
 
 card_list        game:references type player:references age:references color:references
