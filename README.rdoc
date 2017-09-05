@@ -38,10 +38,10 @@ resource_position : name abbr is_left:boolean is_right:boolean is_bottom:boolean
 card_resource     : card:references resource:references resource_position:references
 category          : name name_eng condition condition_eng note note_eng
 
-game        : num_players:integer remark
-player      : name
-game_player : game:references player:references
+game      num_players:integer remark
+player    name is_computer
+playing   game:references player:references
 
-card_list      : game:references type player:references age:references color:references
+card_list        game:references type player:references age:references color:references
                     type: [Stock(Age), Hand(Player), Board(Player,Color), Influence(Player)]
-card_list_item : card_list:references card:references
+card_list_item   card_list:references card:references
