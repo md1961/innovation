@@ -14,6 +14,19 @@
   }
 }
 
+.boards {
+  margin-top: 10px;
+}
+
+.board {
+  border: 1px solid black;
+  margin-top: 5px;
+}
+
+.hand {
+  margin-top: 10px;
+}
+
 .hand_cards {
   display: flex;
 }

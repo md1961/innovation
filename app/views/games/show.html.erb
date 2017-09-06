@@ -13,11 +13,17 @@
           <%= player %>
         </div>
         <div class="board_cards">
+          <% player.boards_for(@game).each do |board| -%>
+            <%= board.cards.first %>
+          <% end -%>
         </div>
       </div>
     <% end -%>
   </div>
   <div class="hand">
+    <div class="hand_player">
+      <%= @game.current_player %>
+    </div>
     <div class="hand_cards">
       <% @game.current_player.hand_for(@game).cards.each do |card| -%>
         <div class="hand_card">
