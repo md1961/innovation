@@ -4,6 +4,8 @@ class Card < ActiveRecord::Base
   has_many :effects, class_name: 'CardEffect'
   has_many :card_resources
   has_many :resources, through: :card_resources
+  has_many :card_list_items
+  has_many :card_lists, through: :card_list_items
 
   POS_LT = 'LT'
   POS_LB = 'LB'
@@ -15,6 +17,10 @@ class Card < ActiveRecord::Base
 
   def resource_at(position_abbr)
     card_resources.joins(:position).where('resource_positions.abbr = ?', position_abbr).first&.resource
+  end
+
+  def card_list(game)
+    card_lists.find_by(game: game)
   end
 
   def prev
