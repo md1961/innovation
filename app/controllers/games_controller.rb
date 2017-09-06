@@ -1,5 +1,5 @@
 class GamesController < ApplicationController
-  before_action :set_game, only: %i[show draw]
+  before_action :set_game, only: %i[show draw play]
 
   # TODO: Move player adding process to a model or a service.
   def index
@@ -23,6 +23,13 @@ class GamesController < ApplicationController
     age = Age.find_by(level: age_level)
     stock = @game.stocks.find_by(age: age)
     @game.current_player.draw_from(stock)
+
+    redirect_to @game
+  end
+
+  def play
+    card = Card.find(params[:card_id])
+    @game.current_player.play(card, @game)
 
     redirect_to @game
   end
