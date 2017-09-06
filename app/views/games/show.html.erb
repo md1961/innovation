@@ -25,7 +25,7 @@
       <%= @game.current_player %>
     </div>
     <div class="hand_cards">
-      <% @game.current_player.hand_for(@game).cards.each do |card| -%>
+      <% @game.current_player.cards_in_hand(@game).each do |card| -%>
         <div class="hand_card">
           <%= render card %>
         </div>

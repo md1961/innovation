@@ -11,6 +11,10 @@ class Player < ActiveRecord::Base
     boards.where(game: game)
   end
 
+  def cards_in_hand(game)
+    hand_for(game).cards.sort_by { |card| [card.age_id, card.color_id] }
+  end
+
   def draw_from(stock)
     Player.transaction do
       card = stock.draw
