@@ -14,7 +14,7 @@
         </div>
         <div class="board_cards">
           <% player.boards_for(@game).each do |board| -%>
-            <%= board.cards.last %>
+            <%= render board %>
           <% end -%>
         </div>
       </div>
