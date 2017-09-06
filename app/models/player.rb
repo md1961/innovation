@@ -15,6 +15,12 @@ class Player < ActiveRecord::Base
     hand_for(game).cards.sort_by { |card| [card.age_id, card.color_id] }
   end
 
+  def resource_counts
+    boards.map(&:resource_counts).inject { |h_sum, h|
+      h_sum.merge(h) { |_, count_sum, count| count_sum + count }
+    }
+  end
+
   def draw_from(stock)
     Player.transaction do
       card = stock.draw
