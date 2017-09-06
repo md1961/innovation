@@ -32,6 +32,15 @@ div.card_effect, div.card_bottom {
   margin-top: 5px;
 }
 
+div.card_actions {
+  display: flex;
+}
+
+div.card_action {
+  flex: 1;
+  text-align: center;
+}
+
 div#card_navi {
   position: fixed;
   top: 300px;
