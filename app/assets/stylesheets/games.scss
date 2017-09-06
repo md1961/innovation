@@ -19,8 +19,19 @@
 }
 
 .board {
+  display: flex;
   border: 1px solid black;
   margin-top: 5px;
+}
+
+.resource_counts td {
+  height: 10px;
+  padding: 0 3px;
+  border-collapse: collapse;
+}
+
+.board_card {
+  margin-left: 5px;
 }
 
 .hand {

@@ -9,8 +9,16 @@
   <div class="boards">
     <% @game.players_reversed_with_current_last.each do |player| -%>
       <div class="board" data-player_id="<%= player.id %>">
-        <div class="board_player">
-          <%= player %>
+        <div class="board_scores">
+          <%= "[#{player}]" %>
+          <table class="resource_counts">
+            <% player.resource_counts.each do |resource, count| -%>
+              <tr>
+                <td class="<%= color_class(resource) %>"><%= resource %></td>
+                <td class="numeric"><%= count %></td>
+              </tr>
+            <% end -%>
+          </table>
         </div>
         <div class="board_cards">
           <% player.boards_for(@game).each do |board| -%>
@@ -22,7 +30,7 @@
   </div>
   <div class="hand">
     <div class="hand_player">
-      <%= @game.current_player %>
+      <%= "[#{@game.current_player}]" %>
     </div>
     <div class="hand_cards">
       <% @game.current_player.cards_in_hand(@game).each do |card| -%>
