@@ -22,6 +22,13 @@ class Player < ActiveRecord::Base
     end
   end
 
+  def play(card, game)
+    Player.transaction do
+      hand_for(game).card_list_items.find_by(card: card).destroy
+      boards_for(game).find_by(color: card.color).add(card)
+    end
+  end
+
   def to_s
     name
   end
