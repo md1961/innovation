@@ -6,14 +6,8 @@ class GamesController < ApplicationController
     if Game.count.zero?
       Game.transaction do
         Game.create!(num_players: 2).tap { |game|
-          [
-            ['Hmn', false],
-            ['Cmp', true ],
-          ].each_with_index do |(name, is_computer), index|
-            player = Player.create!(name: name, is_computer: is_computer)
-            game.playings.create!(player: player, ordering: index)
-            player.hands.create!(game: game)
-          end
+          game.invite(Player.find_by(name: 'Hmn'))
+          game.invite(Player.find_by(name: 'Cm1'))
           game.update!(current_player: game.players.first)
         }
       end

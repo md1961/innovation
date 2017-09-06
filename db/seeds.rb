@@ -280,3 +280,13 @@ DATA_CARDS.each.with_index(1) do |(age_level, color_name, title, effects, resour
   end
 end
 STDOUT.puts
+
+[
+  ['Hmn', false],
+  ['Cm1', true ],
+  ['Cm2', true ],
+  ['Cm3', true ],
+  ['Cm4', true ],
+].each do |name, is_computer|
+  Player.create!(name: name, is_computer: is_computer)
+end

@@ -7,9 +7,13 @@
     <% end -%>
   </div>
   <div class="boards">
-    <% @game.players.each do |player| -%>
+    <% @game.players_reversed_with_current_last.each do |player| -%>
       <div class="board" data-player_id="<%= player.id %>">
-        <div><%= player %></div>
+        <div class="board_player">
+          <%= player %>
+        </div>
+        <div class="board_cards">
+        </div>
       </div>
     <% end -%>
   </div>
