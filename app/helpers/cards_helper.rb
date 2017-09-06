@@ -1,7 +1,7 @@
 module CardsHelper
 
-  def color_class(model)
-    return '' unless @uses_color && model
+  def color_class(model, options = {})
+    return '' unless model && (@uses_color || options[:force])
     model.color.name_eng
   end
 
