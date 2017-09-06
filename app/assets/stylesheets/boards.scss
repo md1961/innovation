@@ -1,0 +1,17 @@
+.board_cards {
+  display: flex;
+}
+
+.board_cards_h_expanded {
+  display: flex;
+  flex-flow: column nowrap;
+  border: 1px solid black;
+
+  div {
+    flex: 1;
+  }
+
+  div.middle {
+    flex: 5;
+  }
+}

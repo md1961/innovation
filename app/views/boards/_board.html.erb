@@ -1,3 +1,12 @@
 <% unless board.cards.empty? -%>
-  <%= render board.cards.last %>
+  <% if false -%>
+    <div class="board_cards_h_expanded">
+      <div>石</div>
+      <div class="middle"></div>
+      <div>石</div>
+    </div>
+  <% end -%>
+  <div class="board_card">
+    <%= render board.cards.last %>
+  </div>
 <% end -%>
