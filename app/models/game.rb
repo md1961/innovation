@@ -11,11 +11,11 @@ class Game < ActiveRecord::Base
   BOARD_COLORS = %w[red green blue yellow purple].map { |n| Color.find_by(name_eng: n) }
 
   def players_reversed_with_current_last
-    players_re = players.dup
-    until players_re.first == current_player do
-      players_re << players_re.shift
+    players_dup = players.to_a
+    until players_dup.first == current_player do
+      players_dup << players_dup.shift
     end
-    players_re.reverse
+    players_dup.reverse
   end
 
   def invite(player)
