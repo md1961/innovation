@@ -15,17 +15,33 @@
     <% end -%>
   </div>
   <div class="card_actions" hidden>
-    <div class="card_action">
-      <%= link_to '場', play_game_path(@game, card_id: card) %>
-    </div>
-    <div class="card_action">
-      <%= link_to '再生' %>
-    </div>
-    <div class="card_action">
-      <%= link_to '得点' %>
-    </div>
-    <div class="card_action">
-      <%= link_to '譲渡' %>
-    </div>
+    <% case card.card_list(@game) -%>
+    <% when Hand -%>
+      <div class="card_action">
+        <%= link_to '場', play_game_path(@game, card_id: card) %>
+      </div>
+      <div class="card_action">
+        <%= link_to '再生' %>
+      </div>
+      <div class="card_action">
+        <%= link_to '得点' %>
+      </div>
+      <div class="card_action">
+        <%= link_to '譲渡' %>
+      </div>
+    <% when Board -%>
+      <div class="card_action">
+        <%= link_to '左' %>
+      </div>
+      <div class="card_action">
+        <%= link_to '右' %>
+      </div>
+      <div class="card_action">
+        <%= link_to '上' %>
+      </div>
+      <div class="card_action">
+        <%= link_to '譲渡' %>
+      </div>
+    <% end -%>
   </div>
 </div>
