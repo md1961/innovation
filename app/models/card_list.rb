@@ -6,7 +6,7 @@ class CardList < ActiveRecord::Base
   has_many :cards, through: :card_list_items
 
   def add(card)
-    cards << card
-    save!
+    ordering = (card_list_items.pluck(:ordering).max&.+ 1) || 0
+    card_list_items.create!(card: card, ordering: ordering)
   end
 end
