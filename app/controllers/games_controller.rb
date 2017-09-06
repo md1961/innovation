@@ -30,6 +30,10 @@ class GamesController < ApplicationController
   private
 
     def set_game
-      @game = Game.find(params[:id])
+      if Game.exists?(params[:id])
+        @game = Game.find(params[:id])
+      else
+        redirect_to games_path
+      end
     end
 end
