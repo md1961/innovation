@@ -11,6 +11,8 @@ class ApplicationController < ActionController::Base
         session[:uses_color] = true
       when 'false'
         session[:uses_color] = false
+      else
+        session[:uses_color] = !session[:uses_color] if params[:color]
       end
       @uses_color = session[:uses_color]
     end
