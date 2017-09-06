@@ -18,6 +18,12 @@ class Game < ActiveRecord::Base
     players_dup.reverse
   end
 
+  def end_turn
+    current_ordering = Playing.find_by(player: current_player).ordering
+    self.current_player = Playing.where('ordering > ?', current_ordering).first&.player || players.first
+    save!
+  end
+
   def invite(player)
     ordering = (playings.pluck(:ordering).max&.+ 1) || 0
     playings.create!(player: player, ordering: ordering)
