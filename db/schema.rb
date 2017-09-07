@@ -45,6 +45,7 @@ ActiveRecord::Schema.define(version: 20170905025044) do
     t.integer "player_id"
     t.integer "age_id"
     t.integer "color_id"
+    t.integer "expansion", limit: 1, default: 0, null: false
   end
 
   add_index "card_lists", ["age_id"], name: "index_card_lists_on_age_id"
