@@ -1,5 +1,5 @@
 class GamesController < ApplicationController
-  before_action :set_game, only: %i[show draw play end_turn]
+  before_action :set_game, except: %i[index]
 
   # TODO: Move player adding process to a model or a service.
   def index
@@ -29,6 +29,12 @@ class GamesController < ApplicationController
   def play
     card = Card.find(params[:card_id])
     @game.current_player.play(card, @game)
+    redirect_to @game
+  end
+
+  def reuse
+    card = Card.find(params[:card_id])
+    card.reuse(@game)
     redirect_to @game
   end
 
