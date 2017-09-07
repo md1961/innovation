@@ -1,12 +1,15 @@
 <% unless board.cards.empty? -%>
   <% if false -%>
-    <div class="board_cards_h_expanded">
-      <div>石</div>
-      <div class="middle"></div>
-      <div>石</div>
-    </div>
+    <% board.cards[0 .. -2].each do |card| -%>
+      <div class="board_cards_h_expanded">
+        <%= render partial: 'cards/left', locals: {card: card} %>
+      </div>
+    <% end -%>
   <% end -%>
   <div class="board_card">
     <%= render board.cards.last %>
+  </div>
+  <div class="board_cards_count">
+    <%= "(#{board.cards.count})" %>
   </div>
 <% end -%>
