@@ -44,6 +44,12 @@ class GamesController < ApplicationController
     redirect_to @game
   end
 
+  def score
+    card = Card.find(params[:card_id])
+    @game.current_player.score(card, @game)
+    redirect_to @game
+  end
+
   def end_turn
     @game.end_turn
     redirect_to @game
