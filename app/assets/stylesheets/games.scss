@@ -87,6 +87,14 @@
   }
 }
 
-.actions {
+.hand_actions {
   clear: left;
+}
+
+.actions {
+  margin-top: 10px;
+  
+  span#switch_player {
+    cursor: pointer;
+  }
 }

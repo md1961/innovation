@@ -9,8 +9,9 @@
   <div class="boards">
     <% @game.players_reversed_with_current_last.each do |player| -%>
       <% is_current = player == @game.current_player -%>
-      <div class="board_and_influence">
-        <div class="board <%= is_current ? '' : 'non_current' %>" data-player_id="<%= player.id %>">
+      <div class="board_and_influence" data-player_id="<%= player.id %>"
+                                       data-next_player_id="<%= @game.next_player(player).id %>">
+        <div class="board <%= is_current ? '' : 'non_current' %>">
           <div class="board_scores">
             <%= "[#{player}]" %>
             <table class="resource_counts">
@@ -47,23 +48,30 @@
     <% @game.players_reversed_with_current_last.each do |player| -%>
       <% is_current = player == @game.current_player
          hand_cards = player.cards_in_hand(@game) -%>
-      <div class="hand_player" >
-        <span class="show_hand">
-          <%= "[#{player}](#{hand_cards.size})" %>
-        </span>
-      </div>
-      <div class="hand_cards <%= is_current ? '' : 'non_current' %>" <%= is_current ? '' : 'hidden' %>>
-        <% hand_cards.each do |card| -%>
-          <div class="hand_card">
-            <%= render card %>
-          </div>
-        <% end -%>
-        <% if is_current -%>
-          <div class="actions">
-            <%= link_to '=>', end_turn_game_path(@game) %>
-          </div>
-        <% end -%>
+      <div class="hand" data-player_id="<%= player.id %>">
+        <div class="hand_player">
+          <span class="show_hand">
+            <%= "[#{player}](#{hand_cards.size})" %>
+          </span>
+        </div>
+        <div class="hand_cards <%= is_current ? '' : 'non_current' %>" <%= is_current ? '' : 'hidden' %>>
+          <% hand_cards.each do |card| -%>
+            <div class="hand_card">
+              <%= render card %>
+            </div>
+          <% end -%>
+          <% if is_current -%>
+            <div class="hand_actions">
+              <%= link_to '=>', end_turn_game_path(@game) %>
+            </div>
+          <% end -%>
+        </div>
       </div>
     <% end -%>
+  </div>
+  <div class="actions">
+    <span id="switch_player">
+      <%= '->' %>
+    </span>
   </div>
 </div>
