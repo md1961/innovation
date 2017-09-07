@@ -8,8 +8,9 @@
   </div>
   <div class="boards">
     <% @game.players_reversed_with_current_last.each do |player| -%>
+      <% is_current = player == @game.current_player -%>
       <div class="board_and_influence">
-        <div class="board" data-player_id="<%= player.id %>">
+        <div class="board <%= is_current ? '' : 'non_current' %>" data-player_id="<%= player.id %>">
           <div class="board_scores">
             <%= "[#{player}]" %>
             <table class="resource_counts">
