@@ -94,6 +94,7 @@ ActiveRecord::Schema.define(version: 20170905025044) do
   create_table "games", force: :cascade do |t|
     t.integer  "num_players",       default: 2, null: false
     t.integer  "current_player_id"
+    t.integer  "num_actions_left",  default: 1, null: false
     t.string   "remark"
     t.datetime "created_at",                    null: false
     t.datetime "updated_at",                    null: false
