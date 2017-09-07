@@ -1,0 +1,2 @@
+class Influence < CardList
+end
