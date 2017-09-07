@@ -22,14 +22,14 @@ class Player < ActiveRecord::Base
   end
 
   def draw_from(stock)
-    Player.transaction do
+    self.class.transaction do
       card = stock.draw
       hand_for(stock.game).add(card)
     end
   end
 
   def play(card, game)
-    Player.transaction do
+    self.class.transaction do
       hand_for(game).card_list_items.find_by(card: card).destroy
       boards_for(game).find_by(color: card.color).add(card)
     end

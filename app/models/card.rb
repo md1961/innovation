@@ -30,4 +30,12 @@ class Card < ActiveRecord::Base
   def next
     self.class.where('id > ?', id).order(id: :asc ).first || self
   end
+
+  def reuse(game)
+    stock = game.stocks.find_by(age: age)
+    self.class.transaction do
+      card_list(game).remove(self)
+      stock.add(self)
+    end
+  end
 end
