@@ -38,4 +38,11 @@ class Card < ActiveRecord::Base
       stock.add(self)
     end
   end
+
+  def offer(game)
+    self.class.transaction do
+      card_list(game).remove(self)
+      game.current_player.hand_for(game).add(self)
+    end
+  end
 end
