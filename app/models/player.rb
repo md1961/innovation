@@ -1,10 +1,15 @@
 class Player < ActiveRecord::Base
   has_many :playings
   has_many :hands
+  has_many :influences
   has_many :boards, -> { order(:color_id) }
 
   def hand_for(game)
     hands.find_by(game: game)
+  end
+
+  def influence_for(game)
+    influences.find_by(game: game)
   end
 
   def boards_for(game)
@@ -19,6 +24,10 @@ class Player < ActiveRecord::Base
     boards.map(&:resource_counts).inject { |h_sum, h|
       h_sum.merge(h) { |_, count_sum, count| count_sum + count }
     }
+  end
+
+  def influence_point(game)
+    influence_for(game).cards.map(&:age).map(&:level).sum
   end
 
   def draw_from(stock)
