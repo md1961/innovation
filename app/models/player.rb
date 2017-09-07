@@ -44,6 +44,13 @@ class Player < ActiveRecord::Base
     end
   end
 
+  def score(card, game)
+    self.class.transaction do
+      hand_for(game).card_list_items.find_by(card: card).destroy
+      influence_for(game).add(card)
+    end
+  end
+
   def to_s
     name
   end
