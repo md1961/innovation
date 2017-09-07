@@ -45,14 +45,15 @@
   </div>
   <div class="hands">
     <% @game.players_reversed_with_current_last.each do |player| -%>
-      <% is_current = player == @game.current_player -%>
+      <% is_current = player == @game.current_player
+         hand_cards = player.cards_in_hand(@game) -%>
       <div class="hand_player" >
         <span class="show_hand">
-          <%= "[#{player}]" %>
+          <%= "[#{player}](#{hand_cards.size})" %>
         </span>
       </div>
       <div class="hand_cards <%= is_current ? '' : 'non_current' %>" <%= is_current ? '' : 'hidden' %>>
-        <% player.cards_in_hand(@game).each do |card| -%>
+        <% hand_cards.each do |card| -%>
           <div class="hand_card">
             <%= render card %>
           </div>
