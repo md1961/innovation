@@ -19,6 +19,11 @@ class Game < ActiveRecord::Base
     players_dup.reverse
   end
 
+  def next_player(player)
+    ordering = player.playings.find_by(game: self).ordering
+    Playing.where('ordering > ?', ordering).first&.player || players.first
+  end
+
   def end_turn
     current_ordering = Playing.find_by(player: current_player).ordering
     self.current_player = Playing.where('ordering > ?', current_ordering).first&.player || players.first
