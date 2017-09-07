@@ -19,6 +19,9 @@
               </tr>
             <% end -%>
           </table>
+          <div class="influences">
+            <%= "影響 #{player.influence_point(@game)} " %>
+          </div>
         </div>
         <div class="board_cards">
           <% player.boards_for(@game).each do |board| -%>
