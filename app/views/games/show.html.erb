@@ -8,24 +8,35 @@
   </div>
   <div class="boards">
     <% @game.players_reversed_with_current_last.each do |player| -%>
-      <div class="board" data-player_id="<%= player.id %>">
-        <div class="board_scores">
-          <%= "[#{player}]" %>
-          <table class="resource_counts">
-            <% player.resource_counts.each do |resource, count| -%>
-              <tr>
-                <td class="<%= color_class(resource) %>"><%= resource %></td>
-                <td class="numeric"><%= count %></td>
-              </tr>
+      <div class="board_and_influence">
+        <div class="board" data-player_id="<%= player.id %>">
+          <div class="board_scores">
+            <%= "[#{player}]" %>
+            <table class="resource_counts">
+              <% player.resource_counts.each do |resource, count| -%>
+                <tr>
+                  <td class="<%= color_class(resource) %>"><%= resource %></td>
+                  <td class="numeric"><%= count %></td>
+                </tr>
+              <% end -%>
+            </table>
+            <div class="influences">
+              <span class="show_influence_cards">
+                <%= "[影響] #{player.influence_point(@game)}" %>
+              </span>
+            </div>
+          </div>
+          <div class="board_cards">
+            <% player.boards_for(@game).each do |board| -%>
+              <%= render board %>
             <% end -%>
-          </table>
-          <div class="influences">
-            <%= "影響 #{player.influence_point(@game)} " %>
           </div>
         </div>
-        <div class="board_cards">
-          <% player.boards_for(@game).each do |board| -%>
-            <%= render board %>
+        <div class="influence_cards" hidden>
+          <% player.influence_for(@game).cards.each do |card| -%>
+            <div class="influence_card">
+              <%= render card %>
+            </div>
           <% end -%>
         </div>
       </div>

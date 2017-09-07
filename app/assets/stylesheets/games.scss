@@ -18,10 +18,13 @@
   margin-top: 10px;
 }
 
+.board_and_influence {
+  margin-top: 5px;
+}
+
 .board {
   display: flex;
   border: 1px solid black;
-  margin-top: 5px;
 }
 
 .resource_counts td {
@@ -32,10 +35,28 @@
 
 .influences {
   margin-top: 5px;
+  padding-right: 5px;
+
+  .show_influence_cards {
+    cursor: pointer;
+  }
 }
 
 .board_cards {
   display: flex;
+}
+
+.influence_cards {
+  overflow: hidden;
+}
+
+.influence_card {
+  float: left;
+  background-color: lightpink;
+
+  .card {
+    margin-right: 5px;
+  }
 }
 
 .hands {
