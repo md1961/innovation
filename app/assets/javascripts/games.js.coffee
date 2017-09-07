@@ -6,4 +6,12 @@ $ ->
     $(this).parents('.board_and_influence').children('.influence_cards').toggle()
 
   $('span#switch_player').on 'click', ->
-    alert('clicked!')
+    $('.board_and_influence:last').remove().insertBefore('.board_and_influence:first')
+
+    $hand_visible = $('.hand_cards:visible')
+    $hand_visible.hide()
+    $next_hand = $hand_visible.parent().prev('.hand')
+    if $next_hand.length > 0
+      $next_hand.children('.hand_cards').show()
+    else
+      $hand_visible.parent().siblings('.hand:last').children('.hand_cards').show()

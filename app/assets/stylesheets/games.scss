@@ -14,6 +14,11 @@
   }
 }
 
+span.player_name.current {
+  color: white;
+  background-color: #606060;
+}
+
 .boards {
   margin-top: 10px;
 }
@@ -92,7 +97,7 @@
 }
 
 .actions {
-  margin-top: 10px;
+  margin-top: 20px;
   
   span#switch_player {
     cursor: pointer;
