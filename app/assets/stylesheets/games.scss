@@ -34,18 +34,30 @@
   margin-left: 5px;
 }
 
-.hand {
+.hands {
   margin-top: 10px;
 }
 
+.hand_player .show_hand {
+  cursor: pointer;
+}
+
 .hand_cards {
-  display: flex;
+  overflow: hidden;
+}
+
+.hand_cards.non_current {
+  background-color: lightgray;
 }
 
 .hand_card {
-  flex: 1 0 content;
+  float: left;
 
   .card {
     margin-right: 5px;
   }
+}
+
+.actions {
+  clear: left;
 }

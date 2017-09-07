@@ -28,19 +28,26 @@
       </div>
     <% end -%>
   </div>
-  <div class="hand">
-    <div class="hand_player">
-      <%= "[#{@game.current_player}]" %>
-    </div>
-    <div class="hand_cards">
-      <% @game.current_player.cards_in_hand(@game).each do |card| -%>
-        <div class="hand_card">
-          <%= render card %>
-        </div>
-      <% end -%>
-    </div>
-  </div>
-  <div class="actions">
-    <%= link_to '=>', end_turn_game_path(@game) %>
+  <div class="hands">
+    <% @game.players_reversed_with_current_last.each do |player| -%>
+      <% is_current = player == @game.current_player -%>
+      <div class="hand_player" >
+        <span class="show_hand">
+          <%= "[#{player}]" %>
+        </span>
+      </div>
+      <div class="hand_cards <%= is_current ? '' : 'non_current' %>" <%= is_current ? '' : 'hidden' %>>
+        <% player.cards_in_hand(@game).each do |card| -%>
+          <div class="hand_card">
+            <%= render card %>
+          </div>
+        <% end -%>
+        <% if is_current -%>
+          <div class="actions">
+            <%= link_to '=>', end_turn_game_path(@game) %>
+          </div>
+        <% end -%>
+      </div>
+    <% end -%>
   </div>
 </div>
