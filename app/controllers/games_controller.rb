@@ -50,8 +50,8 @@ class GamesController < ApplicationController
     redirect_to @game
   end
 
-  def end_turn
-    @game.end_turn
+  def end_action
+    @game.end_action
     redirect_to @game
   end
 

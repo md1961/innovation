@@ -63,7 +63,8 @@
           <% end -%>
           <% if is_current -%>
             <div class="hand_actions">
-              <%= link_to '=>', end_turn_game_path(@game) %>
+              <%= link_to '=>', end_action_game_path(@game) %>
+              <%= " (#{@game.num_actions_left} left)" %>
             </div>
           <% end -%>
         </div>
