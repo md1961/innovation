@@ -29,7 +29,8 @@ class GamesController < ApplicationController
 
   def play
     card = Card.find(params[:card_id])
-    @game.current_player.play(card, @game)
+    player = card.card_list(@game).player
+    player.play(card, @game)
     redirect_to @game
   end
 
@@ -47,13 +48,15 @@ class GamesController < ApplicationController
 
   def score
     card = Card.find(params[:card_id])
-    @game.current_player.score(card, @game)
+    player = card.card_list(@game).player
+    player.score(card, @game)
     redirect_to @game
   end
 
   def store
     card = Card.find(params[:card_id])
-    @game.current_player.store(card, @game)
+    player = card.card_list(@game).player
+    player.store(card, @game)
     redirect_to @game
   end
 
