@@ -51,6 +51,13 @@ class Player < ActiveRecord::Base
     end
   end
 
+  def store(card, game)
+    self.class.transaction do
+      hand_for(game).card_list_items.find_by(card: card).destroy
+      boards_for(game).find_by(color: card.color).unshift(card)
+    end
+  end
+
   def to_s
     name
   end
