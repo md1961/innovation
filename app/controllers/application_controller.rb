@@ -1,12 +1,16 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
-  before_action :set_color
+  before_action :set_color, :set_large
 
   protected
 
     def set_color
       set_param(:color, :uses_color)
+    end
+
+    def set_large
+      set_param(:large, :uses_large)
     end
 
   private
