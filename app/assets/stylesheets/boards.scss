@@ -1,3 +1,13 @@
+.board_card.v_expanded {
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.board_cards_v_expanded .card_bottom {
+  margin-top: 0;
+  border: 1px solid black;
+}
+
 .board_cards_h_expanded {
   display: flex;
   flex-flow: column nowrap;
