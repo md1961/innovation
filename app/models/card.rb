@@ -15,8 +15,17 @@ class Card < ActiveRecord::Base
   POSITIONS = [POS_LT, POS_LB, POS_CB, POS_RB]
   POSITIONS_AT_BOTTOM = POSITIONS[1, 3]
 
+  LEFT   = [POS_LT, POS_LB]
+  RIGHT  = [POS_RB]
+  BOTTOM = POSITIONS_AT_BOTTOM
+
   def resource_at(position_abbr)
     card_resources.joins(:position).where('resource_positions.abbr = ?', position_abbr).first&.resource
+  end
+
+  def resources_at(card_side_for_position_abbrs)
+    return [] unless card_side_for_position_abbrs
+    card_side_for_position_abbrs.map { |pos| resource_at(pos) }.compact
   end
 
   def card_list(game)
