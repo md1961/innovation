@@ -50,6 +50,12 @@ class GamesController < ApplicationController
     redirect_to @game
   end
 
+  def store
+    card = Card.find(params[:card_id])
+    @game.current_player.store(card, @game)
+    redirect_to @game
+  end
+
   def end_action
     @game.end_action
     redirect_to @game

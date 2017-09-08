@@ -29,6 +29,9 @@
       <div class="card_action">
         <%= link_to '譲渡', offer_game_path(@game, card_id: card) %>
       </div>
+      <div class="card_action">
+        <%= link_to '保存', store_game_path(@game, card_id: card) %>
+      </div>
     <% when Board -%>
       <div class="card_action">
         <%= link_to '左' %>
