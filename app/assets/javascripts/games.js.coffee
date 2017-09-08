@@ -5,7 +5,7 @@ $ ->
   $('span.show_influence_cards').on 'click', ->
     $(this).parents('.board_and_influence').children('.influence_cards').toggle()
 
-  $('span#switch_player').on 'click', ->
+  $('span#NO_USE').on 'click', ->
     $('.board_and_influence:last').remove().insertBefore('.board_and_influence:first')
 
     $hand_visible = $('.hand_cards:visible')

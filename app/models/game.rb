@@ -5,6 +5,7 @@ class Game < ActiveRecord::Base
   has_many :hands                            , dependent: :destroy
   has_many :influences                       , dependent: :destroy
   has_many :players, through: :playings
+  belongs_to :turn_player   , class_name: 'Player', foreign_key: :turn_player_id
   belongs_to :current_player, class_name: 'Player', foreign_key: :current_player_id
 
   after_create :prepare
@@ -26,6 +27,15 @@ class Game < ActiveRecord::Base
     Playing.where('ordering > ?', ordering).first&.player || players.first
   end
 
+  def switch_player
+    current_ordering = Playing.find_by(player: current_player).ordering
+    update!(current_player: Playing.where('ordering > ?', current_ordering).first&.player || players.first)
+  end
+
+  def to_turn_player
+    update!(current_player: turn_player)
+  end
+
   def end_action
     if num_actions_left > 0
       decrement!(:num_actions_left)
@@ -35,10 +45,12 @@ class Game < ActiveRecord::Base
   end
 
   def end_turn
-    current_ordering = Playing.find_by(player: current_player).ordering
-    self.current_player = Playing.where('ordering > ?', current_ordering).first&.player || players.first
-    self.num_actions_left = NUM_ACTIONS_PER_TURN
-    save!
+    player = next_player(turn_player)
+    update!(
+      turn_player:      player,
+      num_actions_left: NUM_ACTIONS_PER_TURN,
+      current_player:   player,
+    )
   end
 
   def invite(player)

@@ -8,7 +8,8 @@ class GamesController < ApplicationController
         Game.create!(num_players: 2).tap { |game|
           game.invite(Player.find_by(name: 'Hmn'))
           game.invite(Player.find_by(name: 'Cm1'))
-          game.update!(current_player: game.players.first)
+          player = game.players.first
+          game.update!(turn_player: player, current_player: player)
         }
       end
     end
@@ -53,6 +54,16 @@ class GamesController < ApplicationController
   def store
     card = Card.find(params[:card_id])
     @game.current_player.store(card, @game)
+    redirect_to @game
+  end
+
+  def switch_player
+    @game.switch_player
+    redirect_to @game
+  end
+
+  def to_turn_player
+    @game.to_turn_player
     redirect_to @game
   end
 

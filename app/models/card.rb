@@ -42,7 +42,7 @@ class Card < ActiveRecord::Base
   def offer(game)
     self.class.transaction do
       card_list(game).remove(self)
-      game.current_player.hand_for(game).add(self)
+      game.turn_player.hand_for(game).add(self)
     end
   end
 end

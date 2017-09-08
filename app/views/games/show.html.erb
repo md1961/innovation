@@ -8,11 +8,12 @@
   </div>
   <div class="boards">
     <% @game.players_reversed_with_current_last.each do |player| -%>
-      <% is_current = player == @game.current_player -%>
+      <% is_current = player == @game.current_player
+         is_turn    = player == @game.turn_player -%>
       <div class="board_and_influence">
-        <div class="board <%= is_current ? '' : 'non_current' %>">
+        <div class="board <%= is_turn ? '' : 'non_turn' %>">
           <div class="board_scores">
-            <span class="player_name <%= is_current ? 'current' : '' %>">
+            <span class="player_name <%= is_turn ? 'turn' : '' %>">
               <%= "[#{player}]" %>
             </span>
             <table class="resource_counts">
@@ -48,20 +49,21 @@
   <div class="hands">
     <% @game.players_reversed_with_current_last.each do |player| -%>
       <% is_current = player == @game.current_player
+         is_turn    = player == @game.turn_player
          hand_cards = player.cards_in_hand(@game) -%>
       <div class="hand">
         <div class="hand_player">
-          <span class="show_hand player_name <%= is_current ? 'current' : '' %>">
+          <span class="show_hand player_name <%= is_turn ? 'turn' : '' %>">
             <%= "[#{player}](#{hand_cards.size})" %>
           </span>
         </div>
-        <div class="hand_cards <%= is_current ? '' : 'non_current' %>" <%= is_current ? '' : 'hidden' %>>
+        <div class="hand_cards <%= is_turn ? '' : 'non_turn' %>" <%= is_current ? '' : 'hidden' %>>
           <% hand_cards.each do |card| -%>
             <div class="hand_card">
               <%= render card %>
             </div>
           <% end -%>
-          <% if is_current -%>
+          <% if is_turn -%>
             <div class="hand_actions">
               <%= link_to '=>', end_action_game_path(@game) %>
               <%= " (#{@game.num_actions_left} left)" %>
@@ -73,7 +75,10 @@
   </div>
   <div class="actions">
     <span id="switch_player">
-      <%= '->' %>
+      <%= link_to '->', switch_player_game_path(@game)  %>
+    </span>
+    <span id="to_turn_player">
+      <%= link_to '^', to_turn_player_game_path(@game)  %>
     </span>
   </div>
 </div>

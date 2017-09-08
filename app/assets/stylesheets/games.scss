@@ -14,7 +14,7 @@
   }
 }
 
-span.player_name.current {
+span.player_name.turn {
   color: white;
   background-color: #606060;
 }
@@ -32,7 +32,7 @@ span.player_name.current {
   border: 1px solid black;
 }
 
-.board.non_current {
+.board.non_turn {
   background-color: lightgray;
 }
 
@@ -80,7 +80,7 @@ span.player_name.current {
   overflow: hidden;
 }
 
-.hand_cards.non_current {
+.hand_cards.non_turn {
   background-color: lightgray;
 }
 
@@ -99,7 +99,7 @@ span.player_name.current {
 .actions {
   margin-top: 20px;
   
-  span#switch_player {
-    cursor: pointer;
+  span {
+    margin-right: 10px;
   }
 }
