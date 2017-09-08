@@ -6,14 +6,20 @@ class ApplicationController < ActionController::Base
   protected
 
     def set_color
-      case params[:color]
+      set_param(:color, :uses_color)
+    end
+
+  private
+
+    def set_param(param_name, var_name)
+      case params[param_name]
       when 'true'
-        session[:uses_color] = true
+        session[var_name] = true
       when 'false'
-        session[:uses_color] = false
+        session[var_name] = false
       else
-        session[:uses_color] = !session[:uses_color] if params[:color]
+        session[var_name] = !session[var_name] if params[param_name]
       end
-      @uses_color = session[:uses_color]
+      instance_variable_set("@#{var_name}", session[var_name])
     end
 end
