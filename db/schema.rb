@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170905025044) do
+ActiveRecord::Schema.define(version: 20170908055131) do
 
   create_table "ages", force: :cascade do |t|
     t.integer "level",    null: false
@@ -90,6 +90,19 @@ ActiveRecord::Schema.define(version: 20170905025044) do
     t.string "name_eng", null: false
     t.string "rgb",      null: false
   end
+
+  create_table "conquests", force: :cascade do |t|
+    t.string  "type",        null: false
+    t.integer "game_id"
+    t.integer "player_id"
+    t.integer "age_id"
+    t.integer "category_id"
+  end
+
+  add_index "conquests", ["age_id"], name: "index_conquests_on_age_id"
+  add_index "conquests", ["category_id"], name: "index_conquests_on_category_id"
+  add_index "conquests", ["game_id"], name: "index_conquests_on_game_id"
+  add_index "conquests", ["player_id"], name: "index_conquests_on_player_id"
 
   create_table "games", force: :cascade do |t|
     t.integer  "num_players",       default: 2, null: false

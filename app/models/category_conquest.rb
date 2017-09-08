@@ -1,0 +1,2 @@
+class CategoryConquest < Conquest
+end

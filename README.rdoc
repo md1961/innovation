@@ -45,3 +45,5 @@ playing   game:references player:references
 card_list        type game:references player:references age:references color:references
                     type: [Stock(Age), Hand(Player), Board(Player,Color), Influence(Player)]
 card_list_item   card_list:references card:references ordering:integer
+
+conquest  type game:references player:references age:references category:references

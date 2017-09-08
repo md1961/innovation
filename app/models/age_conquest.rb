@@ -1,0 +1,2 @@
+class AgeConquest < Conquest
+end

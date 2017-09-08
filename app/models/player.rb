@@ -3,6 +3,7 @@ class Player < ActiveRecord::Base
   has_many :hands
   has_many :influences
   has_many :boards, -> { order(:color_id) }
+  has_many :conquests
 
   def hand_for(game)
     hands.find_by(game: game)
@@ -14,6 +15,10 @@ class Player < ActiveRecord::Base
 
   def boards_for(game)
     boards.where(game: game)
+  end
+
+  def conquests_for(game)
+    conquests.where(game: game)
   end
 
   def cards_in_hand(game)
