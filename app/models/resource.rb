@@ -1,6 +1,8 @@
 class Resource < ActiveRecord::Base
   belongs_to :color
 
+  default_scope { order(:id) }
+
   def eql?(other)
     name = other.name
   end
