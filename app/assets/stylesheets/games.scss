@@ -96,10 +96,37 @@ span.player_name.turn {
   clear: left;
 }
 
+.actions_and_categories {
+  display: flex;
+}
+
 .actions {
   margin-top: 20px;
   
   span {
     margin-right: 10px;
+  }
+}
+
+.categories {
+  margin-top: 25px;
+  margin-left: 50px;
+
+  table {
+    td {
+      padding: 5px;
+    }
+
+    td.col1 {
+      white-space: nowrap;
+    }
+
+    td.col2 {
+      width: 360px;
+    }
+
+    td.col3 {
+      width: 180px;
+    }
   }
 }

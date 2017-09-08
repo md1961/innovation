@@ -74,12 +74,25 @@
       </div>
     <% end -%>
   </div>
-  <div class="actions">
-    <span id="switch_player">
-      <%= link_to '->', switch_player_game_path(@game)  %>
-    </span>
-    <span id="to_turn_player">
-      <%= link_to '^', to_turn_player_game_path(@game)  %>
-    </span>
+  <div class="actions_and_categories">
+    <div class="actions">
+      <span id="switch_player">
+        <%= link_to '->', switch_player_game_path(@game)  %>
+      </span>
+      <span id="to_turn_player">
+        <%= link_to '^', to_turn_player_game_path(@game)  %>
+      </span>
+    </div>
+    <div class="categories">
+      <table>
+        <% Category.all.each do |category| -%>
+          <tr>
+            <td class="col1"><%= category.name %></td>
+            <td class="col2"><%= category.condition %></td>
+            <td class="col3"><%= category.note %></td>
+          </tr>
+        <% end -%>
+      </table>
+    </div>
   </div>
 </div>
