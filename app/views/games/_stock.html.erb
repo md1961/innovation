@@ -1,7 +1,9 @@
+<% num_cards = stock.cards.size -%>
+
 <span class="stock_age">
   <% age_level = stock.age.level -%>
-  <%= link_to age_level, draw_game_path(@game, age_level: age_level) %>
+  <%= link_to_if num_cards > 0, age_level, draw_game_path(@game, age_level: age_level) %>
 </span>
 <span class="stock_size">
-  (<%= stock.cards.size %>)
+  (<%= num_cards %>)
 </span>
