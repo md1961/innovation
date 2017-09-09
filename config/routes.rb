@@ -14,6 +14,7 @@ Rails.application.routes.draw do
       get :draw, :play, :reuse, :offer, :score, :store
       get :unexpand, :expand_left, :expand_right, :expand_upward
       get :switch_player, :to_turn_player, :end_action, :end_turn
+      post :conquer
     end
   end
 

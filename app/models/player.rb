@@ -63,6 +63,12 @@ class Player < ActiveRecord::Base
     end
   end
 
+  def conquer(target, game)
+    type = "#{target.class}Conquest"
+    type_attr = :"#{target.class.name.downcase}"
+    conquests_for(game).create!(type: type, type_attr => target)
+  end
+
   def to_s
     name
   end

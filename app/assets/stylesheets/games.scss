@@ -112,6 +112,10 @@ span.player_name.turn {
   margin-top: 25px;
   margin-left: 50px;
 
+  input[type="submit"]:disabled {
+    color: red;
+  }
+
   .age_conquests {
     display: flex;
 

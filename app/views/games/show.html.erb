@@ -87,16 +87,25 @@
       <div class="age_conquests">
         <% Age.order(:level).each do |age| -%>
           <div class="age_conquest">
-            <%= button_to age %>
+            <%= button_to age, conquer_game_path(@game, target_type: :Age, target_id: age),
+                  disabled: @game.conquered?(age) %>
           </div>
         <% end -%>
       </div>
       <table class="category_conquests">
         <% Category.all.each do |category| -%>
           <tr>
-            <td class="col1"><%= button_to category.name, cards_path %></td>
-            <td class="col2"><%= category.condition %></td>
-            <td class="col3"><%= category.note %></td>
+            <td class="col1">
+              <%= button_to category.name,
+                    conquer_game_path(@game, target_type: :Category, target_id: category),
+                    disabled: @game.conquered?(category)%>
+            </td>
+            <td class="col2">
+              <%= category.condition %>
+            </td>
+            <td class="col3">
+              <%= category.note %>
+            </td>
           </tr>
         <% end -%>
       </table>

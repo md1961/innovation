@@ -4,6 +4,7 @@ class Game < ActiveRecord::Base
   has_many :boards  , -> { order(:color_id) }, dependent: :destroy
   has_many :hands                            , dependent: :destroy
   has_many :influences                       , dependent: :destroy
+  has_many :conquests                        , dependent: :destroy
   has_many :players, through: :playings
   belongs_to :turn_player   , class_name: 'Player', foreign_key: :turn_player_id
   belongs_to :current_player, class_name: 'Player', foreign_key: :current_player_id
@@ -25,6 +26,12 @@ class Game < ActiveRecord::Base
   def next_player(player)
     ordering = player.playings.find_by(game: self).ordering
     Playing.where('ordering > ?', ordering).first&.player || players.first
+  end
+
+  def conquered?(target)
+    type = "#{target.class}Conquest"
+    type_attr = :"#{target.class.name.downcase}"
+    conquests.exists?(type: type, type_attr => target)
   end
 
   def switch_player
