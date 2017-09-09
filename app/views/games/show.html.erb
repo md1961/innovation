@@ -30,6 +30,11 @@
                 <%= "[影響] #{player.influence_point(@game)}" %>
               </span>
             </div>
+            <div class="player_conquests">
+              <div>[制覇]</div>
+              <div><%=      age_conquests(player) %></div>
+              <div><%= category_conquests(player) %></div>
+            </div>
           </div>
           <div class="board_cards">
             <% player.boards_for(@game).each do |board| -%>
