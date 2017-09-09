@@ -22,7 +22,7 @@ class Player < ActiveRecord::Base
   end
 
   def cards_in_hand(game)
-    hand_for(game).cards.sort_by { |card| [card.age_id, card.color_id] }
+    hand_for(game).cards
   end
 
   def resource_counts
