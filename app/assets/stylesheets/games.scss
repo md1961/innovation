@@ -96,23 +96,33 @@ span.player_name.turn {
   clear: left;
 }
 
-.actions_and_categories {
+.actions_and_conquests {
   display: flex;
 }
 
 .actions {
   margin-top: 20px;
-  
+
   span {
     margin-right: 10px;
   }
 }
 
-.categories {
+.conquests {
   margin-top: 25px;
   margin-left: 50px;
 
-  table {
+  .age_conquests {
+    display: flex;
+
+    .age_conquest {
+      margin-right: 15px;
+    }
+  }
+
+  table.category_conquests {
+    margin-top: 15px;
+
     td {
       padding: 5px;
     }
