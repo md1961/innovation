@@ -60,6 +60,30 @@ class GamesController < ApplicationController
     redirect_to @game
   end
 
+  def unexpand
+    board = Board.find(params[:board_id])
+    board.not_expanded!
+    redirect_to @game
+  end
+
+  def expand_left
+    board = Board.find(params[:board_id])
+    board.expanded_left!
+    redirect_to @game
+  end
+
+  def expand_right
+    board = Board.find(params[:board_id])
+    board.expanded_right!
+    redirect_to @game
+  end
+
+  def expand_upward
+    board = Board.find(params[:board_id])
+    board.expanded_upward!
+    redirect_to @game
+  end
+
   def switch_player
     @game.switch_player
     redirect_to @game
