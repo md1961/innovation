@@ -10,10 +10,6 @@ class Stock < CardList
     card
   end
 
-  def to_partial_path
-    'games/stock'
-  end
-
   private
 
     def prepare

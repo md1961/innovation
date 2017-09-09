@@ -1,0 +1,15 @@
+.stocks {
+  display: flex;
+  width: 500px;
+}
+
+.stock {
+  flex: 1;
+  text-align: center;
+  border: 1px solid black;
+  margin-right: 2px;
+
+  .stock_age {
+    font-weight: bold;
+  }
+}
