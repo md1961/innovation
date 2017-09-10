@@ -96,9 +96,17 @@ span.player_name.turn {
   }
 }
 
+span#toggle_conquests {
+  cursor: pointer;
+}
+
 .conquests {
   margin-top: 25px;
   margin-left: 50px;
+
+  input[type="submit"] {
+    font-size: 0.8rem;
+  }
 
   input[type="submit"]:disabled {
     color: red;
@@ -106,6 +114,7 @@ span.player_name.turn {
 
   .age_conquests {
     display: flex;
+    margin-top: 10px;
 
     .age_conquest {
       margin-right: 15px;
@@ -113,7 +122,7 @@ span.player_name.turn {
   }
 
   table.category_conquests {
-    margin-top: 15px;
+    margin-top: 10px;
 
     td {
       padding: 5px;
