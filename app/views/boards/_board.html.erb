@@ -1,29 +1,40 @@
-<% unless board.cards.empty? -%>
-  <% if board.expanded_right? -%>
-    <% board.cards[0 .. -2].each do |card| -%>
-      <div class="board_cards_h_expanded">
-        <%= render partial: 'cards/left', locals: {card: card} %>
-      </div>
-    <% end -%>
-  <% end -%>
-  <div class="board_card <%= board.expanded_upward? ? 'v_expanded' : '' %>">
-    <%= render board.cards.last %>
-    <% if board.expanded_upward? -%>
-      <% board.cards[0 .. -2].reverse.each do |card| -%>
-        <div class="board_cards_v_expanded">
-          <%= render partial: 'cards/bottom', locals: {card: card} %>
+<div class="board_card_pile">
+  <% unless board.cards.empty? -%>
+    <% if board.expanded_right? -%>
+      <% board.cards[0 .. -2].each do |card| -%>
+        <div class="board_cards_h_expanded board_cards_expanded">
+          <%= render partial: 'cards/left', locals: {card: card} %>
         </div>
       <% end -%>
     <% end -%>
-  </div>
-  <% if board.expanded_left? -%>
-    <% board.cards[0 .. -2].reverse.each do |card| -%>
-      <div class="board_cards_h_expanded">
-        <%= render partial: 'cards/right', locals: {card: card} %>
-      </div>
+    <div class="board_card <%= board.expanded_upward? ? 'v_expanded' : '' %>">
+      <%= render board.cards.last %>
+      <% if board.expanded_upward? -%>
+        <% board.cards[0 .. -2].reverse.each do |card| -%>
+          <div class="board_cards_v_expanded board_cards_expanded">
+            <%= render partial: 'cards/bottom', locals: {card: card} %>
+          </div>
+        <% end -%>
+      <% end -%>
+    </div>
+    <% if board.expanded_left? -%>
+      <% board.cards[0 .. -2].reverse.each do |card| -%>
+        <div class="board_cards_h_expanded board_cards_expanded">
+          <%= render partial: 'cards/right', locals: {card: card} %>
+        </div>
+      <% end -%>
     <% end -%>
+
+    <div class="board_cards_count">
+      <span class="board_cards_count_display">
+        <%= "(#{board.cards.count})" %>
+      </span>
+    </div>
+
+    <div class="board_cards_underneath" hidden>
+      <div class="cards_underneath">
+        <%= render board.cards[0 .. -2].reverse %>
+      </div>
+    </div>
   <% end -%>
-  <div class="board_cards_count">
-    <%= "(#{board.cards.count})" %>
-  </div>
-<% end -%>
+</div>

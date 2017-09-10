@@ -1,3 +1,8 @@
+.board_card_pile {
+  display: flex;
+  margin-left: 5px;
+}
+
 .board_card.v_expanded {
   display: flex;
   flex-flow: column nowrap;
@@ -22,6 +27,16 @@
   }
 }
 
+.board_cards_underneath {
+  margin-right: 10px;
+
+  .cards_underneath {
+    display: flex;
+  }
+}
+
 .board_cards_count {
-  margin-right: 5px;
+  span.board_cards_count_display {
+    cursor: pointer;
+  }
 }
