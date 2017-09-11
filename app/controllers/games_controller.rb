@@ -103,9 +103,8 @@ class GamesController < ApplicationController
       action = @game.turn_player.choose_action(@game)
       action.perform
       notice = action.message_after
-    else
-      @game.end_action
     end
+    @game.end_action
     redirect_to @game, notice: notice
   end
 
