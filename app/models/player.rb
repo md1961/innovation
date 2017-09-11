@@ -25,8 +25,8 @@ class Player < ActiveRecord::Base
     hand_for(game).cards
   end
 
-  def resource_counts
-    boards.map(&:resource_counts).inject { |h_sum, h|
+  def resource_counts(game)
+    boards_for(game).map(&:resource_counts).inject { |h_sum, h|
       h_sum.merge(h) { |_, count_sum, count| count_sum + count }
     }
   end

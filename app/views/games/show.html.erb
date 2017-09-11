@@ -23,7 +23,7 @@
             </span>
             <table class="resource_counts">
               <% Resource.all.each do |resource| -%>
-                <% count = player.resource_counts[resource] || 0 -%>
+                <% count = player.resource_counts(@game)[resource] || 0 -%>
                 <tr>
                   <td class="<%= color_class(resource) %>"><%= resource %></td>
                   <td class="numeric"><%= count %></td>
