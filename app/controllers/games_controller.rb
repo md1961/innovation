@@ -98,8 +98,15 @@ class GamesController < ApplicationController
   end
 
   def end_action
-    @game.end_action
-    redirect_to @game
+    notice = nil
+    if @game.uses_ai && @game.turn_player.is_computer && @game.num_actions_left > 0
+      action = @game.turn_player.choose_action(@game)
+      action.perform
+      notice = action.message_after
+    else
+      @game.end_action
+    end
+    redirect_to @game, notice: notice
   end
 
   def conquer
