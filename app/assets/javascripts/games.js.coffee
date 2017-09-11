@@ -7,3 +7,4 @@ $ ->
 
   $('span#toggle_conquests').on 'click', ->
     $(this).siblings('.button_area').toggle()
+    $(this).text(if $(this).text() == '[+]' then '[-]' else '[+]')

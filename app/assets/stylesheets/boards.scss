@@ -32,6 +32,10 @@
 
   .cards_underneath {
     display: flex;
+
+    .card {
+      background-color: #E3E3E3;
+    }
   }
 }
 

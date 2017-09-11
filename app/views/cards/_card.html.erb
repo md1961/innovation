@@ -59,6 +59,9 @@
         </div>
       <% end -%>
       <div class="card_action">
+        <%= link_to '得点', score_game_path(@game, card_id: card) %>
+      </div>
+      <div class="card_action">
         <%= link_to '譲渡', offer_game_path(@game, card_id: card) %>
       </div>
     <% when Influence -%>

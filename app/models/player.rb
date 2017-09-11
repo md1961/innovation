@@ -51,14 +51,14 @@ class Player < ActiveRecord::Base
 
   def score(card, game)
     self.class.transaction do
-      hand_for(game).card_list_items.find_by(card: card).destroy
+      card.card_list(game).card_list_items.find_by(card: card).destroy
       influence_for(game).add(card)
     end
   end
 
   def store(card, game)
     self.class.transaction do
-      hand_for(game).card_list_items.find_by(card: card).destroy
+      card.card_list(game).card_list_items.find_by(card: card).destroy
       boards_for(game).find_by(color: card.color).unshift(card)
     end
   end
