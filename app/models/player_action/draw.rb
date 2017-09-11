@@ -13,7 +13,7 @@ class Draw < Base
   end
 
   def message_after
-    "#{@player} drawed from [#{@stock.age.level}]}"
+    "#{@player} drawed from [#{@stock.age.level}]"
   end
 end
 

@@ -54,4 +54,8 @@ class Card < ActiveRecord::Base
       game.current_player.hand_for(game).add(self)
     end
   end
+
+  def to_s
+    "[#{age.level}]#{title}"
+  end
 end
