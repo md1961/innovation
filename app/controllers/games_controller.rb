@@ -1,23 +1,25 @@
 class GamesController < ApplicationController
-  before_action :set_game, except: %i[index]
+  before_action :set_game, except: %i[index new]
 
-  # TODO: Move player adding process to a model or a service.
   def index
-    if Game.count.zero?
-      Game.transaction do
-        Game.create!(num_players: 2).tap { |game|
-          game.invite(Player.find_by(name: 'Hmn'))
-          game.invite(Player.find_by(name: 'Cm1'))
-          player = game.players.first
-          game.update!(turn_player: player, current_player: player)
-        }
-      end
-    end
-
+    redirect_to new_game_path if Game.count.zero?
     @games = Game.all
   end
 
   def show
+  end
+
+  # TODO: Move player adding process to a model or a service.
+  def new
+    Game.transaction do
+      Game.create!(num_players: 2).tap { |game|
+        game.invite(Player.find_by(name: 'Hmn'))
+        game.invite(Player.find_by(name: 'Cm1'))
+        player = game.players.first
+        game.update!(turn_player: player, current_player: player)
+      }
+    end
+    redirect_to games_path
   end
 
   def draw

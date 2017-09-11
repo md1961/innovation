@@ -5,6 +5,7 @@
       <th>作成日時</th>
       <th>更新日時</th>
       <th>人数</th>
+      <th>AI</th>
       <th>説明</th>
     </tr>
   </thead>
@@ -15,8 +16,13 @@
         <td><%= game.created_at.localtime %></td>
         <td><%= game.updated_at.localtime %></td>
         <td class="numeric"><%= game.num_players %></td>
+        <td><%= game.uses_ai ? '使用' : '未使用' %></td>
         <td><%= game.remark %></td>
       </tr>
     <% end -%>
   </tbody>
 </table>
+
+<div style="margin-top: 10px;">
+  <%= link_to 'New', new_game_path %>
+</div>

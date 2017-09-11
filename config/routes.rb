@@ -9,7 +9,7 @@ Rails.application.routes.draw do
 
   resources :cards, only: %i[index show]
 
-  resources :games, only: %i[index show] do
+  resources :games, only: %i[index show new] do
     member do
       get :draw, :play, :reuse, :offer, :score, :store
       get :unexpand, :expand_left, :expand_right, :expand_upward
