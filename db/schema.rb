@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170908055131) do
+ActiveRecord::Schema.define(version: 20170911014235) do
 
   create_table "ages", force: :cascade do |t|
     t.integer "level",    null: false
@@ -105,13 +105,14 @@ ActiveRecord::Schema.define(version: 20170908055131) do
   add_index "conquests", ["player_id"], name: "index_conquests_on_player_id"
 
   create_table "games", force: :cascade do |t|
-    t.integer  "num_players",       default: 2, null: false
+    t.integer  "num_players",       default: 2,    null: false
     t.integer  "turn_player_id"
-    t.integer  "num_actions_left",  default: 1, null: false
+    t.integer  "num_actions_left",  default: 1,    null: false
     t.integer  "current_player_id"
     t.string   "remark"
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+    t.boolean  "uses_ai",           default: true, null: false
   end
 
   create_table "players", force: :cascade do |t|
