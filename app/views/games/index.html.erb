@@ -1,0 +1,22 @@
+<table id="game_list">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>作成日時</th>
+      <th>更新日時</th>
+      <th>人数</th>
+      <th>説明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @games.each do |game| -%>
+      <tr>
+        <td class="numeric"><%= link_to game.id, game %></td>
+        <td><%= game.created_at.localtime %></td>
+        <td><%= game.updated_at.localtime %></td>
+        <td class="numeric"><%= game.num_players %></td>
+        <td><%= game.remark %></td>
+      </tr>
+    <% end -%>
+  </tbody>
+</table>

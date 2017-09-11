@@ -1,3 +1,21 @@
+#screen_top_area {
+  display: flex;
+
+  #link_to_root {
+    margin-right: 50px;
+
+    a {
+      text-decoration: none;
+    }
+  }
+}
+
+table#game_list {
+  td {
+    padding: 0 5px;
+  }
+}
+
 span.player_name.turn {
   color: white;
   background-color: #606060;

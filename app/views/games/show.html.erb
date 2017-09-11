@@ -1,10 +1,15 @@
 <div class="game_area">
-  <div class="stocks">
-    <% @game.stocks.each do |stock| -%>
-      <div class="stock">
-        <%= render stock %>
-      </div>
-    <% end -%>
+  <div id="screen_top_area">
+    <div id="link_to_root">
+      <%= link_to '^', games_path %>
+    </div>
+    <div class="stocks">
+      <% @game.stocks.each do |stock| -%>
+        <div class="stock">
+          <%= render stock %>
+        </div>
+      <% end -%>
+    </div>
   </div>
   <div class="boards">
     <% @game.players_reversed_with_current_last.each do |player| -%>

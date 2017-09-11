@@ -13,7 +13,8 @@ class GamesController < ApplicationController
         }
       end
     end
-    redirect_to Game.order(:created_at).last
+
+    @games = Game.all
   end
 
   def show
