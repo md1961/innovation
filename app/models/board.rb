@@ -3,6 +3,10 @@ class Board < CardList
 
   after_save :unexpand
 
+  def active_card
+    cards.last
+  end
+
   def resource_counts
     return {} if cards.empty?
 
