@@ -28,6 +28,10 @@ class Game < ActiveRecord::Base
     Playing.where('ordering > ?', ordering).first&.player || players.first
   end
 
+  def other_players_than(player)
+    players - [player]
+  end
+
   def conquered?(target)
     type = "#{target.class}Conquest"
     type_attr = :"#{target.class.name.downcase}"

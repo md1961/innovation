@@ -1,4 +1,6 @@
 class Board < CardList
+  belongs_to :player
+
   enum expansion: {not_expanded: 0, expanded_left: 1, expanded_right: 2, expanded_upward: 3}
 
   after_save :unexpand
