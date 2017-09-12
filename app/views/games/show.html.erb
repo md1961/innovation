@@ -85,13 +85,20 @@
     <% end -%>
   </div>
   <div class="actions_and_conquests">
-    <div class="actions">
-      <span id="switch_player">
-        <%= link_to '->', switch_player_game_path(@game)  %>
-      </span>
-      <span id="to_turn_player">
-        <%= link_to '^', to_turn_player_game_path(@game)  %>
-      </span>
+    <div class="game_actions">
+      <div class="game_links">
+        <span id="switch_player">
+          <%= link_to '->', switch_player_game_path(@game)  %>
+        </span>
+        <span id="to_turn_player">
+          <%= link_to '^', to_turn_player_game_path(@game)  %>
+        </span>
+      </div>
+      <div class="game_assistants">
+        <div id= "game_assisting_command_result"></div>
+        <%= text_field_tag :command, nil, id: 'game_assisting_command_text' %>
+        <%= button_tag '実行', type: :button, id: 'game_assisting_command_submit' %>
+      </div>
     </div>
     <div class="conquests">
       <span id="toggle_conquests">[+]</span>

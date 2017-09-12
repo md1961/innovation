@@ -104,13 +104,26 @@ span.player_name.turn {
 
 .actions_and_conquests {
   display: flex;
-}
 
-.actions {
-  margin-top: 20px;
+  .game_actions {
+    margin-top: 20px;
 
-  span {
-    margin-right: 10px;
+    span {
+      margin-right: 10px;
+    }
+  }
+
+  .game_assistants {
+    margin-top: 10px;
+
+    input[type="text"] {
+      font-size: 0.8rem;
+      width: 100px;
+    }
+
+    button {
+      font-size: 0.8rem;
+    }
   }
 }
 

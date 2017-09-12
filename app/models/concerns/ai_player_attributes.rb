@@ -1,5 +1,7 @@
 module AiPlayerAttributes
 
+  # TODO: Func to choose least valuable cards
+
   def choose_action(game)
     chooser = ActionChooser.new(game, self)
 
