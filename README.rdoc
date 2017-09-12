@@ -47,3 +47,6 @@ card_list        type game:references player:references age:references color:ref
 card_list_item   card_list:references card:references ordering:integer
 
 conquest  type game:references player:references age:references category:references
+
+effect_condition   card_effect:references statement
+effect_action      card_effect:references statement
