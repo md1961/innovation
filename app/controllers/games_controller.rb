@@ -13,8 +13,8 @@ class GamesController < ApplicationController
   def new
     Game.transaction do
       Game.create!(num_players: 2).tap { |game|
-        game.invite(Player.find_by(name: 'Hmn'))
         game.invite(Player.find_by(name: 'Cm1'))
+        game.invite(Player.find_by(name: 'Cm2'))
         player = game.players.first
         game.update!(turn_player: player, current_player: player)
       }
