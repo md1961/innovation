@@ -1,4 +1,6 @@
 class Player < ActiveRecord::Base
+  include AiPlayerAttributes
+
   has_many :playings
   has_many :hands
   has_many :influences
@@ -15,6 +17,10 @@ class Player < ActiveRecord::Base
 
   def boards_for(game)
     boards.where(game: game)
+  end
+
+  def max_age_on_boards(game)
+    boards_for(game).reject(&:empty?).map(&:active_card).map(&:age).map(&:level).max
   end
 
   def conquests_for(game)

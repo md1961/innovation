@@ -13,8 +13,8 @@ class GamesController < ApplicationController
   def new
     Game.transaction do
       Game.create!(num_players: 2).tap { |game|
-        game.invite(Player.find_by(name: 'Hmn'))
         game.invite(Player.find_by(name: 'Cm1'))
+        game.invite(Player.find_by(name: 'Cm2'))
         player = game.players.first
         game.update!(turn_player: player, current_player: player)
       }
@@ -98,8 +98,14 @@ class GamesController < ApplicationController
   end
 
   def end_action
+    notice = nil
+    if @game.uses_ai && @game.turn_player.is_computer && @game.num_actions_left > 0
+      action = @game.turn_player.choose_action(@game)
+      action.perform
+      notice = action.message_after
+    end
     @game.end_action
-    redirect_to @game
+    redirect_to @game, notice: notice
   end
 
   def conquer

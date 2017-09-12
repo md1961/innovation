@@ -8,7 +8,8 @@
   </head>
   <body class="<%= @uses_large ? 'large' : '' %>">
 
-  <%= yield %>
+    <%= yield %>
+    <p class="notice"><%= notice %></p>
 
   </body>
 </html>
