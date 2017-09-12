@@ -100,6 +100,12 @@ span.player_name.turn {
 
 .hand_actions {
   clear: left;
+  display: flex;
+
+  input[type="submit"] {
+    font-size: 0.8rem;
+    margin-right: 5px;
+  }
 }
 
 .actions_and_conquests {

@@ -76,8 +76,10 @@
           <% end -%>
           <% if is_turn -%>
             <div class="hand_actions">
-              <%= link_to '=>', end_action_game_path(@game) %>
+              <%= button_to '=>', end_action_game_path(@game), method: :get %>
               <%= " (#{@game.num_actions_left} left)" %>
+              <%= button_to '+', increment_action_game_path(@game), method: :get,
+                    disabled: @game.num_actions_left >= 2 %>
             </div>
           <% end -%>
         </div>

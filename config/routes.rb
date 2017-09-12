@@ -13,7 +13,7 @@ Rails.application.routes.draw do
     member do
       get :draw, :play, :reuse, :offer, :score, :store
       get :unexpand, :expand_left, :expand_right, :expand_upward
-      get :switch_player, :to_turn_player, :end_action, :end_turn
+      get :switch_player, :to_turn_player, :end_action, :end_turn, :increment_action
       post :conquer
     end
   end

@@ -108,6 +108,11 @@ class GamesController < ApplicationController
     redirect_to @game, notice: notice
   end
 
+  def increment_action
+    @game.increment!(:num_actions_left)
+    redirect_to @game
+  end
+
   def conquer
     target = params[:target_type].constantize.find(params[:target_id])
     @game.current_player.conquer(target, @game)
