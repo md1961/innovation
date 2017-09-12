@@ -1,7 +1,7 @@
 class Card < ActiveRecord::Base
   belongs_to :age
   belongs_to :color
-  has_many :effects, class_name: 'CardEffect'
+  has_many :effects, -> { order(:id) }, class_name: 'CardEffect'
   has_many :card_resources
   has_many :resources, through: :card_resources
   has_many :card_list_items
@@ -38,6 +38,11 @@ class Card < ActiveRecord::Base
 
   def next
     self.class.where('id > ?', id).order(id: :asc ).first || self
+  end
+
+  def forcing?
+    (effects.size == 1 && !effects.first.is_for_all) \
+      || (effects.size == 2 && !effects.first.is_for_all && effects.last.conditional_on_effect_above?)
   end
 
   def reuse(game)
