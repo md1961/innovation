@@ -7,10 +7,10 @@ class GameEvaluator
 
   def executable?(board)
     card = board.active_card
-    return true if card.effects.all? { |effect| effect.executable?(self) }
-    return true unless card.forcing?
+    return false if card.effects.none? { |effect| effect.executable?(self) }
     resource = card.effects.first.resource
-    players_with_more_resource_than(board.player, resource).size >= 1
+    num_players_with_more_resource = players_with_more_resource_than(board.player, resource).size
+    !(card.forcing? && num_players_with_more_resource >= 1)
   end
 
   def players_with_more_resource_than(this_player, resource)
