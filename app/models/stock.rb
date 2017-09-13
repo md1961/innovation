@@ -4,7 +4,7 @@ class Stock < CardList
   after_create :prepare
 
   def draw
-    raise "No card left" if cards.empty?
+    raise "No card left in Stock [#{age.level}]" if empty?
     card = cards.first
     card_list_items.first.destroy
     card

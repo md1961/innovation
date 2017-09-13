@@ -1,5 +1,5 @@
 <div class="board_card_pile">
-  <% unless board.cards.empty? -%>
+  <% unless board.empty? -%>
     <% if board.expanded_right? -%>
       <% board.cards[0 .. -2].each do |card| -%>
         <div class="board_cards_h_expanded board_cards_expanded">
@@ -26,6 +26,9 @@
     <% end -%>
 
     <div class="board_cards_count">
+      <div class="board_mark_inexecutable">
+        <%= @game_evaluator.executable?(board) ? nil : 'X' %>
+      </div>
       <span class="board_cards_count_display">
         <%= "(#{board.cards.count})" %>
       </span>

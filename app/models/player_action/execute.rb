@@ -11,7 +11,7 @@ class Execute < Base
   end
 
   def message_after
-    "#{@player} wants to execute #{@board.active_card}"
+    "(!) #{@player} WANTS TO EXECUTE #{@board.active_card}"
   end
 end
 

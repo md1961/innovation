@@ -7,6 +7,7 @@ class GamesController < ApplicationController
   end
 
   def show
+    @game_evaluator = GameEvaluator.new(@game, @game.current_player)
   end
 
   # TODO: Move player adding process to a model or a service.

@@ -10,7 +10,7 @@ class Board < CardList
   end
 
   def resource_counts
-    return {} if cards.empty?
+    return {} if empty?
 
     card_side = \
       if expanded_left?

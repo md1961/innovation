@@ -40,6 +40,12 @@
 }
 
 .board_cards_count {
+
+  .board_mark_inexecutable {
+    text-align: center;
+    font-weight: bold;
+  }
+
   span.board_cards_count_display {
     cursor: pointer;
   }
