@@ -1,6 +1,7 @@
 module AiPlayerAttributes
 
-  # TODO: Func to choose least valuable cards
+  # TODO: Func to choose least valuable cards.
+  # TODO: Add option to conquer Age or Category.
 
   def choose_action(game)
     chooser = ActionChooser.new(game, self)
