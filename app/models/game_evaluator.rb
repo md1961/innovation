@@ -13,6 +13,11 @@ class GameEvaluator
     !(card.forcing? && num_players_with_more_resource >= 1)
   end
 
+  def exclusive?(board)
+    resource = board.active_card.effects.first.resource
+    players_with_more_resource_than(board.player, resource).size.zero?
+  end
+
   def players_with_more_resource_than(this_player, resource)
     this_count = this_player.resource_counts(@game)[resource]
     @game.other_players_than(this_player).find_all { |player|

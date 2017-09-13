@@ -27,7 +27,9 @@
 
     <div class="board_cards_count">
       <div class="board_mark_inexecutable">
-        <%= @game_evaluator.executable?(board) ? nil : 'X' %>
+        <%=  @game_evaluator. exclusive?(board) ? 'O' \
+          : !@game_evaluator.executable?(board) ? 'X' \
+                                                : nil %>
       </div>
       <span class="board_cards_count_display">
         <%= "(#{board.cards.count})" %>
