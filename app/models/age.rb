@@ -1,5 +1,10 @@
 class Age < ActiveRecord::Base
 
+  def conquerable?(player, game)
+    player.influence_point(game) >= level * 5 \
+      && player.max_age_on_boards(game) >= level
+  end
+
   def next
     Age.find_by(level: level + 1)
   end
