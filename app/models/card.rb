@@ -60,6 +60,14 @@ class Card < ActiveRecord::Base
     end
   end
 
+  def eql?(other)
+    other.is_a?(self.class) && id == other.id
+  end
+
+  def hash
+    id.hash
+  end
+
   def to_s
     "[#{age.level}]#{title}"
   end

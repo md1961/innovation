@@ -22,4 +22,12 @@ class CardList < ActiveRecord::Base
   def remove(card)
     card_list_items.find_by(card: card).destroy
   end
+
+  def eql?(other)
+    other.is_a?(self.class) && id == other.id
+  end
+
+  def hash
+    id.hash
+  end
 end

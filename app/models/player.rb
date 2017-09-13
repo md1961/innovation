@@ -75,6 +75,14 @@ class Player < ActiveRecord::Base
     conquests_for(game).create!(type: type, type_attr => target)
   end
 
+  def eql?(other)
+    other.is_a?(self.class) && id == other.id
+  end
+
+  def hash
+    id.hash
+  end
+
   def to_s
     name
   end

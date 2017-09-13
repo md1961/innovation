@@ -4,6 +4,14 @@ class Age < ActiveRecord::Base
     Age.find_by(level: level + 1)
   end
 
+  def eql?(other)
+    other.is_a?(self.class) && id == other.id
+  end
+
+  def hash
+    id.hash
+  end
+
   def to_s
     "#{level} #{name}"
   end
