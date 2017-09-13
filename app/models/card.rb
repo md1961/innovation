@@ -28,6 +28,10 @@ class Card < ActiveRecord::Base
     card_side_for_position_abbrs.map { |pos| resource_at(pos) }.compact
   end
 
+  def has_resource?(resource_name)
+    resources.include?(Resource.find_by(name: resource_name))
+  end
+
   def card_list(game)
     card_lists.find_by(game: game)
   end
