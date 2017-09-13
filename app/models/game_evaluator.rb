@@ -5,6 +5,10 @@ class GameEvaluator
     @player = player
   end
 
+  def eval(statement)
+    instance_eval(apply_macros(statement))
+  end
+
   def executable?(board)
     card = board.active_card
     return false if card.effects.none? { |effect| effect.executable?(self) }
@@ -25,4 +29,19 @@ class GameEvaluator
       count >= this_count
     }
   end
+
+  private
+
+    def apply_macros(statement)
+      s = statement.dup
+      MACRO_REPLACEMENTS.each do |name, replacement|
+        s.gsub!(/(?<!::)\b#{name}\b/, replacement)
+      end
+      s
+    end
+
+    MACRO_REPLACEMENTS = [
+      ['HAND'  , "@player.hand_for(@game)"          ],
+      ['OTHERS', "@game.other_players_than(@player)"],
+    ]
 end

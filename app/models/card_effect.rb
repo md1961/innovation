@@ -7,29 +7,14 @@ class CardEffect < ActiveRecord::Base
   end
 
   def executable?(game_evaluator)
-    game_evaluator.instance_eval(condition)
+    game_evaluator.eval(condition)
   end
 
   def condition
     index = card.effects.index(self)
     conditions = H_CONDITIONS[card.title]
-    (conditions && replace_macros(conditions[index])) || 'true'
+    (conditions && conditions[index]) || 'true'
   end
-
-  private
-
-    def replace_macros(statement)
-      s = statement.dup
-      MACRO_REPLACEMENTS.each do |name, replacement|
-        s.gsub!(/(?<!::)\b#{name}\b/, replacement)
-      end
-      s
-    end
-
-    MACRO_REPLACEMENTS = [
-      ['HAND'  , "@player.hand_for(@game)"          ],
-      ['OTHERS', "@game.other_players_than(@player)"],
-    ]
 
   H_CONDITIONS = [
     ['牧畜', ["!HAND.empty?"]],
