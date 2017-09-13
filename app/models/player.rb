@@ -19,8 +19,16 @@ class Player < ActiveRecord::Base
     boards.where(game: game)
   end
 
+  def active_cards(game)
+    boards_for(game).reject(&:empty?).map(&:active_card)
+  end
+
+  def active_colors(game)
+    active_cards(game).map(&:color)
+  end
+
   def max_age_on_boards(game)
-    boards_for(game).reject(&:empty?).map(&:active_card).map(&:age).map(&:level).max
+    active_cards(game).map(&:age).map(&:level).max
   end
 
   def conquests_for(game)
