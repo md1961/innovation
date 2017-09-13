@@ -4,12 +4,14 @@ module AiPlayerAttributes
 
   def choose_action(game)
     chooser = ActionChooser.new(game, self)
+    ge = GameEvaluator.new(game, self)
 
     chooser.add(PlayerAction::Draw.new(game, self))
     hand_for(game).cards.each do |card|
       chooser.add(PlayerAction::Play.new(game, self, card))
     end
     boards_for(game).reject(&:empty?).each do |board|
+      next unless ge.executable?(board)
       chooser.add(PlayerAction::Execute.new(game, self, board))
     end
 
