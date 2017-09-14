@@ -47,5 +47,6 @@ class GameEvaluator
       ['RES_COUNTS', "@player.resource_counts(@game)"   ],
       ['AC_CARDS'  , "@player.active_cards(@game)"      ],
       ['AC_COLORS' , "@player.active_colors(@game)"     ],
+      ['INFLUENCE' , "@player.influence_for(@game)"     ],
     ]
 end
