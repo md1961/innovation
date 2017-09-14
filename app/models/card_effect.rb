@@ -41,7 +41,9 @@ class CardEffect < ActiveRecord::Base
     ['発酵', ["RES_COUNTS[Resource.woods] >= 2"]],
     ['医術', ["!INFLUENCE.empty? && !@game.turn_player.influence_for(@game).empty?"]],
     ['機械', ["turn_hand = @game.turn_player.hand_for(@game); max_age = turn_hand.cards.map(&:age).map(&:level).max; HAND.cards.size - turn_hand.cards.find_all { |c| c.age.level == max_age }.size >= 2",
-              "HAND.cards.any? { |c| c.has_resource?('石') } && BOARDS.find_by(color: Color.red)&.not_expanded?"]],
+              "HAND.cards.any? { |c| c.has_resource?('石') } && BOARDS.find_by(color: Color.red)&.expandable_left?"]],
+    ['封建主義', ["HAND.cards.any? { |c| c.has_resource?('石') }",
+                  "BOARDS.find_by(color: Color.yellow)&.expandable_left? || BOARDS.find_by(color: Color.purple)&.expandable_left?"]],
     # 28.tap { |id| c = Card.find(id); puts c, c.effects.size, c.effects.map(&:content) }
   ].to_h
 end

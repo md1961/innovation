@@ -3,6 +3,17 @@ class Board < CardList
 
   enum expansion: {not_expanded: 0, expanded_left: 1, expanded_right: 2, expanded_upward: 3}
 
+  def expandable_left?
+    cards.size >= 2 && not_expanded?
+  end
+
+  def expandable_right?
+    cards.size >= 2 && (not_expanded? || expanded_left?)
+  end
+
+  def expandable_upward?
+    cards.size >= 2 && !expanded_upward?
+  end
 
   def active_card
     cards.last
