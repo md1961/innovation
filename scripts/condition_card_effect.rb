@@ -1,9 +1,9 @@
 #! bin/rails runner
 
-id = 36
+id = 46
 
 card = Card.find(id)
-puts card
+puts "#{card} (id=#{id})"
 puts card.effects.map { |effect| "- #{effect.content}" }.join("\n")
 
 game = Game.last

@@ -53,5 +53,17 @@ class CardEffect < ActiveRecord::Base
     ['翻訳', ["!INFLUENCE.empty?"]],
     ['紙', ["BOARD_blue&.expandable_left? || BOARD_green&.expandable_left?",
             "BOARDS.any? { |b| b.expanded_left? }"]],
+    ['事業', ["AC_CARDS.any? { |c| c.has_resource?('金属') && c.color != Color.purple }",
+              "BOARD_green.expandable_right?"]],
+    ['航海術', ["INFLUENCE.cards.any? { |c| c.age.level.between?(2, 3) }"]],
+    ['印刷機', ["!INFLUENCE.empty?",
+                "BOARD_blue.expandable_right?"]],
+    ['発明', ["BOARDS.any? { |b| b.expanded_left? }",
+              "BOARDS.all? { |b| b.expanded? }"]],
+    ['遠近法', ["!HAND.empty?"]],
+    ['解剖学', ["!INFLUENCE.empty?"]],
+    ['改革', ["RES_COUNTS[Resource.woods] >= 2",
+                "BOARD_yellow&.expandable_right? || BOARD_purple&.expandable_right?"]],
+    ['火薬', ["AC_CARDS.any? { |c| c.has_resource?('石') }"]],
   ].to_h
 end
