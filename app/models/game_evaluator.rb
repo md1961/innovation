@@ -41,7 +41,11 @@ class GameEvaluator
     end
 
     MACRO_REPLACEMENTS = [
-      ['HAND'  , "@player.hand_for(@game)"          ],
-      ['OTHERS', "@game.other_players_than(@player)"],
+      ['HAND'      , "@player.hand_for(@game)"          ],
+      ['OTHERS'    , "@game.other_players_than(@player)"],
+      ['BOARDS'    , "@player.boards_for(@game)"        ],
+      ['RES_COUNTS', "@player.resource_counts(@game)"   ],
+      ['AC_CARDS'  , "@player.active_cards(@game)"      ],
+      ['AC_COLORS' , "@player.active_colors(@game)"     ],
     ]
 end

@@ -22,10 +22,10 @@ class CardEffect < ActiveRecord::Base
     ['陶器', ["!HAND.empty?"]],
     ['道具', ["HAND.cards.size >= 3",
               "HAND.cards.map(&:age).map(&:level).include?(3)"]],
-    ['衣服', ["HAND.cards.any? { |c| !@player.active_colors(@game).include?(c.color) }",
-              "(@player.active_colors(@game) - OTHERS.flat_map { |p| p.active_colors(@game) }.uniq).size > 0"]],
+    ['衣服', ["HAND.cards.any? { |c| !AC_COLORS.include?(c.color) }",
+              "(AC_COLORS - OTHERS.flat_map { |p| p.active_colors(@game) }.uniq).size > 0"]],
     ['都市国家', ["OTHERS.any? { |p| p.resource_counts(@game)[Resource.find_by(name: '石')] >= 4 }"]],
-    ['法典', ["!(HAND.cards.map(&:color) & @player.active_colors(@game)).empty?"]],
+    ['法典', ["!(HAND.cards.map(&:color) & AC_COLORS).empty?"]],
     ['農業', ["!HAND.empty?"]],
 
     # 16.tap { |id| c = Card.find(id); puts c, c.effects.size, c.effects.map(&:content) }
