@@ -1,4 +1,6 @@
 class Resource < ActiveRecord::Base
+  extend NameEngFindable
+
   belongs_to :color
 
   default_scope { order(:id) }
