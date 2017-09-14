@@ -41,9 +41,17 @@ class CardEffect < ActiveRecord::Base
     ['発酵', ["RES_COUNTS[Resource.woods] >= 2"]],
     ['医術', ["!INFLUENCE.empty? && !@game.turn_player.influence_for(@game).empty?"]],
     ['機械', ["turn_hand = @game.turn_player.hand_for(@game); max_age = turn_hand.cards.map(&:age).map(&:level).max; HAND.cards.size - turn_hand.cards.find_all { |c| c.age.level == max_age }.size >= 2",
-              "HAND.cards.any? { |c| c.has_resource?('石') } && BOARDS.find_by(color: Color.red)&.expandable_left?"]],
+              "HAND.cards.any? { |c| c.has_resource?('石') } && BOARD_red)&.expandable_left?"]],
     ['封建主義', ["HAND.cards.any? { |c| c.has_resource?('石') }",
-                  "BOARDS.find_by(color: Color.yellow)&.expandable_left? || BOARDS.find_by(color: Color.purple)&.expandable_left?"]],
-    # 28.tap { |id| c = Card.find(id); puts c, c.effects.size, c.effects.map(&:content) }
+                  "BOARD_yellow)&.expandable_left? || BOARD_purple)&.expandable_left?"]],
+    ['方位磁石', ["AC_CARDS.any? { |c| c.has_resource?('木') && c.color != Color.green }"]],
+    ['工学', ["AC_CARDS.any? { |c| c.has_resource?('石') }",
+              "BOARD_red)&.expandable_left?"]],
+    ['教育', ["!INFLUENCE.empty?"]],
+    ['錬金術', ["RES_COUNTS[Resource.stone] >= 3",
+                "HAND.cards.size >= 2"]],
+    ['翻訳', ["!INFLUENCE.empty?"]],
+    ['紙', ["BOARD_blue&.expandable_left? || BOARD_green&.expandable_left?",
+            "BOARDS.any? { |b| b.expanded_left? }"]],
   ].to_h
 end
