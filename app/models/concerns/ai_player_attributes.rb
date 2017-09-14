@@ -1,19 +1,27 @@
 module AiPlayerAttributes
 
   # TODO: Func to choose least valuable cards.
+  # TODO: Think which card to play or execute.
   # TODO: Add option to conquer Age or Category.
 
   def choose_action(game)
     chooser = ActionChooser.new(game, self)
-    ge = GameEvaluator.new(game, self)
 
-    chooser.add(PlayerAction::Draw.new(game, self))
-    hand_for(game).cards.each do |card|
-      chooser.add(PlayerAction::Play.new(game, self, card))
+    Conquest.conquerable_targets(self, game).each do |target|
+      chooser.add(PlayerAction::Conquer.new(game, self, target))
     end
-    boards_for(game).reject(&:empty?).each do |board|
-      next unless ge.executable?(board)
-      chooser.add(PlayerAction::Execute.new(game, self, board))
+
+    if chooser.empty?
+      ge = GameEvaluator.new(game, self)
+
+      chooser.add(PlayerAction::Draw.new(game, self))
+      hand_for(game).cards.each do |card|
+        chooser.add(PlayerAction::Play.new(game, self, card))
+      end
+      boards_for(game).reject(&:empty?).each do |board|
+        next unless ge.executable?(board)
+        chooser.add(PlayerAction::Execute.new(game, self, board))
+      end
     end
 
     chooser.choose
@@ -25,6 +33,10 @@ module AiPlayerAttributes
       @game = game
       @player = player
       @options = []
+    end
+
+    def empty?
+      @options.empty?
     end
 
     def add(action)
