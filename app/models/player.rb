@@ -58,7 +58,7 @@ class Player < ActiveRecord::Base
 
   def play(card, game)
     self.class.transaction do
-      hand_for(game).card_list_items.find_by(card: card).destroy
+      card.card_list(game).card_list_items.find_by(card: card).destroy
       boards_for(game).find_by(color: card.color).add(card)
     end
   end
@@ -77,6 +77,7 @@ class Player < ActiveRecord::Base
     end
   end
 
+  # TODO: Add method to return params to create *Conquest in Age and Category.
   def conquer(target, game)
     type = "#{target.class}Conquest"
     type_attr = :"#{target.class.name.downcase}"
