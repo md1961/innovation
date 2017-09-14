@@ -10,7 +10,7 @@ class Category < ActiveRecord::Base
   H_CONDITIONS = [
     ['文化', "AC_COLORS.size == 5 && BOARDS.all? { |b| b.expanded_right? || b.expanded_upward? }"],
     ['技術', nil],
-    ['外交', "RES_COUNTS[Resource.find_by(name: '時間')] >= 12"],
+    ['外交', "RES_COUNTS[Resource.time] >= 12"],
     ['軍事', "values = RES_COUNTS.values; values.size == 6 && values.all? { |v| v >= 3 }"],
     ['科学', "cards = AC_CARDS; cards.size == 5 && cards.all? { |c| c.age.level >= 8 }"],
   ].to_h

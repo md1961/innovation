@@ -24,12 +24,12 @@ class CardEffect < ActiveRecord::Base
               "HAND.cards.map(&:age).map(&:level).include?(3)"]],
     ['衣服', ["HAND.cards.any? { |c| !AC_COLORS.include?(c.color) }",
               "(AC_COLORS - OTHERS.flat_map { |p| p.active_colors(@game) }.uniq).size > 0"]],
-    ['都市国家', ["OTHERS.any? { |p| p.resource_counts(@game)[Resource.find_by(name: '石')] >= 4 }"]],
+    ['都市国家', ["OTHERS.any? { |p| p.resource_counts(@game)[Resource.stone] >= 4 }"]],
     ['法典', ["!(HAND.cards.map(&:color) & AC_COLORS).empty?"]],
     ['農業', ["!HAND.empty?"]],
     ['哲学', ["BOARDS.any? { |b| b.not_expanded? }",
               "!HAND.empty?"]],
-    ['地図作成', ["!INFLUENCE.empty?"]],
+    ['地図作成', ["INFLUENCE.cards.any? { |c| c.age.level == 1 }"]],
     ['数学', ["!HAND.empty?"]],
     ['暦'  , ["INFLUENCE.cards.size > HAND.cards.size"]],
     ['一神論', ["AC_COLORS.size > @game.turn_player.active_colors(@game).size"]],
@@ -38,7 +38,10 @@ class CardEffect < ActiveRecord::Base
     ['建築', ["HAND.cards.size >= 2",
               "AC_CARDS.size == 5 && OTHERS.all? { |p| p.active_cards(@game).size < 5 }"]],
     ['運河建設', ["!HAND.empty?"]],
-    ['発酵', ["RES_COUNTS[Resource.find_by(name: '木')] >= 2"]],
-    # 16.tap { |id| c = Card.find(id); puts c, c.effects.size, c.effects.map(&:content) }
+    ['発酵', ["RES_COUNTS[Resource.woods] >= 2"]],
+    ['医術', ["!INFLUENCE.empty? && !@game.turn_player.influence_for(@game).empty?"]],
+    ['機械', ["turn_hand = @game.turn_player.hand_for(@game); max_age = turn_hand.cards.map(&:age).map(&:level).max; HAND.cards.size - turn_hand.cards.find_all { |c| c.age.level == max_age }.size >= 2",
+              "HAND.cards.any? { |c| c.has_resource?('石') } && BOARDS.find_by(color: Color.red)&.not_expanded?"]],
+    # 28.tap { |id| c = Card.find(id); puts c, c.effects.size, c.effects.map(&:content) }
   ].to_h
 end
