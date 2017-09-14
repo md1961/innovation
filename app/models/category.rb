@@ -2,6 +2,7 @@ class Category < ActiveRecord::Base
   default_scope { order(:id) }
 
   def conquerable?(player, game)
+    return false if game.conquered?(self)
     condition = H_CONDITIONS[name]
     return false unless condition
     GameEvaluator.new(game, player).eval(condition)
@@ -21,5 +22,9 @@ class Category < ActiveRecord::Base
 
   def hash
     id.hash
+  end
+
+  def to_s
+    name
   end
 end
