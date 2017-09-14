@@ -66,6 +66,9 @@
       </div>
     <% when Influence -%>
       <div class="card_action">
+        <%= link_to '場', play_game_path(@game, card_id: card) %>
+      </div>
+      <div class="card_action">
         <%= link_to '再生', reuse_game_path(@game, card_id: card) %>
       </div>
       <div class="card_action">
