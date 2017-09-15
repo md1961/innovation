@@ -20,7 +20,8 @@ module AiPlayerAttributes
       end
       boards_for(game).reject(&:empty?).each do |board|
         next unless ge.executable?(board)
-        chooser.add(PlayerAction::Execute.new(game, self, board))
+        pct_weight = !ge.exclusive?(board) ? 50 : 100
+        chooser.add(PlayerAction::Execute.new(game, self, board), pct_weight)
       end
     end
 
@@ -39,8 +40,8 @@ module AiPlayerAttributes
       @options.empty?
     end
 
-    def add(action)
-      @options << Option.new(action)
+    def add(action, pct_weight = 100)
+      @options << Option.new(action, DEFAULT_WEIGHT * pct_weight)
     end
 
     def choose
