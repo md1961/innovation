@@ -44,6 +44,8 @@ module AiPlayerAttributes
     end
 
     def choose
+      return @options.last if @options.size <= 1
+
       cum_weight = 0
       @options.each do |option|
         cum_weight += option.weight
