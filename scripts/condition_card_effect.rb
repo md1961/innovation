@@ -1,10 +1,10 @@
 #! bin/rails runner
 
-id = 66
+id = 86
 
 card = Card.find(id)
 puts "#{card} (id=#{id})"
-puts card.effects.map { |effect| "- #{effect.content}" }.join("\n")
+puts card.effects.map { |effect| "* #{effect.content}" }.join("\n")
 
 game = Game.last
 card.effects.each do |effect|
