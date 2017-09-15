@@ -1,6 +1,6 @@
 #! bin/rails runner
 
-id = 86
+id = 105
 
 card = Card.find(id)
 puts "#{card} (id=#{id})"
