@@ -138,6 +138,7 @@ class CardEffect < ActiveRecord::Base
                         "RES_COUNTS[Resource.time] >= 2"]],
     ['データベース', ["INFLUENCE.cards.size >= 2"]],
     ['グローバル化', ["AC_CARDS.any? { |c| c.has_resource?('木') }"]],
+    ['ホームオートメーション', ["AC_CARDS.any? { |c| c.title != 'ホームオートメーション' && c.effects.any? { |e| e.is_for_all } }"]],
     ['生物工学', ["OTHERS.any? { |p| p.active_cards(@game).any? { |c| c.has_resource?('木') } }",
                   "@game.players.any? { |p| p.resource_counts(@game)[Resource.woods] <= 3 }"]],
     ['幹細胞', ["!HAND.empty?"]],
