@@ -104,6 +104,7 @@
     </div>
     <div class="conquests">
       <span id="toggle_conquests">[+]</span>
+      <div><%= @game.undo_statement %></div>
       <div class="button_area" hidden>
         <div class="age_conquests">
           <% Age.order(:level).each do |age| -%>

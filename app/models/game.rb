@@ -9,6 +9,8 @@ class Game < ActiveRecord::Base
   belongs_to :turn_player   , class_name: 'Player', foreign_key: :turn_player_id
   belongs_to :current_player, class_name: 'Player', foreign_key: :current_player_id
 
+  attr_accessor :undo_statement
+
   after_create :prepare
 
   BOARD_COLORS = %w[red green blue yellow purple].map { |n| Color.find_by(name_eng: n) }
