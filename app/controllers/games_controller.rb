@@ -112,7 +112,7 @@ class GamesController < ApplicationController
       save_undo_statement(action.undo_statement)
       notice = action.message_after
     end
-    @game.end_action unless action.conquer_category?
+    @game.end_action unless action&.conquer_category?
     redirect_to @game, notice: notice
   end
 
