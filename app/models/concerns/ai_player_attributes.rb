@@ -15,9 +15,9 @@ module AiPlayerAttributes
       ge = GameEvaluator.new(game, self)
 
       chooser.add(PlayerAction::Draw.new(game, self))
-      hand_for(game).cards.each do |card|
-        chooser.add(PlayerAction::Play.new(game, self, card))
-      end
+
+      PlayerAction::Play.add_options_to(chooser)
+
       boards_for(game).reject(&:empty?).each do |board|
         next unless ge.executable?(board)
         pct_weight = !ge.exclusive?(board) ? 50 : 100
@@ -29,6 +29,7 @@ module AiPlayerAttributes
   end
 
   class ActionChooser
+    attr_reader :game, :player
 
     def initialize(game, player)
       @game = game
