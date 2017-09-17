@@ -5,8 +5,19 @@ class GameEvaluator
     @player = player
   end
 
-  def eval(statement)
-    instance_eval(apply_macros(statement))
+  def eval(statement, is_for_all = true)
+    if is_for_all
+      instance_eval(apply_macros(statement))
+    else
+      player_saved = @player
+      others = @game.other_players_than(@player)
+      result = others.any? { |player|
+        @player = player
+        instance_eval(apply_macros(statement))
+      }
+      @player = player_saved
+      result
+    end
   end
 
   def executable?(board)
