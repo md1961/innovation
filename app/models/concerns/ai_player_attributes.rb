@@ -42,7 +42,7 @@ module AiPlayerAttributes
     end
 
     def add(action, pct_weight = 100)
-      @options << Option.new(action, DEFAULT_WEIGHT * pct_weight)
+      @options << Option.new(action, DEFAULT_WEIGHT * pct_weight / 100)
     end
 
     def choose
