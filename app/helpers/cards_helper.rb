@@ -22,7 +22,9 @@ module CardsHelper
     model = card.resource_at(pos) || card.age.level
     color = model.is_a?(Integer) ? 'age' : color_class(model)
     content_tag :div, class: 'card_resource' do
-      content_tag :span, "&nbsp;#{model}&nbsp;".html_safe, class: color
+      content_tag :span, class: color do
+        content_tag :span, model, class: color
+      end
     end
   end
 end
