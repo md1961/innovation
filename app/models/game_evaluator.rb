@@ -22,15 +22,19 @@ class GameEvaluator
     players_with_more_resource_than(board.player, resource).size.zero?
   end
 
-  def players_with_more_resource_than(this_player, resource)
-    this_count = this_player.resource_counts(@game)[resource]
-    @game.other_players_than(this_player).find_all { |player|
-      count = player.resource_counts(@game)[resource]
-      count >= this_count
-    }
+  def max_age_updatable?
+    @player.hand_for(@game).max_age > @player.boards_for(@game).map(&:max_age).max
   end
 
   private
+
+    def players_with_more_resource_than(this_player, resource)
+      this_count = this_player.resource_counts(@game)[resource]
+      @game.other_players_than(this_player).find_all { |player|
+        count = player.resource_counts(@game)[resource]
+        count >= this_count
+      }
+    end
 
     def apply_macros(statement)
       s = statement.dup
