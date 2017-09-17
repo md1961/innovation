@@ -1,7 +1,7 @@
 module PlayerAction
 
 class Base
-  attr_reader :game, :player
+  attr_reader :game, :player, :undo_statement
 
   def initialize(game, player)
     @game = game
