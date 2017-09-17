@@ -14,6 +14,10 @@ class Conquer < Base
   def message_after
     "#{@player} conquered #{@target}"
   end
+
+  def conquer_category?
+    @target.is_a?(Category)
+  end
 end
 
 end

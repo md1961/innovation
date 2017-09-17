@@ -7,6 +7,10 @@ class Base
     @game = game
     @player = player
   end
+
+  def conquer_category?
+    false
+  end
 end
 
 end

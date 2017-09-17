@@ -105,7 +105,7 @@ class GamesController < ApplicationController
       action.perform
       notice = action.message_after
     end
-    @game.end_action
+    @game.end_action unless action.conquer_category?
     redirect_to @game, notice: notice
   end
 
