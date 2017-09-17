@@ -80,6 +80,8 @@
               <%= " (#{@game.num_actions_left} left)" %>
               <%= button_to '+', increment_action_game_path(@game), method: :get,
                     disabled: @game.num_actions_left >= 2 %>
+              <%= button_to 'undo', undo_game_path(@game), method: :get, id: 'undo_button',
+                    disabled: !@game.undo_statement %>
             </div>
           <% end -%>
         </div>

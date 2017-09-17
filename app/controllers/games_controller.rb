@@ -1,6 +1,6 @@
 class GamesController < ApplicationController
   before_action :set_game  , except: %i[index new]
-  before_action :clear_undo, except: %i[index show]
+  before_action :clear_undo, except: %i[index show undo]
 
   KEY_FOR_UNDO_STATEMENT = :undo_statement
 
@@ -114,6 +114,12 @@ class GamesController < ApplicationController
     end
     @game.end_action unless action.conquer_category?
     redirect_to @game, notice: notice
+  end
+
+  def undo
+    instance_eval(session[KEY_FOR_UNDO_STATEMENT])
+    clear_undo
+    redirect_to @game
   end
 
   def increment_action

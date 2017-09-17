@@ -11,7 +11,7 @@ Rails.application.routes.draw do
 
   resources :games, only: %i[index show new] do
     member do
-      get :draw, :play, :reuse, :offer, :score, :store
+      get :draw, :play, :reuse, :offer, :score, :store, :undo
       get :unexpand, :expand_left, :expand_right, :expand_upward
       get :switch_player, :to_turn_player, :end_action, :end_turn, :increment_action
       post :conquer
