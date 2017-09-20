@@ -104,7 +104,7 @@ class CardEffect < ActiveRecord::Base
     ['原理理論', ["BOARD_blue&.expandable_right?"]],
     ['奴隷解放', ["!HAND.empty?",
                   "BOARD_red&.expandable_right? || BOARD_purple&.expandable_right?"]],
-    ['分類', ["!HAND.empty?"]],
+    ['分類', ["@game.players.none? { |p| p.hand_for(@game).empty? }"]],
     ['冷蔵', ["HAND.cards.size >= 2",
               "!HAND.empty?"]],
     ['進化論', ["!INFLUENCE.empty?"]],
@@ -161,5 +161,9 @@ class CardEffect < ActiveRecord::Base
   H_FAVORABLE_CONDITIONS = [
     ['予防接種', ["INFLUENCE.cards.size >= 4"]],
     ['民主主義', ["HAND.cards.size > OTHERS.map { |p| p.hand_for(@game) }.map(&:cards).map(&:size).max + 2"]],
+    ['百科事典', ["ages = INFLUENCE.cards.map(&:age).map(&:level); ages.find_all { |age| age == ages.max }.size >= 3"]],
+    ['産業化', ["RES_COUNTS[Resource.manufacture] >= 6"]],
+    ['工作機械', ["INFLUENCE.cards.map(&:age).map(&:level).max >= 5"]],
+    ['分類', ["HAND.cards.size <= 3 && OTHERS.all? { |p| p.hand_for(@game).cards.size >= 3 }"]],
   ].to_h
 end
