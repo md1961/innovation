@@ -33,6 +33,10 @@ class GameEvaluator
     players_with_more_resource_than(board.player, resource).size.zero?
   end
 
+  def favorable?(board)
+    board.active_card.effects.all? { |effect| effect.favorable?(self) }
+  end
+
   def max_age_updatable?
     @player.hand_for(@game).max_age > @player.boards_for(@game).map(&:max_age).max
   end
