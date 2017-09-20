@@ -7,16 +7,30 @@ class CardEffect < ActiveRecord::Base
   end
 
   def executable?(game_evaluator)
-    game_evaluator.eval(condition, is_for_all)
+    game_evaluator.eval(necessary_condition, is_for_all)
   end
 
-  def condition
-    index = card.effects.index(self)
-    conditions = H_CONDITIONS[card.title]
-    (conditions && conditions[index]) || 'true'
+  def favorable?(game_evaluator)
+    game_evaluator.eval(favorable_condition, is_for_all)
   end
 
-  H_CONDITIONS = [
+  def necessary_condition
+    condition(H_NECESSARY_CONDITIONS)
+  end
+
+  def favorable_condition
+    condition(H_FAVORABLE_CONDITIONS)
+  end
+
+  private
+
+    def condition(h_data)
+      index = card.effects.index(self)
+      conditions = h_data[card.title]
+      (conditions && conditions[index]) || 'true'
+    end
+
+  H_NECESSARY_CONDITIONS = [
     ['牧畜', ["!HAND.empty?"]],
     ['石工', ["HAND.cards.any? { |c| c.has_resource?('石') }"]],
     ['陶器', ["!HAND.empty?"]],
@@ -142,5 +156,10 @@ class CardEffect < ActiveRecord::Base
     ['生物工学', ["OTHERS.any? { |p| p.active_cards(@game).any? { |c| c.has_resource?('木') } }",
                   "@game.players.any? { |p| p.resource_counts(@game)[Resource.woods] <= 3 }"]],
     ['幹細胞', ["!HAND.empty?"]],
+  ].to_h
+
+  H_FAVORABLE_CONDITIONS = [
+    ['予防接種', ["INFLUENCE.cards.size >= 4"]],
+    ['民主主義', ["HAND.cards.size > OTHERS.map { |p| p.hand_for(@game) }.map(&:cards).map(&:size).max + 2"]],
   ].to_h
 end
