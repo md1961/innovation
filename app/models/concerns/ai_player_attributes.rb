@@ -48,11 +48,8 @@ module AiPlayerAttributes
     def choose
       return @options.last if @options.size <= 1
 
-      cum_weight = 0
-      @options.each do |option|
-        cum_weight += option.weight
-        option.cum_weight = cum_weight
-      end
+      adjust_weights
+      set_cum_options
 
       random = rand(@options.last.cum_weight)
       @options.each do |option|
@@ -71,6 +68,31 @@ module AiPlayerAttributes
         @action = action
         @weight = weight
       end
+
+      def draw?
+        @action.is_a?(PlayerAction::Draw)
+      end
+
+      def play?
+        @action.is_a?(PlayerAction::Play)
+      end
     end
+
+    private
+
+      def adjust_weights
+        if @options.none?(&:play?)
+          option_draw = @options.find(&:draw?)
+          option_draw.weight *= 2
+        end
+      end
+
+      def set_cum_options
+        cum_weight = 0
+        @options.each do |option|
+          cum_weight += option.weight
+          option.cum_weight = cum_weight
+        end
+      end
   end
 end
