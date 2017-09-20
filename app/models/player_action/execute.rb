@@ -10,7 +10,6 @@ class Execute < Base
     player.boards_for(game).reject(&:empty?).each do |board|
       next unless ge.executable?(board)
       pct_weight = ge.exclusive?(board) ? 100 : 50
-      pct_weight = 200 if ge.favorable?(board)
       chooser.add(new(game, self, board), pct_weight)
     end
   end
