@@ -37,6 +37,11 @@ class GameEvaluator
     @player.hand_for(@game).max_age > @player.boards_for(@game).map(&:max_age).max
   end
 
+  def decrease_active_card_age?(card)
+    board = @player.boards_for(@game).find_by(color: card.color)
+    card.age.level < board.active_card.age.level
+  end
+
   private
 
     def players_with_more_resource_than(this_player, resource)
