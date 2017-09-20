@@ -57,10 +57,23 @@ class Card < ActiveRecord::Base
     end
   end
 
-  def offer(game)
+  def offer(dest, game)
+    card_list_from = card_list(game)
+    player_from = card_list_from.player
+    player_to = game.next_player(player_from)
+    card_list_to = \
+      if dest == Hand
+        player_to.hand_for(game)
+      elsif dest == Board
+        player_to.boards_for(game).find_by(color: color)
+      elsif dest == Influence
+        player_to.influence_for(game)
+      else
+        raise "Illegal destination '#{dest}'"
+      end
     self.class.transaction do
-      card_list(game).remove(self)
-      game.current_player.hand_for(game).add(self)
+      card_list_from.remove(self)
+      card_list_to.add(self)
     end
   end
 

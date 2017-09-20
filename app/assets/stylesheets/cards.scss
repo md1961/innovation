@@ -38,14 +38,17 @@ div.card_effect, div.card_bottom {
   margin-top: 5px;
 }
 
-div.card_actions {
-  display: flex;
-  flex-wrap: wrap;
-}
+.card_actions {
 
-div.card_action {
-  flex: 1;
-  text-align: center;
+  .card_actions_row {
+    display: flex;
+  }
+
+  .card_action {
+    flex: 1;
+    text-align: center;
+    white-space: nowrap;
+  }
 }
 
 div#card_navi {

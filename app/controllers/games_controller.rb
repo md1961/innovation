@@ -52,7 +52,8 @@ class GamesController < ApplicationController
 
   def offer
     card = Card.find(params[:card_id])
-    card.offer(@game)
+    dest = params[:dest].constantize
+    card.offer(dest, @game)
     redirect_to @game
   end
 
