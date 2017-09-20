@@ -1,6 +1,6 @@
 #! bin/rails runner
 
-id = 66
+id = 57
 
 card = Card.find(id)
 puts "#{card} (id=#{id})"
@@ -15,11 +15,11 @@ card.effects.each do |effect|
     puts "#{player}: #{effect.executable?(ge)}"
   end
 end
-puts "==> 好条件 <=="
+puts "==> 評価関数 <=="
 card.effects.each do |effect|
-  puts effect.favorable_condition
+  puts effect.evaluation_f
   game.players.each do |player|
     ge = GameEvaluator.new(game, player)
-    puts "#{player}: #{effect.favorable?(ge)}"
+    puts "#{player}: #{effect.effect_factor(ge)}"
   end
 end

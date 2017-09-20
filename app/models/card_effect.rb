@@ -7,11 +7,11 @@ class CardEffect < ActiveRecord::Base
   end
 
   def executable?(game_evaluator)
-    game_evaluator.eval(necessary_condition, is_for_all)
+    game_evaluator.boolean_eval(necessary_condition, is_for_all)
   end
 
   def favorable?(game_evaluator)
-    game_evaluator.eval(favorable_condition, is_for_all)
+    game_evaluator.boolean_eval(favorable_condition, is_for_all)
   end
 
   def necessary_condition
@@ -20,6 +20,16 @@ class CardEffect < ActiveRecord::Base
 
   def favorable_condition
     condition(H_FAVORABLE_CONDITIONS)
+  end
+
+  def effect_factor(game_evaluator)
+    game_evaluator.factor_eval(evaluation_f, is_for_all)
+  end
+
+  def evaluation_f
+    index = card.effects.index(self)
+    evaluation_fs = H_EVALUATION_F[card.title]
+    (evaluation_fs && evaluation_fs[index]) || '100'
   end
 
   private
@@ -165,5 +175,10 @@ class CardEffect < ActiveRecord::Base
     ['産業化', ["RES_COUNTS[Resource.manufacture] >= 6"]],
     ['工作機械', ["INFLUENCE.cards.map(&:age).map(&:level).max >= 5"]],
     ['分類', ["HAND.cards.size <= 3 && OTHERS.all? { |p| p.hand_for(@game).cards.size >= 3 }"]],
+  ].to_h
+
+  H_EVALUATION_F = [
+    ['予防接種', ["(INFLUENCE.cards.size - 1) * 100 / 3.0 + 100"]],
+    ['民主主義', ["(HAND.cards.find_all { |c| c.age.level < @player.max_age_on_boards(@game) }.size - 1) * 100 / 3.0 + 100"]],
   ].to_h
 end

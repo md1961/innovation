@@ -5,7 +5,7 @@ class GameEvaluator
     @player = player
   end
 
-  def eval(statement, is_for_all = true)
+  def boolean_eval(statement, is_for_all = true)
     if is_for_all
       instance_eval(apply_macros(statement))
     else
@@ -14,6 +14,21 @@ class GameEvaluator
       result = others.any? { |player|
         @player = player
         instance_eval(apply_macros(statement))
+      }
+      @player = player_saved
+      result
+    end
+  end
+
+  def factor_eval(statement, is_for_all = true)
+    if is_for_all
+      instance_eval(apply_macros(statement)).ceil
+    else
+      player_saved = @player
+      others = @game.other_players_than(@player)
+      result = others.inject(0) { |sum, player|
+        @player = player
+        sum += instance_eval(apply_macros(statement)).ceil
       }
       @player = player_saved
       result
