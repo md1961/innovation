@@ -16,13 +16,8 @@ module AiPlayerAttributes
 
       chooser.add(PlayerAction::Draw.new(game, self))
 
-      PlayerAction::Play.add_options_to(chooser)
-
-      boards_for(game).reject(&:empty?).each do |board|
-        next unless ge.executable?(board)
-        pct_weight = !ge.exclusive?(board) ? 50 : 100
-        chooser.add(PlayerAction::Execute.new(game, self, board), pct_weight)
-      end
+      PlayerAction::Play   .add_options_to(chooser)
+      PlayerAction::Execute.add_options_to(chooser)
     end
 
     chooser.choose
