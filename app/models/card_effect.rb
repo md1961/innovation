@@ -64,7 +64,7 @@ class CardEffect < ActiveRecord::Base
     ['運河建設', ["!HAND.empty?"]],
     ['発酵', ["RES_COUNTS[Resource.woods] >= 2"]],
     ['医術', ["!INFLUENCE.empty? && !@game.turn_player.influence_for(@game).empty?"]],
-    ['機械', ["turn_hand = @game.turn_player.hand_for(@game); max_age = turn_hand.cards.map(&:age).map(&:level).max; HAND.cards.size - turn_hand.cards.find_all { |c| c.age.level == max_age }.size >= 2",
+    ['機械', ["turn_hand = @game.turn_player.hand_for(@game); max_age = turn_hand.max_age; HAND.cards.size - turn_hand.cards.find_all { |c| c.age.level == max_age }.size >= 2",
               "HAND.cards.any? { |c| c.has_resource?('石') } && BOARD_red&.expandable_left?"]],
     ['封建主義', ["HAND.cards.any? { |c| c.has_resource?('石') }",
                   "BOARD_yellow&.expandable_left? || BOARD_purple&.expandable_left?"]],
@@ -173,7 +173,7 @@ class CardEffect < ActiveRecord::Base
     ['民主主義', ["HAND.cards.size > OTHERS.map { |p| p.hand_for(@game) }.map(&:cards).map(&:size).max + 2"]],
     ['百科事典', ["ages = INFLUENCE.cards.map(&:age).map(&:level); ages.find_all { |age| age == ages.max }.size >= 3"]],
     ['産業化', ["RES_COUNTS[Resource.manufacture] >= 6"]],
-    ['工作機械', ["INFLUENCE.cards.map(&:age).map(&:level).max >= 5"]],
+    ['工作機械', ["INFLUENCE.max_age >= 5"]],
     ['分類', ["HAND.cards.size <= 3 && OTHERS.all? { |p| p.hand_for(@game).cards.size >= 3 }"]],
   ].to_h
 
@@ -186,8 +186,7 @@ class CardEffect < ActiveRecord::Base
     ['缶詰', ["(BOARDS.find_all(&:active_card_decreasing_age?).size - 1) * 100 + 200"]],
     ['産業化', ["((RES_COUNTS[Resource.manufacture] / 2).floor - 1) * 100 + 100",
                 "200"]],
-    # TODO: Use #max_age().
-    ['工作機械', ["[(INFLUENCE.cards.map(&:age).map(&:level).max - 3) * 100 + 100, 100].max"]],
+    ['工作機械', ["[(INFLUENCE.max_age - 3) * 100 + 100, 100].max"]],
     ['原理理論', ["200",
                   "AC_CARDS.all? { |c| c.age.level >= 8 } ? -100 : 100"]],
     ['奴隷解放', ["(HAND.cards.size - 1) * 25 + 100",
@@ -205,5 +204,6 @@ class CardEffect < ActiveRecord::Base
     ['内燃機関', []],  # TODO
     ['爆薬', ["(HAND.cards.size - 3) * 100 / 3 + 100"]],
     ['街灯', ["(HAND.cards.find_all { |c| c.age.level < @player.max_age_on_boards(@game) }.size - 1) * 100 / 3 + 100"]],
+    ['電気', ["boards = BOARDS.find_all { |b| !b.active_card.has_resource?('製造') }; num_good = boards.count { |b| b.active_card_decreasing_age? }; diff = num_good - (boards.size - num_good); (diff - 1) * 100 + 100"]],
   ].to_h
 end
