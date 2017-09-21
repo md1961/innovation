@@ -9,7 +9,7 @@ class Game < ActiveRecord::Base
   belongs_to :turn_player   , class_name: 'Player', foreign_key: :turn_player_id
   belongs_to :current_player, class_name: 'Player', foreign_key: :current_player_id
 
-  attr_accessor :undo_statement
+  attr_accessor :undo_statement, :action_options
 
   after_create :prepare
 

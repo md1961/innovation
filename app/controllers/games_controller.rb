@@ -1,8 +1,10 @@
 class GamesController < ApplicationController
   before_action :set_game  , except: %i[index new]
   before_action :clear_undo, except: %i[index show undo]
+  before_action :clear_info, except: %i[index show]
 
   KEY_FOR_UNDO_STATEMENT = :undo_statement
+  KEY_FOR_ACTION_OPTIONS = :action_options
 
   def index
     redirect_to new_game_path if Game.count.zero?
@@ -12,6 +14,7 @@ class GamesController < ApplicationController
   def show
     @game_evaluator = GameEvaluator.new(@game, @game.current_player)
     @game.undo_statement = session[KEY_FOR_UNDO_STATEMENT]
+    @game.action_options = session[KEY_FOR_ACTION_OPTIONS]
   end
 
   # TODO: Move player adding process to a model or a service.
@@ -108,7 +111,9 @@ class GamesController < ApplicationController
   def end_action
     notice = nil
     if @game.uses_ai && @game.turn_player.is_computer && @game.num_actions_left > 0
-      action = @game.turn_player.choose_action(@game)
+      player = @game.turn_player
+      action = player.choose_action(@game)
+      session[KEY_FOR_ACTION_OPTIONS] = player.action_options
       action.perform
       save_undo_statement(action.undo_statement)
       notice = action.message_after
@@ -150,5 +155,9 @@ class GamesController < ApplicationController
 
     def save_undo_statement(statement)
       session[KEY_FOR_UNDO_STATEMENT] = statement
+    end
+
+    def clear_info
+      session[KEY_FOR_ACTION_OPTIONS] = nil
     end
 end
