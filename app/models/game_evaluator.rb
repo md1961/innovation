@@ -45,7 +45,12 @@ class GameEvaluator
 
   def exclusive?(board)
     resource = board.active_card.effects.first.resource
-    players_with_more_resource_than(board.player, resource).size.zero?
+    players_with_more_resource = players_with_more_resource_than(board.player, resource)
+    return true if players_with_more_resource.size.zero?
+    players_with_more_resource.none? { |player|
+      board_others = player.boards_for(@game).find_by(color: board.color)
+      self.class.new(@game, player).executable?(board_others)
+    }
   end
 
   def favorable?(board)
