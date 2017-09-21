@@ -23,6 +23,10 @@ class Board < CardList
     cards.last
   end
 
+  def active_card_decreasing_age?
+    cards.size >= 2 && cards[-2].age.level > active_card.age.level
+  end
+
   def resource_counts
     return {} if empty?
 

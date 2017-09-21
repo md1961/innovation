@@ -178,19 +178,32 @@ class CardEffect < ActiveRecord::Base
   ].to_h
 
   H_EVALUATION_F = [
-    ['予防接種', ["(INFLUENCE.cards.size - 1) * 100 / 3.0 + 100"]],
-    ['民主主義', ["(HAND.cards.find_all { |c| c.age.level < @player.max_age_on_boards(@game) }.size - 1) * 100 / 3.0 + 100"]],
+    ['予防接種', ["(INFLUENCE.cards.size - 1) * 100 / 3 + 100"]],
+    ['民主主義', ["(HAND.cards.find_all { |c| c.age.level < @player.max_age_on_boards(@game) }.size - 1) * 100 / 3 + 100"]],
     ['メートル法', ["200",
                     "200"]],
-    ['百科事典', ["(INFLUENCE.cards.size - 1) * 100 / 3.0 + 100"]],
-    ['缶詰', ["(BOARDS.find_all { |b| b.cards.size >= 2 && b.cards[-2].age.level > b.active_card.age.level }.size - 1) * 100 + 200"]],
+    ['百科事典', ["(INFLUENCE.cards.size - 1) * 100 / 3 + 100"]],
+    ['缶詰', ["(BOARDS.find_all(&:active_card_decreasing_age?).size - 1) * 100 + 200"]],
     ['産業化', ["((RES_COUNTS[Resource.manufacture] / 2).floor - 1) * 100 + 100",
                 "200"]],
+    # TODO: Use #max_age().
     ['工作機械', ["[(INFLUENCE.cards.map(&:age).map(&:level).max - 3) * 100 + 100, 100].max"]],
     ['原理理論', ["200",
                   "AC_CARDS.all? { |c| c.age.level >= 8 } ? -100 : 100"]],
     ['奴隷解放', ["(HAND.cards.size - 1) * 25 + 100",
                   "200"]],
     ['分類', ["(OTHERS.all? { |p| !p.hand_for(@game).empty? } ? 25 : 0) + ((HAND.cards.size - 2) * 25 + 50) + ((OTHERS.map { |p| p.hand_for(@game).cards.size }.sum - OTHERS.size * 2) * 25 + 25)"]],
+    ['冷蔵', ["((HAND.cards.size / 2).floor - 1) * 50 + 100",
+              "(HAND.cards.size - 1) * 25 + 100"]],
+    ['進化論', ["(INFLUENCE.cards.size - 1) * 25 + 100"]],
+    ['出版', ["(BOARDS.map { |b| b.max_age - b.active_card.age.level }.max - 1) * 50 + 100",
+              "300"]],
+    ['自転車', []],  # TODO
+    ['公衆衛生', ["((HAND.cards.size - 2) * 25 + 50) + [(((@game.turn_player.hand_for(@game).min_age || 10) - 5) * -50 + 50), 50].max"]],
+    ['鉄道', ["(HAND.cards.find_all { |c| c.age.level < @player.max_age_on_boards(@game) }.size - 1) * 100 / 3 + 100",
+              "300"]],
+    ['内燃機関', []],  # TODO
+    ['爆薬', ["(HAND.cards.size - 3) * 100 / 3 + 100"]],
+    ['街灯', ["(HAND.cards.find_all { |c| c.age.level < @player.max_age_on_boards(@game) }.size - 1) * 100 / 3 + 100"]],
   ].to_h
 end
