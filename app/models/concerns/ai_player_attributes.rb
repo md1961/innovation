@@ -39,7 +39,7 @@ module AiPlayerAttributes
     end
 
     def choose
-      return @options.last if @options.size <= 1
+      return @options.last.action if @options.size <= 1
 
       adjust_weights
       set_cum_options
