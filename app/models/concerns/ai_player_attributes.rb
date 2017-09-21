@@ -14,8 +14,7 @@ module AiPlayerAttributes
     if chooser.empty?
       ge = GameEvaluator.new(game, self)
 
-      chooser.add(PlayerAction::Draw.new(game, self))
-
+      PlayerAction::Draw   .add_options_to(chooser)
       PlayerAction::Play   .add_options_to(chooser)
       PlayerAction::Execute.add_options_to(chooser)
     end
