@@ -17,8 +17,9 @@ module AiPlayerAttributes
       PlayerAction::Execute.add_options_to(chooser)
     end
 
+    action = chooser.choose
     @action_options = chooser.to_s
-    chooser.choose
+    action
   end
 
   class ActionChooser
@@ -44,15 +45,15 @@ module AiPlayerAttributes
       adjust_weights
       set_cum_options
 
-      random = rand(@options.last.cum_weight)
+      @random = rand(@options.last.cum_weight)
       @options.each do |option|
-        return option.action if random < option.cum_weight
+        return option.action if @random < option.cum_weight
       end
       @options.last.action
     end
 
     def to_s
-      @options.join(' ')
+      @options.join(' ') + " <= #{@random}"
     end
 
     DEFAULT_WEIGHT = 100
