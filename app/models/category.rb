@@ -5,7 +5,7 @@ class Category < ActiveRecord::Base
     return false if game.conquered?(self)
     condition = H_CONDITIONS[name]
     return false unless condition
-    GameEvaluator.new(game, player).eval(condition)
+    GameEvaluator.new(game, player).boolean_eval(condition)
   end
 
   H_CONDITIONS = [
