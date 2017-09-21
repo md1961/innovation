@@ -25,6 +25,10 @@ class Execute < Base
   def message_after
     "(!) #{@player} WANTS TO EXECUTE #{@board.active_card}"
   end
+
+  def to_s
+    "Exec#{@board.active_card}"
+  end
 end
 
 end

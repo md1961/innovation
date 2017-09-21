@@ -30,6 +30,10 @@ class Play < Base
   def message_after
     "#{@player} played #{@card} from hand"
   end
+
+  def to_s
+    "Play#{@card}"
+  end
 end
 
 end

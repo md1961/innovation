@@ -12,13 +12,12 @@ module AiPlayerAttributes
     end
 
     if chooser.empty?
-      ge = GameEvaluator.new(game, self)
-
       PlayerAction::Draw   .add_options_to(chooser)
       PlayerAction::Play   .add_options_to(chooser)
       PlayerAction::Execute.add_options_to(chooser)
     end
 
+    @action_options = chooser.to_s
     chooser.choose
   end
 
@@ -52,6 +51,10 @@ module AiPlayerAttributes
       @options.last.action
     end
 
+    def to_s
+      @options.join(' ')
+    end
+
     DEFAULT_WEIGHT = 100
 
     class Option
@@ -69,6 +72,10 @@ module AiPlayerAttributes
 
       def play?
         @action.is_a?(PlayerAction::Play)
+      end
+
+      def to_s
+        "#{@action}(#{weight})"
       end
     end
 

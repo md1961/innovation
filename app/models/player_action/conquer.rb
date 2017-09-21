@@ -18,6 +18,10 @@ class Conquer < Base
   def conquer_category?
     @target.is_a?(Category)
   end
+
+  def to_s
+    "Conq-#{@target}"
+  end
 end
 
 end

@@ -7,7 +7,7 @@ class Player < ActiveRecord::Base
   has_many :boards, -> { order(:color_id) }
   has_many :conquests
 
-  attr_reader :undo_statement
+  attr_reader :undo_statement, :action_options
 
   def hand_for(game)
     hands.find_by(game: game)
