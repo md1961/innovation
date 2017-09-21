@@ -114,7 +114,7 @@ class CardEffect < ActiveRecord::Base
     ['原理理論', ["BOARD_blue&.expandable_right?"]],
     ['奴隷解放', ["!HAND.empty?",
                   "BOARD_red&.expandable_right? || BOARD_purple&.expandable_right?"]],
-    ['分類', ["@game.players.none? { |p| p.hand_for(@game).empty? }"]],
+    ['分類', ["@game.players.any? { |p| !p.hand_for(@game).empty? }"]],
     ['冷蔵', ["HAND.cards.size >= 2",
               "!HAND.empty?"]],
     ['進化論', ["!INFLUENCE.empty?"]],
@@ -180,5 +180,17 @@ class CardEffect < ActiveRecord::Base
   H_EVALUATION_F = [
     ['予防接種', ["(INFLUENCE.cards.size - 1) * 100 / 3.0 + 100"]],
     ['民主主義', ["(HAND.cards.find_all { |c| c.age.level < @player.max_age_on_boards(@game) }.size - 1) * 100 / 3.0 + 100"]],
+    ['メートル法', ["200",
+                    "200"]],
+    ['百科事典', ["(INFLUENCE.cards.size - 1) * 100 / 3.0 + 100"]],
+    ['缶詰', ["(BOARDS.find_all { |b| b.cards.size >= 2 && b.cards[-2].age.level > b.active_card.age.level }.size - 1) * 100 + 200"]],
+    ['産業化', ["((RES_COUNTS[Resource.manufacture] / 2).floor - 1) * 100 + 100",
+                "200"]],
+    ['工作機械', ["[(INFLUENCE.cards.map(&:age).map(&:level).max - 3) * 100 + 100, 100].max"]],
+    ['原理理論', ["200",
+                  "AC_CARDS.all? { |c| c.age.level >= 8 } ? -100 : 100"]],
+    ['奴隷解放', ["(HAND.cards.size - 1) * 25 + 100",
+                  "200"]],
+    ['分類', ["(OTHERS.all? { |p| !p.hand_for(@game).empty? } ? 25 : 0) + ((HAND.cards.size - 2) * 25 + 50) + ((OTHERS.map { |p| p.hand_for(@game).cards.size }.sum - OTHERS.size * 2) * 25 + 25)"]],
   ].to_h
 end
