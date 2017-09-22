@@ -14,7 +14,8 @@
   <div class="boards">
     <% @game.players_reversed_with_current_last.each do |player| -%>
       <% is_current = player == @game.current_player
-         is_turn    = player == @game.turn_player -%>
+         is_turn    = player == @game.turn_player
+         influence_cards = player.influence_for(@game).cards -%>
       <div class="board_and_influence">
         <div class="board <%= is_turn ? '' : 'non_turn' %>">
           <div class="board_scores">
@@ -32,7 +33,7 @@
             </table>
             <div class="influences">
               <span class="show_influence_cards">
-                <%= "[影響] #{player.influence_point(@game)}" %>
+                <%= "[影響] #{player.influence_point(@game)} (#{influence_cards.size})" %>
               </span>
             </div>
             <div class="player_conquests">
@@ -48,7 +49,7 @@
           </div>
         </div>
         <div class="influence_cards" hidden>
-          <% player.influence_for(@game).cards.each do |card| -%>
+          <% influence_cards.each do |card| -%>
             <div class="influence_card">
               <%= render card %>
             </div>
