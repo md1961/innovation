@@ -86,13 +86,15 @@ class GameEvaluator
     end
 
     MACRO_REPLACEMENTS = [
-      ['BOARD_([a-z]+)', "BOARDS.find_by(color: Color.\\1)"],
-      ['HAND'      , "@player.hand_for(@game)"          ],
-      ['OTHERS'    , "@game.other_players_than(@player)"],
-      ['BOARDS'    , "@player.boards_for(@game)"        ],
-      ['RES_COUNTS', "@player.resource_counts(@game)"   ],
-      ['AC_CARDS'  , "@player.active_cards(@game)"      ],
-      ['AC_COLORS' , "@player.active_colors(@game)"     ],
-      ['INFLUENCE' , "@player.influence_for(@game)"     ],
+      ['BOARD_([a-z]+)', "BOARDS.find_by(color: Color.\\1)" ],
+      ['HAND'          , "@player.hand_for(@game)"          ],
+      ['OTHERS'        , "@game.other_players_than(@player)"],
+      ['BOARDS'        , "@player.boards_for(@game)"        ],
+      ['RES_COUNTS'    , "@player.resource_counts(@game)"   ],
+      ['AC_CARDS'      , "@player.active_cards(@game)"      ],
+      ['AC_COLORS'     , "@player.active_colors(@game)"     ],
+      ['INFLUENCE'     , "@player.influence_for(@game)"     ],
+      ['CONQUEST'      , "10000"                            ],
+      ['VICTORY'       , "1000000"                          ],
     ]
 end
