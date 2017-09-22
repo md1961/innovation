@@ -63,18 +63,20 @@
          is_turn    = player == @game.turn_player
          hand_cards = player.cards_in_hand(@game) -%>
       <div class="hand">
-        <div class="hand_player">
-          <span class="show_hand player_name <%= is_turn ? 'turn' : '' %>">
-            <%= "[#{player}](#{hand_cards.size})" %>
-          </span>
-        </div>
-        <div class="hand_cards <%= is_turn ? '' : 'non_turn' %>" <%= is_current ? '' : 'hidden' %>>
-          <% hand_cards.each do |card| -%>
-            <div class="hand_card">
-              <%= render card %>
-            </div>
-          <% end -%>
-          <% if is_turn -%>
+        <div class="hand_cards_and_actions">
+          <div class="hand_player">
+            <span class="show_hand player_name <%= is_turn ? 'turn' : '' %>">
+              <%= "[#{player}](#{hand_cards.size})" %>
+            </span>
+          </div>
+          <div class="hand_cards <%= is_turn ? '' : 'non_turn' %>" <%= is_current ? '' : 'hidden' %>>
+            <% hand_cards.each do |card| -%>
+              <div class="hand_card">
+                <%= render card %>
+              </div>
+            <% end -%>
+          </div>
+          <% if is_turn && is_current -%>
             <div class="hand_actions">
               <%= button_to '=>', end_action_game_path(@game), method: :get %>
               <%= " (#{@game.num_actions_left} left)" %>

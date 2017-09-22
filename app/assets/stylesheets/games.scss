@@ -101,6 +101,7 @@ span.player_name.turn {
 .hand_actions {
   clear: left;
   display: flex;
+  margin-top: 5px;
 
   input[type="submit"] {
     font-size: 0.8rem;
