@@ -51,6 +51,14 @@ div.card_effect, div.card_bottom {
   }
 }
 
+.card_info {
+  display: flex;
+
+  .effects {
+    margin-left: 20px;
+  }
+}
+
 div#card_navi {
   position: fixed;
   top: 300px;

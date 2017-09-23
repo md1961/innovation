@@ -1,4 +1,39 @@
+<div class="card_info">
 <%= render @card %>
+
+<div class="effects">
+  <% game = Game.last -%>
+  <table>
+    <tr>
+      <td><%= "==> 必要条件 <==" %></td>
+    </tr>
+    <% @card.effects.each do |effect| -%>
+      <tr>
+        <td><%= effect.necessary_condition %></td>
+      </tr>
+      <% game.players.each do |player| -%>
+        <% ge = GameEvaluator.new(game, player) -%>
+        <tr>
+          <td><%= "#{player}: #{effect.executable?(ge)}" %></td>
+        </tr>
+      <% end -%>
+    <% end -%>
+    <tr>
+      <td><%= "==> 評価関数 <==" %></td>
+    </tr>
+    <% @card.effects.each do |effect| -%>
+      <tr>
+        <td><%= effect.evaluation_f %></td>
+      </tr>
+      <% game.players.each do |player| -%>
+          <% ge = GameEvaluator.new(game, player) -%>
+          <tr>
+            <td><%= "#{player}: #{effect.effect_factor(ge)}" %></td>
+          </tr>
+        <% end -%>
+      <% end -%>
+  </table>
+</div>
 
 <div id="card_navi">
   <span><%= "#{@card.id.to_s.rjust(3, '0')}/#{Card.count.to_s.rjust(3, '0')}" %></span>
