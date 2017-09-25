@@ -1,38 +1,39 @@
 <div class="card_info">
-<%= render @card %>
+  <%= render @card %>
 
-<div class="effects">
-  <% game = Game.last -%>
-  <table>
-    <tr>
-      <td><%= "==> 必要条件 <==" %></td>
-    </tr>
-    <% @card.effects.each do |effect| -%>
+  <div class="effects">
+    <% game = Game.last -%>
+    <table>
       <tr>
-        <td><%= effect.necessary_condition %></td>
+        <td><%= "==> 必要条件 <==" %></td>
       </tr>
-      <% game.players.each do |player| -%>
-        <% ge = GameEvaluator.new(game, player) -%>
+      <% @card.effects.each do |effect| -%>
         <tr>
-          <td><%= "#{player}: #{effect.executable?(ge)}" %></td>
+          <td><%= effect.necessary_condition %></td>
         </tr>
-      <% end -%>
-    <% end -%>
-    <tr>
-      <td><%= "==> 評価関数 <==" %></td>
-    </tr>
-    <% @card.effects.each do |effect| -%>
-      <tr>
-        <td><%= effect.evaluation_f %></td>
-      </tr>
-      <% game.players.each do |player| -%>
+        <% game.players.each do |player| -%>
           <% ge = GameEvaluator.new(game, player) -%>
           <tr>
-            <td><%= "#{player}: #{effect.effect_factor(ge)}" %></td>
+            <td><%= "#{player}: #{effect.executable?(ge)}" %></td>
           </tr>
         <% end -%>
       <% end -%>
-  </table>
+      <tr>
+        <td><%= "==> 評価関数 <==" %></td>
+      </tr>
+      <% @card.effects.each do |effect| -%>
+        <tr>
+          <td><%= effect.evaluation_f %></td>
+        </tr>
+        <% game.players.each do |player| -%>
+            <% ge = GameEvaluator.new(game, player) -%>
+            <tr>
+              <td><%= "#{player}: #{effect.effect_factor(ge)}" %></td>
+            </tr>
+          <% end -%>
+        <% end -%>
+    </table>
+  </div>
 </div>
 
 <div id="card_navi">
