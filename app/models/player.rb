@@ -42,7 +42,7 @@ class Player < ActiveRecord::Base
   end
 
   def resource_counts(game)
-    boards_for(game).map(&:resource_counts).inject { |h_sum, h|
+    boards_for(game).map(&:resource_counts).inject(Hash.new(0)) { |h_sum, h|
       h_sum.merge(h) { |_, count_sum, count| count_sum + count }
     }
   end
