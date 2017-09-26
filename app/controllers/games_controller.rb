@@ -139,6 +139,12 @@ class GamesController < ApplicationController
     redirect_to @game
   end
 
+  def action_options
+    player = @game.turn_player
+    @action = player.choose_action(@game)
+    @action_options = player.action_options
+  end
+
   private
 
     def set_game

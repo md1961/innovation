@@ -85,6 +85,8 @@
                     disabled: @game.num_actions_left >= 2 %>
               <%= button_to 'undo', undo_game_path(@game), method: :get, id: 'undo_button',
                     disabled: !@game.undo_statement %>
+              <%= link_to '<o>', action_options_game_path(@game), method: :get, remote: true,
+                    id: 'action_options_link' %>
             </div>
           <% end -%>
         </div>
@@ -113,7 +115,7 @@
         <div hidden>
           <%= @game.undo_statement %>
         </div>
-        <div>
+        <div id="action_options">
           <%= @game.action_options %>
         </div>
       </div>
