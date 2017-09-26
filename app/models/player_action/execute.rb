@@ -7,10 +7,11 @@ class Execute < Base
     player = chooser.player
     ge = GameEvaluator.new(game, player)
 
-    player.boards_for(game).reject(&:empty?).each do |board|
-      next unless ge.executable?(board)
-      pct_weight = ge.exclusive?(board) ? 100 : 50
-      chooser.add(new(game, player, board), pct_weight)
+    board_selects = player.boards_for(game).map { |board| BoardSelect.new(board, ge) }
+    exclusive_exists = board_selects.any?(&:exclusive?)
+    board_selects.each do |bs|
+      pct_weight = bs.pct_weight(exclusive_exists)
+      chooser.add(new(game, player, bs.board), pct_weight)
     end
   end
 
@@ -28,6 +29,33 @@ class Execute < Base
 
   def to_s
     "Exec#{@board.active_card}"
+  end
+
+  class BoardSelect
+    attr_reader :board
+
+    def initialize(board, game_evaluator)
+      @board = board
+      @game_evaluator = game_evaluator
+    end
+
+    def executable?
+      @is_executable ||= !@board.empty? && @game_evaluator.executable?(@board)
+    end
+
+    def exclusive?
+      @is_exclusive ||= @game_evaluator.exclusive?(@board)
+    end
+
+    def effect_factor
+      @effect_factor ||= @game_evaluator.effect_factor(@board)
+    end
+
+    def pct_weight(exclusive_exists)
+      return 0 unless executable?
+      return 0 if exclusive_exists && !exclusive?
+      effect_factor
+    end
   end
 end
 
