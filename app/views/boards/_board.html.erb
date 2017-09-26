@@ -31,6 +31,11 @@
           : !@game_evaluator.executable?(board) ? 'X' \
                                                 : nil %>
       </div>
+      <% if board.player == @game_evaluator.player -%>
+        <div class="board_effect_factor">
+          <%= @game_evaluator.effect_factor(board) %>
+        </div>
+      <% end -%>
       <span class="board_cards_count_display">
         <%= "(#{board.cards.count})" %>
       </span>

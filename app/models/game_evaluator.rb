@@ -1,4 +1,5 @@
 class GameEvaluator
+  attr_reader :player
 
   def initialize(game, player)
     @game = game
@@ -56,6 +57,10 @@ class GameEvaluator
 
   def favorable?(board)
     board.active_card.effects.all? { |effect| effect.favorable?(self) }
+  end
+
+  def effect_factor(board)
+    board.active_card.effects.map { |effect| effect.effect_factor(self) }.sum
   end
 
   def max_age_updatable?
