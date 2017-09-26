@@ -22,7 +22,8 @@ class CardEffect < ActiveRecord::Base
     condition(H_FAVORABLE_CONDITIONS)
   end
 
-  def effect_factor(game_evaluator)
+  def effect_factor(game_evaluator, assumes_executable = false)
+    return 0 unless executable?(game_evaluator) || assumes_executable
     game_evaluator.factor_eval(evaluation_f, is_for_all)
   end
 

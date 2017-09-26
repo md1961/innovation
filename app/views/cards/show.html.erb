@@ -28,7 +28,7 @@
         <% game.players.each do |player| -%>
             <% ge = GameEvaluator.new(game, player) -%>
             <tr>
-              <td><%= "#{player}: #{effect.effect_factor(ge)}" %></td>
+              <td><%= "#{player}: #{effect.effect_factor(ge, assumes_executable = true)}" %></td>
             </tr>
           <% end -%>
         <% end -%>
