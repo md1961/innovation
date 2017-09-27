@@ -30,6 +30,8 @@ class Execute < Base
     "Exec#{@board.active_card}"
   end
 
+  MAX_FACTOR_TO_BE_ZEROED = 50
+
   class BoardSelect
     attr_reader :board
     cattr_accessor :exclusive_exists
@@ -54,6 +56,7 @@ class Execute < Base
     def pct_weight
       return 0 unless executable?
       return 0 if @@exclusive_exists && !exclusive?
+      return 0 if effect_factor <= MAX_FACTOR_TO_BE_ZEROED
       effect_factor
     end
   end
