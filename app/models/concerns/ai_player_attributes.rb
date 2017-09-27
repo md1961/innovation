@@ -57,6 +57,7 @@ module AiPlayerAttributes
     end
 
     DEFAULT_WEIGHT = 100
+    MIN_GAP_FOR_WEIGHT_CUTOFF = 200
 
     class Option
       attr_reader :action
@@ -89,6 +90,18 @@ module AiPlayerAttributes
           option_draw = @options.find(&:draw?)
           option_draw.weight *= 2
         end
+
+        weight_cutoff = get_weight_cutoff
+        @options.each do |option|
+          if option.weight < weight_cutoff
+            option.action.effect_factor = option.weight
+            option.weight = 0
+          end
+        end
+      end
+
+      def get_weight_cutoff
+        @options.map(&:weight).max - MIN_GAP_FOR_WEIGHT_CUTOFF
       end
 
       def set_cum_options

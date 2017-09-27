@@ -1,7 +1,6 @@
 module PlayerAction
 
 class Execute < Base
-  attr_accessor :effect_factor
 
   def self.add_options_to(chooser)
     game   = chooser.game

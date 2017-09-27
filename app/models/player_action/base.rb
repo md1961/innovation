@@ -2,6 +2,7 @@ module PlayerAction
 
 class Base
   attr_reader :game, :player, :undo_statement
+  attr_accessor :effect_factor
 
   def initialize(game, player)
     @game = game
@@ -10,10 +11,6 @@ class Base
 
   def conquer_category?
     false
-  end
-
-  def effect_factor
-    nil
   end
 end
 
