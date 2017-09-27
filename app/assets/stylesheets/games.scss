@@ -112,8 +112,14 @@ span.player_name.turn {
     margin-left: 40px;
   }
 
-#action_options_link {
+  #action_options_link {
     margin-left: 20px;
+  }
+
+  #clear_action_options {
+    cursor: pointer;
+    color: #0000EE;
+    margin-left: 5px;
   }
 }
 

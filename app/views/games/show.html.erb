@@ -87,6 +87,7 @@
                     disabled: !@game.undo_statement %>
               <%= link_to '<o>', action_options_game_path(@game), method: :get, remote: true,
                     id: 'action_options_link' %>
+              <span id="clear_action_options">[c]</span>
             </div>
           <% end -%>
         </div>

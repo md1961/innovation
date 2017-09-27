@@ -19,3 +19,6 @@ $ ->
     num = randomBetween(1, numMax)
     message = num + ' picked out of 1 to ' + numMax
     $('#game_assisting_command_result').text(message)
+
+  $('#clear_action_options').on 'click', ->
+    $('#action_options').text('')
