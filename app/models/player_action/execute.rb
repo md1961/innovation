@@ -8,10 +8,9 @@ class Execute < Base
     ge = GameEvaluator.new(game, player)
 
     board_selects = player.boards_for(game).map { |board| BoardSelect.new(board, ge) }
-    exclusive_exists = board_selects.any?(&:exclusive?)
+    BoardSelect.exclusive_exists = board_selects.any?(&:exclusive?)
     board_selects.each do |bs|
-      pct_weight = bs.pct_weight(exclusive_exists)
-      chooser.add(new(game, player, bs.board), pct_weight)
+      chooser.add(new(game, player, bs.board), bs.pct_weight)
     end
   end
 
@@ -33,6 +32,7 @@ class Execute < Base
 
   class BoardSelect
     attr_reader :board
+    cattr_accessor :exclusive_exists
 
     def initialize(board, game_evaluator)
       @board = board
@@ -51,9 +51,9 @@ class Execute < Base
       @effect_factor ||= @game_evaluator.effect_factor(@board)
     end
 
-    def pct_weight(exclusive_exists)
+    def pct_weight
       return 0 unless executable?
-      return 0 if exclusive_exists && !exclusive?
+      return 0 if @@exclusive_exists && !exclusive?
       effect_factor
     end
   end
