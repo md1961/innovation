@@ -76,7 +76,9 @@ module AiPlayerAttributes
       end
 
       def to_s
-        "#{@action}(#{weight})"
+        effect_factor = @action.effect_factor
+        former_weight = effect_factor && effect_factor != weight ? "#{effect_factor}->" : ''
+        "#{@action}(#{former_weight}#{weight})"
       end
     end
 

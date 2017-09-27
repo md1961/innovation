@@ -11,6 +11,10 @@ class Base
   def conquer_category?
     false
   end
+
+  def effect_factor
+    nil
+  end
 end
 
 end

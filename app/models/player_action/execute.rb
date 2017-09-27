@@ -1,6 +1,7 @@
 module PlayerAction
 
 class Execute < Base
+  attr_accessor :effect_factor
 
   def self.add_options_to(chooser)
     game   = chooser.game
@@ -10,7 +11,9 @@ class Execute < Base
     board_selects = player.boards_for(game).map { |board| BoardSelect.new(board, ge) }
     BoardSelect.exclusive_exists = board_selects.any?(&:exclusive?)
     board_selects.each do |bs|
-      chooser.add(new(game, player, bs.board), bs.pct_weight)
+      execute = new(game, player, bs.board)
+      execute.effect_factor = bs.effect_factor
+      chooser.add(execute, bs.pct_weight)
     end
   end
 
