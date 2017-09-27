@@ -6,20 +6,15 @@ class Execute < Base
   def self.add_options_to(chooser)
     game   = chooser.game
     player = chooser.player
-    ge = GameEvaluator.new(game, player)
-
-    board_selects = player.boards_for(game).map { |board| BoardSelect.new(board, ge) }
-    BoardSelect.exclusive_exists = board_selects.any?(&:exclusive?)
-    board_selects.each do |bs|
-      execute = new(game, player, bs.board)
-      execute.effect_factor = bs.effect_factor
-      chooser.add(execute, bs.pct_weight)
+    BoardSelect.build_instances(game, player).each do |board_select|
+      chooser.add(new(game, player, board_select), board_select.pct_weight)
     end
   end
 
-  def initialize(game, player, board)
+  def initialize(game, player, board_select)
     super(game, player)
-    @board = board
+    @board         = board_select.board
+    @effect_factor = board_select.effect_factor
   end
 
   def perform
@@ -37,23 +32,28 @@ class Execute < Base
 
   class BoardSelect
     attr_reader :board
-    cattr_accessor :exclusive_exists
 
-    def initialize(board, game_evaluator)
+    def self.build_instances(game, player)
+      @@game_evaluator = GameEvaluator.new(game, player)
+      player.boards_for(game).map { |board| BoardSelect.new(board) }.tap { |instances|
+        @@exclusive_exists = instances.any?(&:exclusive?)
+      }
+    end
+
+    def initialize(board)
       @board = board
-      @game_evaluator = game_evaluator
     end
 
     def executable?
-      @is_executable ||= !@board.empty? && @game_evaluator.executable?(@board)
+      @is_executable ||= !@board.empty? && @@game_evaluator.executable?(@board)
     end
 
     def exclusive?
-      @is_exclusive ||= @game_evaluator.exclusive?(@board)
+      @is_exclusive ||= @@game_evaluator.exclusive?(@board)
     end
 
     def effect_factor
-      @effect_factor ||= @game_evaluator.effect_factor(@board)
+      @effect_factor ||= @@game_evaluator.effect_factor(@board)
     end
 
     def pct_weight
