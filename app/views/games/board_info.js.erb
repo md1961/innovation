@@ -1,0 +1,12 @@
+<%
+  boards = @player.boards_for(@game).map { |board|
+    board.tap { |b| b.shows_info = true }
+  }
+-%>
+
+$('div.board.current div.board_card_piles')
+  .children('div.board_card_pile')
+    .remove()
+  .end()
+  .html("<%= j render boards %>")
+  ;

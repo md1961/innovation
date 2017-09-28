@@ -3,6 +3,8 @@ class Board < CardList
 
   enum expansion: {not_expanded: 0, expanded_left: 1, expanded_right: 2, expanded_upward: 3}
 
+  attr_accessor :shows_info
+
   def expanded?
     !not_expanded?
   end

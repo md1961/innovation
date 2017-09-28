@@ -17,11 +17,18 @@
          is_turn    = player == @game.turn_player
          influence_cards = player.influence_for(@game).cards -%>
       <div class="board_and_influence">
-        <div class="board <%= is_turn ? '' : 'non_turn' %>">
+        <div class="board <%= is_turn ? '' : 'non_turn' %> <%= is_current ? 'current' : '' %>">
           <div class="board_scores">
-            <span class="player_name <%= is_turn ? 'turn' : '' %>">
-              <%= "[#{player}]" %>
-            </span>
+            <div>
+              <span class="player_name <%= is_turn ? 'turn' : '' %>">
+                <%= "[#{player}]" %>
+              </span>
+              <% if is_current -%>
+                <span class="button_to_show_board_info">
+                  <%= link_to '!', board_info_game_path(@game), remote: true %>
+                </span>
+              <% end -%>
+            </div>
             <table class="resource_counts">
               <% Resource.all.each do |resource| -%>
                 <% count = player.resource_counts(@game)[resource] || 0 -%>
@@ -43,9 +50,7 @@
             </div>
           </div>
           <div class="board_card_piles">
-            <% player.boards_for(@game).each do |board| -%>
-              <%= render board %>
-            <% end -%>
+            <%= render player.boards_for(@game) %>
           </div>
         </div>
         <div class="influence_cards" hidden>

@@ -26,19 +26,19 @@
     <% end -%>
 
     <div class="board_cards_count">
-      <div class="board_mark_inexecutable">
-        <%=  @game_evaluator. exclusive?(board) ? 'O' \
-          : !@game_evaluator.executable?(board) ? 'X' \
-                                                : nil %>
-      </div>
-      <% if board.player == @game_evaluator.player -%>
+      <% if board.shows_info && board.player == @game_evaluator.player -%>
+        <div class="board_mark_inexecutable">
+          <%=  @game_evaluator. exclusive?(board) ? 'O' \
+            : !@game_evaluator.executable?(board) ? 'X' \
+                                                  : nil %>
+        </div>
         <div class="board_effect_factor">
           <%= @game_evaluator.effect_factor(board) %>
         </div>
       <% end -%>
-      <span class="board_cards_count_display">
+      <div class="board_cards_count_display">
         <%= "(#{board.cards.count})" %>
-      </span>
+      </div>
     </div>
 
     <div class="board_cards_underneath" hidden>

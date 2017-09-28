@@ -145,6 +145,11 @@ class GamesController < ApplicationController
     @action_options = player.action_options
   end
 
+  def board_info
+    @player = @game.current_player
+    @game_evaluator = GameEvaluator.new(@game, @player)
+  end
+
   private
 
     def set_game
