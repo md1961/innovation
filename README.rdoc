@@ -50,3 +50,5 @@ conquest  type game:references player:references age:references category:referen
 
 effect_condition   card_effect:references statement
 effect_action      card_effect:references statement
+
+game_evaluator_cache   game:references board:references value

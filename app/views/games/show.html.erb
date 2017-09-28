@@ -10,6 +10,9 @@
         </div>
       <% end -%>
     </div>
+    <div id="link_to_cards_index">
+      <%= link_to '□', cards_path, target: '_blank' %>
+    </div>
   </div>
   <div class="boards">
     <% @game.players_reversed_with_current_last.each do |player| -%>
