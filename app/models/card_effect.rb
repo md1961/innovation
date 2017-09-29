@@ -209,7 +209,7 @@ class CardEffect < ActiveRecord::Base
     ['街灯', ["(HAND.cards.find_all { |c| c.age.level < @player.max_age_on_boards(@game) }.size - 1) * 100 / 3 + 100"]],
     ['電気', ["boards = BOARDS.find_all { |b| !b.active_card.has_resource?('製造') }; num_good = boards.count { |b| b.active_card_decreasing_age? }; diff = num_good - (boards.size - num_good); (diff - 1) * 100 + 100"]],
     ['企業', ["BOARDS.any? { |b| b.active_card.has_resource?('製造') && b.color != Color.green && (b.active_card.age.level == @player.max_age_on_boards(@game) || !b.active_card_decreasing_age?) } ? 200 : 0"]],
-    ['量子論', ["(HAND.cards.find_all { |c| c.age.level < @player.max_age_on_boards(@game) }.size - 1) * 100 / 3 + 100"]],
+    ['量子論', ["n = HAND.cards.find_all { |c| c.age.level < @player.max_age_on_boards(@game) }.size; n < 2 ? 0 : (n - 1) * 100 / 3 + 100"]],
     ['ロケット工学', ["((RES_COUNTS[Resource.time] / 2).floor - 1) * 100 + 100"]],
     ['飛行機', ["((BOARDS.find_all { |b| b.color != Color.red && b.expandable_upward? }.map { |b| b.cards.size }.max || 0) - 2) * 100 / 3 + 200",
                 "(BOARD_red.cards.size - 2) * 100 / 3 + 200"]],
