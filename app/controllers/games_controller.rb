@@ -141,8 +141,8 @@ class GamesController < ApplicationController
 
   def action_options
     player = @game.turn_player
-    @action = player.choose_action(@game)
-    @action_options = player.action_options
+    player.choose_action(@game)
+    @action_options = player.action_options.sub(/\s+<=\s+\d+\z/, '')
   end
 
   def board_info
