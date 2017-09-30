@@ -38,7 +38,7 @@ class CardEffect < ActiveRecord::Base
     ['石工', ["HAND.cards.any? { |c| c.has_resource?('石') }"]],
     ['陶器', ["!HAND.empty?"]],
     ['道具', ["HAND.cards.size >= 3",
-              "HAND.cards.map(&:age).map(&:level).include?(3)"]],
+              "HAND.cards.any? { |c| c.age.level == 3 }"]],
     ['衣服', ["HAND.cards.any? { |c| !AC_COLORS.include?(c.color) }",
               "(AC_COLORS - OTHERS.flat_map { |p| p.active_colors(@game) }.uniq).size > 0"]],
     ['都市国家', ["OTHERS.any? { |p| p.resource_counts(@game)[Resource.stone] >= 4 }"]],
@@ -164,6 +164,20 @@ class CardEffect < ActiveRecord::Base
   ].to_h
 
   H_EVALUATION_F = [
+    ['石工', ["n = HAND.cards.find_all { |c| c.has_resource?('石') }.size; n >= 4 ? CONQUEST : (n - 1) * 50 + 100"]],
+    ['弓矢', ["(HAND.max_age - 1) * 100 + 100"]],
+    ['筆記', ["150"]],
+    ['陶器', ["(HAND.cards.size - 1) * 50 + 100"]],
+    ['道具', ["(HAND.cards.size - 3) * 25 + 200",
+              "HAND.cards.any? { |c| c.age.level == 3 } ? 150 : 0"]],
+    ['神秘主義', ["(BOARDS.count { |b| !b.empty? } - 1) * 25 + 100"]],
+    ['衣服', ["(HAND.cards.find_all { |c| !AC_COLORS.include?(c.color) }.map(&:age).map(&:level).max || 0 - 1) * 50 + 100",
+              "((AC_COLORS - OTHERS.flat_map { |p| p.active_colors(@game) }.uniq).size - 1) * 50 + 150"]],
+    ['都市国家', ["(AC_CARDS.find_all { |c| c.has_resource?('石') }.map(&:age).map(&:level).min || 0 - 1) * 50 + 150"]],
+    ['金属加工', ["150"]],
+    ['法典', ["colors = HAND.cards.map(&:color); (BOARDS.find_all { |b| colors.include?(b.color) && b.expandable_left? }.map(&:cards).map(&:size).max || 0) * 50 + 50"]],
+    ['農業', ["HAND.max_age * 50 + (HAND.cards.size - 1) * 50"]],
+#!!!
     ['予防接種', ["(INFLUENCE.cards.size - 1) * 100 / 3 + 100"]],
     ['民主主義', ["(HAND.cards.find_all { |c| c.age.level < @player.max_age_on_boards(@game) }.size - 1) * 100 / 3 + 100"]],
     ['メートル法', ["((BOARDS.find_all { |b| b.color != Color.green && b.expandable_right? }.map { |b| b.cards.size }.max || 0) - 2) * 100 / 3 + 100",
@@ -199,7 +213,7 @@ class CardEffect < ActiveRecord::Base
     ['経験論', ["BOARDS.find_all(&:expandable_upward?).size >= 2 ? 150 : 100",
                 "VICTORY"]],
     ['摩天楼', ["([(AC_CARDS.find_all { |c| c.has_resource?('時間') && c.color != Color.yellow }.map(&:age).map(&:level).min - 7) * 50 + 50, 25].max) + ([(BOARDS.find_all { |b| b.active_card.has_resource?('時間') && b.color != Color.yellow }.map(&:cards).map(&:size).min - 5) * 25 + 50, 25].max)"]],
-    ['共産主義', ["cards = HAND.cards.find_all { |c| c.age.level < @player.max_age_on_boards(@game) }; ((cards.size - 1) * 100 / 3 + 100) + (cards.any? { |c| c.color == Color.purple } ? 50 : 0)"]],
+    ['共産主義', ["cards = HAND.cards.find_all { |c| c.age.level < @player.max_age_on_boards(@game) }; cards.size.zero? ? 0 : ((cards.size - 1) * 100 / 3 + 100) + (cards.any? { |c| c.color == Color.purple } ? 50 : 0)"]],
     ['抗生物質', ["((HAND.cards.size - 2) * 10 + 50) + ((HAND.cards.map(&:age).map(&:level).uniq.size - 3) * 25 + 50)"]],
     ['交通', ["[((AC_CARDS.find_all { |c| !c.has_resource?('製造') && c.color != Color.red }.map(&:age).map(&:level).sort.reverse[1] || 0) - 6) * 50 + 100, 100].max"]],
     ['マスメディア', ["(OTHERS.map { |p| p.influence_for(@game).cards.size }.min - 5) * 25 + 100",
