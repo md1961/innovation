@@ -10,16 +10,8 @@ class CardEffect < ActiveRecord::Base
     game_evaluator.boolean_eval(necessary_condition, is_for_all)
   end
 
-  def favorable?(game_evaluator)
-    game_evaluator.boolean_eval(favorable_condition, is_for_all)
-  end
-
   def necessary_condition
     condition(H_NECESSARY_CONDITIONS)
-  end
-
-  def favorable_condition
-    condition(H_FAVORABLE_CONDITIONS)
   end
 
   def effect_factor(game_evaluator, assumes_executable = false)
@@ -169,15 +161,6 @@ class CardEffect < ActiveRecord::Base
     ['生物工学', ["OTHERS.any? { |p| p.active_cards(@game).any? { |c| c.has_resource?('木') } }",
                   "@game.players.any? { |p| p.resource_counts(@game)[Resource.woods] <= 3 }"]],
     ['幹細胞', ["!HAND.empty?"]],
-  ].to_h
-
-  H_FAVORABLE_CONDITIONS = [
-    ['予防接種', ["INFLUENCE.cards.size >= 4"]],
-    ['民主主義', ["HAND.cards.size > OTHERS.map { |p| p.hand_for(@game) }.map(&:cards).map(&:size).max + 2"]],
-    ['百科事典', ["ages = INFLUENCE.cards.map(&:age).map(&:level); ages.find_all { |age| age == ages.max }.size >= 3"]],
-    ['産業化', ["RES_COUNTS[Resource.manufacture] >= 6"]],
-    ['工作機械', ["INFLUENCE.max_age >= 5"]],
-    ['分類', ["HAND.cards.size <= 3 && OTHERS.all? { |p| p.hand_for(@game).cards.size >= 3 }"]],
   ].to_h
 
   H_EVALUATION_F = [
