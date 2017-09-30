@@ -7,7 +7,7 @@ class CardEffect < ActiveRecord::Base
   end
 
   def executable?(game_evaluator)
-    game_evaluator.boolean_eval(necessary_condition, is_for_all)
+    game_evaluator.boolean_eval(necessary_condition, resource, is_for_all)
   end
 
   def necessary_condition
@@ -16,7 +16,7 @@ class CardEffect < ActiveRecord::Base
 
   def effect_factor(game_evaluator, assumes_executable = false)
     return 0 unless executable?(game_evaluator) || assumes_executable
-    game_evaluator.factor_eval(evaluation_f, is_for_all)
+    game_evaluator.factor_eval(evaluation_f, resource, is_for_all)
   end
 
   def evaluation_f

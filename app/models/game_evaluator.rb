@@ -6,33 +6,39 @@ class GameEvaluator
     @player = player
   end
 
-  def boolean_eval(statement, is_for_all = true)
+  def boolean_eval(statement, resource = nil, is_for_all = true)
     if is_for_all
       instance_eval(apply_macros(statement))
     else
-      player_saved = @player
+      player_in_turn = @player
       others = @game.other_players_than(@player)
       result = others.any? { |player|
         @player = player
-        instance_eval(apply_macros(statement))
+        less_resource?(player, resource, player_in_turn) && instance_eval(apply_macros(statement))
       }
-      @player = player_saved
+      @player = player_in_turn
       result
     end
   end
 
-  def factor_eval(statement, is_for_all = true)
+    def less_resource?(player, resource, player_in_turn)
+      player.resource_counts(@game)[resource] < player_in_turn.resource_counts(@game)[resource]
+    end
+
+  def factor_eval(statement, resource, is_for_all = true)
     if is_for_all
       instance_eval(apply_macros(statement)).ceil
     else
-      player_saved = @player
+      player_in_turn = @player
       others = @game.other_players_than(@player)
       result = others.inject(0) { |sum, player|
         @player = player
-        sum += instance_eval(apply_macros(statement)).ceil
+        if less_resource?(player, resource, player_in_turn)
+          sum += instance_eval(apply_macros(statement)).ceil
+        end
       }
-      @player = player_saved
-      result
+      @player = player_in_turn
+      result || 0
     end
   end
 
