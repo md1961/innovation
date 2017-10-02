@@ -7,7 +7,6 @@ class Conquest < ActiveRecord::Base
   validates :age_id     , uniqueness: {scope: :game_id}, allow_nil: true
   validates :category_id, uniqueness: {scope: :game_id}, allow_nil: true
 
-
   def self.targets
     @targets ||= Age.all + Category.all
   end

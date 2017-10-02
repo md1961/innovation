@@ -7,10 +7,7 @@ module AiPlayerAttributes
   def choose_action(game)
     chooser = ActionChooser.new(game, self)
 
-    Conquest.conquerable_targets(self, game).each do |target|
-      chooser.add(PlayerAction::Conquer.new(game, self, target))
-    end
-
+    PlayerAction::Conquer.add_options_to(chooser)
     if chooser.empty?
       PlayerAction::Draw   .add_options_to(chooser)
       PlayerAction::Play   .add_options_to(chooser)
