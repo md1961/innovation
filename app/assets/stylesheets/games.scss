@@ -46,13 +46,18 @@ span.player_name.turn {
   background-color: #D3D3D3;
 }
 
+.max_age_on_boards {
+  font-weight: bold;
+  margin-left: 2px;
+}
+
 .button_to_show_board_info {
   border: 1px solid black;
   border-radius: 2px;
   font-weight: bold;
   background-color: gray;
   padding: 0 4px;
-  margin-left: 10px;
+  margin-left: 4px;
 
   a {
     color: white;

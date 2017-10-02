@@ -26,6 +26,9 @@
               <span class="player_name <%= is_turn ? 'turn' : '' %>">
                 <%= "[#{player}]" %>
               </span>
+              <span class="max_age_on_boards">
+                <%= player.max_age_on_boards(@game) %>
+              </span>
               <% if is_current -%>
                 <span class="button_to_show_board_info">
                   <%= link_to '!', board_info_game_path(@game), remote: true %>
