@@ -88,7 +88,7 @@ module AiPlayerAttributes
       def adjust_weights
         if @options.none?(&:play?)
           option_draw = @options.find(&:draw?)
-          option_draw&.weight *= 2
+          option_draw.weight *= 2 if option_draw
         end
 
         weight_cutoff = get_weight_cutoff
