@@ -44,7 +44,7 @@ class GameEvaluator
 
   def executable?(board)
     card = board.active_card
-    return false if card.effects.none? { |effect| effect.executable?(self) }
+    return false if card.nil? || card.effects.none? { |effect| effect.executable?(self) }
     resource = card.effects.first.resource
     num_players_with_more_resource = players_with_more_resource_than(board.player, resource).size
     !(card.forcing? && num_players_with_more_resource >= 1)
@@ -52,6 +52,7 @@ class GameEvaluator
 
   def exclusive?(board)
     card = board.active_card
+    return false unless card
     resource = card.effects.first.resource
     players_with_more_resource = players_with_more_resource_than(board.player, resource)
     return true if players_with_more_resource.size.zero?
@@ -62,6 +63,7 @@ class GameEvaluator
   end
 
   def effect_factor(board)
+    return 0 unless board.active_card
     board.active_card.effects.map { |effect| effect.effect_factor(self) }.sum
   end
 
@@ -71,6 +73,7 @@ class GameEvaluator
 
   def decrease_active_card_age?(card)
     board = @player.boards_for(@game).find_by(color: card.color)
+    return false unless board.active_card
     card.age.level < board.active_card.age.level
   end
 
