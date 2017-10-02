@@ -6,7 +6,11 @@ class Conquer < Base
     game   = chooser.game
     player = chooser.player
 
-    target = Conquest.conquerable_targets(player, game).sample
+    targets = Conquest.conquerable_targets(player, game)
+    if targets.any? { |target| target.is_a?(Category) }
+      targets.reject! { |target| target.is_a?(Age) }
+    end
+    target = targets.sample
     chooser.add(new(game, player, target)) if target
   end
 
