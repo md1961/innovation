@@ -22,85 +22,90 @@
     <div class="card_actions" hidden>
       <% case card_list = card.card_list(@game) -%>
       <% when Hand -%>
-      <div class="card_actions_row">
-        <div class="card_action">
-          <%= link_to '場', play_game_path(@game, card_id: card) %>
+        <div class="card_actions_row">
+          <div class="card_action">
+            <%= link_to '場', play_game_path(@game, card_id: card) %>
+          </div>
+          <div class="card_action">
+            <%= link_to '再生', reuse_game_path(@game, card_id: card) %>
+          </div>
+          <div class="card_action">
+            <%= link_to '得点', score_game_path(@game, card_id: card) %>
+          </div>
+          <div class="card_action">
+            <%= link_to '保存', store_game_path(@game, card_id: card) %>
+          </div>
         </div>
-        <div class="card_action">
-          <%= link_to '再生', reuse_game_path(@game, card_id: card) %>
+        <div class="card_actions_row">
+          <div class="card_action">
+            <%= link_to '手札に譲', offer_game_path(@game, card_id: card, dest: Hand) %>
+          </div>
+          <div class="card_action">
+            <%= link_to '領域に譲', offer_game_path(@game, card_id: card, dest: Board) %>
+          </div>
         </div>
-        <div class="card_action">
-          <%= link_to '得点', score_game_path(@game, card_id: card) %>
+        <div class="card_actions_row">
+          <div class="card_action">
+            <%= link_to '影響に譲', offer_game_path(@game, card_id: card, dest: Influence) %>
+          </div>
         </div>
-        <div class="card_action">
-          <%= link_to '保存', store_game_path(@game, card_id: card) %>
-        </div>
-      </div>
-      <div class="card_actions_row">
-        <div class="card_action">
-          <%= link_to '手札に譲', offer_game_path(@game, card_id: card, dest: Hand) %>
-        </div>
-        <div class="card_action">
-          <%= link_to '領域に譲', offer_game_path(@game, card_id: card, dest: Board) %>
-        </div>
-      </div>
       <% when Board -%>
-      <div class="card_actions_row">
-        <% if card_list.cards.size >= 2 -%>
+        <div class="card_actions_row">
+          <% if card_list.cards.size >= 2 -%>
+            <div class="card_action">
+              <% if card_list.expanded_left? -%>
+                <%= link_to '戻', unexpand_game_path(@game, board_id: card_list) %>
+              <% else -%>
+                <%= link_to '左', expand_left_game_path(@game, board_id: card_list) %>
+              <% end -%>
+            </div>
+            <div class="card_action">
+              <% if card_list.expanded_right? -%>
+                <%= link_to '戻', unexpand_game_path(@game, board_id: card_list) %>
+              <% else -%>
+                <%= link_to '右', expand_right_game_path(@game, board_id: card_list) %>
+              <% end -%>
+            </div>
+            <div class="card_action">
+              <% if card_list.expanded_upward? -%>
+                <%= link_to '戻', unexpand_game_path(@game, board_id: card_list) %>
+              <% else -%>
+                <%= link_to '上', expand_upward_game_path(@game, board_id: card_list) %>
+              <% end -%>
+            </div>
+          <% end -%>
           <div class="card_action">
-            <% if card_list.expanded_left? -%>
-              <%= link_to '戻', unexpand_game_path(@game, board_id: card_list) %>
-            <% else -%>
-              <%= link_to '左', expand_left_game_path(@game, board_id: card_list) %>
-            <% end -%>
+            <%= link_to '再生', reuse_game_path(@game, card_id: card) %>
           </div>
           <div class="card_action">
-            <% if card_list.expanded_right? -%>
-              <%= link_to '戻', unexpand_game_path(@game, board_id: card_list) %>
-            <% else -%>
-              <%= link_to '右', expand_right_game_path(@game, board_id: card_list) %>
-            <% end -%>
+            <%= link_to '得点', score_game_path(@game, card_id: card) %>
+          </div>
+        </div>
+        <div class="card_actions_row">
+          <div class="card_action">
+            <%= link_to '手札に譲', offer_game_path(@game, card_id: card, dest: Hand) %>
           </div>
           <div class="card_action">
-            <% if card_list.expanded_upward? -%>
-              <%= link_to '戻', unexpand_game_path(@game, board_id: card_list) %>
-            <% else -%>
-              <%= link_to '上', expand_upward_game_path(@game, board_id: card_list) %>
-            <% end -%>
+            <%= link_to '領域に譲', offer_game_path(@game, card_id: card, dest: Board) %>
           </div>
-        <% end -%>
-        <div class="card_action">
-          <%= link_to '再生', reuse_game_path(@game, card_id: card) %>
         </div>
-        <div class="card_action">
-          <%= link_to '得点', score_game_path(@game, card_id: card) %>
-        </div>
-      </div>
-      <div class="card_actions_row">
-        <div class="card_action">
-          <%= link_to '手札に譲', offer_game_path(@game, card_id: card, dest: Hand) %>
-        </div>
-        <div class="card_action">
-          <%= link_to '領域に譲', offer_game_path(@game, card_id: card, dest: Board) %>
-        </div>
-      </div>
       <% when Influence -%>
-      <div class="card_actions_row">
-        <div class="card_action">
-          <%= link_to '場', play_game_path(@game, card_id: card) %>
+        <div class="card_actions_row">
+          <div class="card_action">
+            <%= link_to '場', play_game_path(@game, card_id: card) %>
+          </div>
+          <div class="card_action">
+            <%= link_to '再生', reuse_game_path(@game, card_id: card) %>
+          </div>
         </div>
-        <div class="card_action">
-          <%= link_to '再生', reuse_game_path(@game, card_id: card) %>
+        <div class="card_actions_row">
+          <div class="card_action">
+            <%= link_to '手札に譲', offer_game_path(@game, card_id: card, dest: Hand) %>
+          </div>
+          <div class="card_action">
+            <%= link_to '領域に譲', offer_game_path(@game, card_id: card, dest: Board) %>
+          </div>
         </div>
-      </div>
-      <div class="card_actions_row">
-        <div class="card_action">
-          <%= link_to '手札に譲', offer_game_path(@game, card_id: card, dest: Hand) %>
-        </div>
-        <div class="card_action">
-          <%= link_to '領域に譲', offer_game_path(@game, card_id: card, dest: Board) %>
-        </div>
-      </div>
       <% end -%>
     </div>
   <% end -%>
