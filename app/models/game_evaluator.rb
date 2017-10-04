@@ -68,7 +68,7 @@ class GameEvaluator
   end
 
   def max_age_updatable?
-    @player.hand_for(@game).max_age > @player.boards_for(@game).map(&:max_age).max
+    @player.hand_for(@game).max_age > @player.active_cards(@game).map(&:age).map(&:level).max
   end
 
   def decrease_active_card_age?(card)
