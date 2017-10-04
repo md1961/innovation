@@ -50,7 +50,7 @@ module AiPlayerAttributes
     end
 
     def to_s
-      @options.join(' ') + " <= #{@random}"
+      @options.join(' ') + (@random ? " <= #{@random}" : '')
     end
 
     DEFAULT_WEIGHT = 100
