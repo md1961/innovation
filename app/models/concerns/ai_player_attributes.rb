@@ -37,11 +37,10 @@ module AiPlayerAttributes
     end
 
     def choose
-      return @options.last.action if @options.size <= 1
-
       adjust_weights
-      set_cum_options
+      return @options.last.action if single_option?
 
+      set_cum_options
       @random = rand(@options.last.cum_weight)
       @options.each do |option|
         return option.action if @random < option.cum_weight
@@ -53,34 +52,11 @@ module AiPlayerAttributes
       @options.join(' ') + (@random ? " <= #{@random}" : '')
     end
 
-    DEFAULT_WEIGHT = 100
-    MIN_GAP_FOR_WEIGHT_CUTOFF = 200
-
-    class Option
-      attr_reader :action
-      attr_accessor :weight, :cum_weight
-
-      def initialize(action, weight = DEFAULT_WEIGHT)
-        @action = action
-        @weight = weight
-      end
-
-      def draw?
-        @action.is_a?(PlayerAction::Draw)
-      end
-
-      def play?
-        @action.is_a?(PlayerAction::Play)
-      end
-
-      def to_s
-        effect_factor = @action.effect_factor
-        former_weight = effect_factor && effect_factor != weight ? "#{effect_factor}->" : ''
-        "#{@action}(#{former_weight}#{weight})"
-      end
-    end
-
     private
+
+      def single_option?
+        @options.find_all { |option| option.weight > 0 }.size == 1
+      end
 
       def adjust_weights
         option_draw = @options.find(&:draw?)
@@ -106,6 +82,8 @@ module AiPlayerAttributes
           .map(&:action).map(&:card).map(&:age).map(&:level).max
       end
 
+      MIN_GAP_FOR_WEIGHT_CUTOFF = 200
+
       # TODO: Use lazy initialization in get_weight_cutoff().
       def get_weight_cutoff
         @options.map(&:weight).max - MIN_GAP_FOR_WEIGHT_CUTOFF
@@ -118,5 +96,31 @@ module AiPlayerAttributes
           option.cum_weight = cum_weight
         end
       end
+
+    DEFAULT_WEIGHT = 100
+
+    class Option
+      attr_reader :action
+      attr_accessor :weight, :cum_weight
+
+      def initialize(action, weight = DEFAULT_WEIGHT)
+        @action = action
+        @weight = weight
+      end
+
+      def draw?
+        @action.is_a?(PlayerAction::Draw)
+      end
+
+      def play?
+        @action.is_a?(PlayerAction::Play)
+      end
+
+      def to_s
+        effect_factor = @action.effect_factor
+        former_weight = effect_factor && effect_factor != weight ? "#{effect_factor}->" : ''
+        "#{@action}(#{former_weight}#{weight})"
+      end
+    end
   end
 end
