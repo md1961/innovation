@@ -34,6 +34,10 @@ class Game < ActiveRecord::Base
     players - [player]
   end
 
+  def non_empty_stock(age)
+    stocks.joins(:age).where('ages.level >= ?', age.level).detect { |stock| !stock.empty? }
+  end
+
   def conquered?(target)
     type = "#{target.class}Conquest"
     type_attr = :"#{target.class.name.downcase}"

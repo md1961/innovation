@@ -12,13 +12,10 @@ class Draw < Base
     super
     age_level = @player.max_age_on_boards(@game) || Age.pluck(:level).min
     age = Age.find_by(level: age_level)
-    @stock = @game.stocks.find_by(age: age)
+    @stock = @game.non_empty_stock(age)
   end
 
   def perform
-    while @stock.empty? do
-      @stock = @game.stocks.find_by(age: @stock.age.next)
-    end
     @player.draw_from(@stock)
   end
 
