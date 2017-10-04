@@ -45,9 +45,14 @@
               <% end -%>
             </table>
             <div class="influences">
-              <span class="show_influence_cards">
-                <%= "[影響] #{player.influence_point(@game)} (#{influence_cards.size})" %>
-              </span>
+              <div>
+                <span class="show_influence_cards">
+                  <%= "[影響] #{player.influence_point(@game)} (#{influence_cards.size})" %>
+                </span>
+              </div>
+              <div>
+                <%= player.influence_for(@game).cards.map(&:age).map(&:level).sort.join(' ') %>
+              </div>
             </div>
             <div class="player_conquests">
               <div>[制覇]</div>
