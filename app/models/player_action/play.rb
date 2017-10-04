@@ -1,6 +1,7 @@
 module PlayerAction
 
 class Play < Base
+  attr_reader :card
 
   def self.add_options_to(chooser)
     game   = chooser.game

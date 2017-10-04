@@ -83,9 +83,13 @@ module AiPlayerAttributes
     private
 
       def adjust_weights
-        if @options.none?(&:play?)
-          option_draw = @options.find(&:draw?)
-          option_draw.weight *= 2 if option_draw
+        option_draw = @options.find(&:draw?)
+        if option_draw
+          if @options.none?(&:play?)
+            option_draw.weight *= 2
+          elsif option_draw.action.age < max_age_of_plays
+            option_draw.weight = 0
+          end
         end
 
         weight_cutoff = get_weight_cutoff
@@ -97,6 +101,12 @@ module AiPlayerAttributes
         end
       end
 
+      def max_age_of_plays
+        @max_age_of_plays ||= @options.find_all(&:play?)
+          .map(&:action).map(&:card).map(&:age).map(&:level).max
+      end
+
+      # TODO: Use lazy initialization in get_weight_cutoff().
       def get_weight_cutoff
         @options.map(&:weight).max - MIN_GAP_FOR_WEIGHT_CUTOFF
       end

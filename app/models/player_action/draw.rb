@@ -15,6 +15,10 @@ class Draw < Base
     @stock = @game.non_empty_stock(age)
   end
 
+  def age
+    @stock.age.level
+  end
+
   def perform
     @player.draw_from(@stock)
   end
