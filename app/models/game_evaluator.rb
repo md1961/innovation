@@ -52,7 +52,7 @@ class GameEvaluator
 
   def exclusive?(board)
     card = board.active_card
-    return false unless card
+    return false unless card && executable?(board)
     resource = card.effects.first.resource
     players_with_more_resource = players_with_more_resource_than(board.player, resource)
     return true if players_with_more_resource.size.zero?
