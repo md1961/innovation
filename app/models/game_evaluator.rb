@@ -46,8 +46,8 @@ class GameEvaluator
     card = board.active_card
     return false if card.nil? || card.effects.none? { |effect| effect.executable?(self) }
     resource = card.effects.first.resource
-    num_players_with_more_resource = players_with_more_resource_than(board.player, resource).size
-    !(card.forcing? && num_players_with_more_resource >= 1)
+    players_with_less_resource = players_with_less_resource_than(board.player, resource)
+    !(card.forcing? && players_with_less_resource.empty?)
   end
 
   def exclusive?(board)
@@ -55,7 +55,7 @@ class GameEvaluator
     return false unless card && executable?(board)
     resource = card.effects.first.resource
     players_with_more_resource = players_with_more_resource_than(board.player, resource)
-    return true if players_with_more_resource.size.zero?
+    return true if players_with_more_resource.empty?
     players_with_more_resource.none? { |player|
       ge = self.class.new(@game, player)
       card.effects.any? { |effect| effect.executable?(ge) }
@@ -80,10 +80,22 @@ class GameEvaluator
   private
 
     def players_with_more_resource_than(this_player, resource)
+      players_with_resource_count_specified(this_player, resource) { |count, this_count|
+        count >= this_count
+      }
+    end
+
+    def players_with_less_resource_than(this_player, resource)
+      players_with_resource_count_specified(this_player, resource) { |count, this_count|
+        count < this_count
+      }
+    end
+
+    def players_with_resource_count_specified(this_player, resource)
       this_count = this_player.resource_counts(@game)[resource]
       @game.other_players_than(this_player).find_all { |player|
         count = player.resource_counts(@game)[resource]
-        count >= this_count
+        yield(count, this_count)
       }
     end
 
