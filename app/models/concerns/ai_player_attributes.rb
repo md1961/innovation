@@ -38,14 +38,15 @@ module AiPlayerAttributes
 
     def choose
       adjust_weights
-      return @options.last.action if single_option?
+      options = @options.find_all { |option| option.weight > 0 }
+      return options.last.action if options.size == 1
 
-      set_cum_options
-      @random = rand(@options.last.cum_weight)
-      @options.each do |option|
+      set_cum_options(options)
+      @random = rand(options.last.cum_weight)
+      options.each do |option|
         return option.action if @random < option.cum_weight
       end
-      @options.last.action
+      options.last.action
     end
 
     def to_s
@@ -53,10 +54,6 @@ module AiPlayerAttributes
     end
 
     private
-
-      def single_option?
-        @options.find_all { |option| option.weight > 0 }.size == 1
-      end
 
       def adjust_weights
         option_draw = @options.find(&:draw?)
@@ -89,9 +86,9 @@ module AiPlayerAttributes
         @options.map(&:weight).max - MIN_GAP_FOR_WEIGHT_CUTOFF
       end
 
-      def set_cum_options
+      def set_cum_options(options)
         cum_weight = 0
-        @options.each do |option|
+        options.each do |option|
           cum_weight += option.weight
           option.cum_weight = cum_weight
         end
