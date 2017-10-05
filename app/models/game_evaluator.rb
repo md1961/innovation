@@ -11,32 +11,24 @@ class GameEvaluator
       instance_eval(apply_macros(statement))
     else
       player_in_turn = @player
-      others = @game.other_players_than(@player)
-      result = others.any? { |player|
+      result = players_with_less_resource_than(@player, resource).any? { |player|
         @player = player
-        less_resource?(player, resource, player_in_turn) && instance_eval(apply_macros(statement))
+        instance_eval(apply_macros(statement))
       }
       @player = player_in_turn
       result
     end
   end
 
-    def less_resource?(player, resource, player_in_turn)
-      player.resource_counts(@game)[resource] < player_in_turn.resource_counts(@game)[resource]
-    end
-
   def factor_eval(statement, resource, is_for_all = true)
     if is_for_all
       instance_eval(apply_macros(statement)).ceil
     else
       player_in_turn = @player
-      others = @game.other_players_than(@player)
-      result = others.inject(0) { |sum, player|
+      result = players_with_less_resource_than(@player, resource).map { |player|
         @player = player
-        if less_resource?(player, resource, player_in_turn)
-          sum += instance_eval(apply_macros(statement)).ceil
-        end
-      }
+        instance_eval(apply_macros(statement)).ceil
+      }.sum
       @player = player_in_turn
       result || 0
     end
