@@ -57,16 +57,15 @@ table#game_list {
 }
 
 .button_to_show_board_info {
-  border: 1px solid black;
-  border-radius: 2px;
-  font-weight: bold;
-  background-color: gray;
-  padding: 0 4px;
-  margin-left: 4px;
-
   a {
+    border: 1px solid black;
+    border-radius: 2px;
     color: white;
+    background-color: gray;
+    font-weight: bold;
     text-decoration: none;
+    padding: 0 4px;
+    margin-left: 4px;
   }
 }
 
