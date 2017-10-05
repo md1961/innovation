@@ -230,7 +230,7 @@ class CardEffect < ActiveRecord::Base
                 "(([BOARD_yellow, BOARD_blue].find_all(&:expandable_upward?).map { |b| b.cards.size }.max || 0) - 2) * 100 / 3 + 200"]],
     ['住宅地', ["(HAND.cards.size - 2) * 100 / 3 + 100"]],
     ['エコロジー', ["(HAND.cards.size - 2) * 100 / 3 + 100"]],
-    ['小型化', ["HAND.max_age == 10 ? 150 + INFLUENCE.cards.map(&:age).map(&:level).uniq.size * 20 : 0"]],
+    ['小型化', ["HAND.max_age == 10 ? 150 + [INFLUENCE.cards.map(&:age).map(&:level).uniq.size, @game.stocks.find_by(age: Age.find_by(level: 10)).cards.size].min * 50 : 0"]],
     ['ロボット工学', ["(BOARD_green.active_card.age.level * 10) + (BOARD_green.active_card_decreasing_age? ? 100 : 50)"]],
     ['人工知能', ["200",
                   "OTHERS.all? { |p| p.influence_point(@game) > @player.influence_point(@game) } ? VICTORY : 0"]],
