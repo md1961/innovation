@@ -130,7 +130,6 @@ class GamesController < ApplicationController
 
   def increment_action
     @game.increment!(:num_actions_left)
-    redirect_to @game
   end
 
   def conquer
