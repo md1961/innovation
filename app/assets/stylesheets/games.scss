@@ -24,11 +24,6 @@ table#game_list {
   }
 }
 
-span.player_name.turn {
-  color: white;
-  background-color: #606060;
-}
-
 .boards {
   margin-top: 10px;
 }
@@ -44,6 +39,16 @@ span.player_name.turn {
 
 .board.non_turn {
   background-color: #D3D3D3;
+}
+
+.board_owner {
+  display: flex;
+}
+
+.player_name.turn {
+  color: white;
+  background-color: #606060;
+  padding: 0 1px;
 }
 
 .max_age_on_boards {
