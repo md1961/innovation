@@ -245,6 +245,6 @@ class CardEffect < ActiveRecord::Base
     # TODO: Use factor func for['ホームオートメーション', ["AC_CARDS.any? { |c| c.title != 'ホームオートメーション' && c.effects.any? { |e| e.is_for_all } }"]],
     ['生物工学', ["((OTHERS.flat_map { |p| p.active_cards(@game) }.find_all { |c| c.has_resource?('木') }.map(&:age).map(&:level).max || 0) - 7) * 50 + 100",
                   "OTHERS.all? { |p| p.resource_counts(@game)[Resource.woods] < RES_COUNTS[Resource.woods] } ? VICTORY : 0"]],
-    ['幹細胞', ["HAND.cards.map(&:age).map(&:level).sum * 10"]],
+  ['幹細胞', ["points = HAND.cards.map(&:age).map(&:level).sum; point_diff = @player.influence_point(@game) - OTHERS.map { |p| p.influence_point(@game) }.max; point_diff_after = point_diff + points; (point_diff.negative? && point_diff_after.positive? ? 300 : 0) + (points * 5) - ([(HAND.cards.size - 3) * 50 + 50, 0].max)"]],
   ].to_h
 end
