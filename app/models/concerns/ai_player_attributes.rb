@@ -65,11 +65,13 @@ module AiPlayerAttributes
           end
         end
 
-        weight_cutoff = get_weight_cutoff
         @options.each do |option|
-          if option.weight < weight_cutoff
+          if option.weight < weight_cutoff_to_zero_out
             option.action.effect_factor = option.weight
             option.weight = 0
+          elsif option.weight < weight_cutoff_to_quarter
+            option.action.effect_factor = option.weight
+            option.weight /= 4
           end
         end
       end
@@ -79,11 +81,15 @@ module AiPlayerAttributes
           .map(&:action).map(&:card).map(&:age).map(&:level).max
       end
 
-      MIN_GAP_FOR_WEIGHT_CUTOFF = 200
+      MIN_GAP_FOR_WEIGHT_CUTOFF_TO_ZERO_OUT = 190
+      MIN_GAP_FOR_WEIGHT_CUTOFF_TO_QUARTER  =  90
 
-      # TODO: Use lazy initialization in get_weight_cutoff().
-      def get_weight_cutoff
-        @options.map(&:weight).max - MIN_GAP_FOR_WEIGHT_CUTOFF
+      def weight_cutoff_to_zero_out
+        @weight_cutoff_to_zero_out ||= @options.map(&:weight).max - MIN_GAP_FOR_WEIGHT_CUTOFF_TO_ZERO_OUT
+      end
+
+      def weight_cutoff_to_quarter
+        @weight_cutoff_to_quarter ||= @options.map(&:weight).max - MIN_GAP_FOR_WEIGHT_CUTOFF_TO_QUARTER
       end
 
       def set_cum_options(options)
