@@ -1,3 +1,10 @@
+<div id="card_navi">
+  <span><%= "#{@card.id.to_s.rjust(3, '0')}/#{Card.count.to_s.rjust(3, '0')}" %></span>
+  <%= link_to '<', card_path(@card.prev) %>
+  <%= link_to '^', cards_path %>
+  <%= link_to '>', card_path(@card.next) %>
+</div>
+
 <div class="card_info">
   <%= render @card %>
 
@@ -34,11 +41,4 @@
         <% end -%>
     </table>
   </div>
-</div>
-
-<div id="card_navi">
-  <span><%= "#{@card.id.to_s.rjust(3, '0')}/#{Card.count.to_s.rjust(3, '0')}" %></span>
-  <%= link_to '<', card_path(@card.prev) %>
-  <%= link_to '^', cards_path %>
-  <%= link_to '>', card_path(@card.next) %>
 </div>
