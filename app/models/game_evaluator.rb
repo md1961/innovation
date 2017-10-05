@@ -55,7 +55,7 @@ class GameEvaluator
   end
 
   def effect_factor(board)
-    return 0 unless board.active_card
+    return 0 unless executable?(board)
     board.active_card.effects.map { |effect|
       minus_factor = 0
       if effect.is_for_all
