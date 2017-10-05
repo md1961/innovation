@@ -54,9 +54,9 @@ class GameEvaluator
     card = board.active_card
     return false unless card && executable?(board)
     resource = card.effects.first.resource
-    players_with_more_resource = players_with_more_resource_than(board.player, resource)
-    return true if players_with_more_resource.empty?
-    players_with_more_resource.none? { |player|
+    players_with_more_or_equal_resource = players_with_more_or_equal_resource_than(board.player, resource)
+    return true if players_with_more_or_equal_resource.empty?
+    players_with_more_or_equal_resource.none? { |player|
       ge = self.class.new(@game, player)
       card.effects.any? { |effect| effect.executable?(ge) }
     }
@@ -64,7 +64,16 @@ class GameEvaluator
 
   def effect_factor(board)
     return 0 unless board.active_card
-    board.active_card.effects.map { |effect| effect.effect_factor(self) }.sum
+    board.active_card.effects.map { |effect|
+      minus_factor = 0
+      if effect.is_for_all
+        players_with_more_or_equal_resource_than(board.player, effect.resource).each do |player|
+          others_factor = effect.effect_factor(self.class.new(@game, player))
+          minus_factor += others_factor / 4 if others_factor > 100
+        end
+      end
+      effect.effect_factor(self) - minus_factor
+    }.sum
   end
 
   def max_age_updatable?
@@ -79,7 +88,7 @@ class GameEvaluator
 
   private
 
-    def players_with_more_resource_than(this_player, resource)
+    def players_with_more_or_equal_resource_than(this_player, resource)
       players_with_resource_count_specified(this_player, resource) { |count, this_count|
         count >= this_count
       }
