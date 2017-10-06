@@ -58,14 +58,6 @@ class Player < ActiveRecord::Base
     end
   end
 
-  def play(card, game)
-    prepare_undo_statement_for_play(card, game)
-    self.class.transaction do
-      card.card_list(game).card_list_items.find_by(card: card).destroy
-      boards_for(game).find_by(color: card.color).add(card)
-    end
-  end
-
   def score(card, game)
     self.class.transaction do
       card.card_list(game).card_list_items.find_by(card: card).destroy
@@ -98,16 +90,4 @@ class Player < ActiveRecord::Base
   def to_s
     name
   end
-
-  private
-
-    def prepare_undo_statement_for_play(card, game)
-      params_undo = card.card_list(game).card_list_items.find_by(card: card)
-                      .attributes.reject { |k, _v| k == 'id' }
-      @undo_statement = <<~END
-        card = Card.find_by(#{card.id});
-        card.card_list(Game.find_by(#{game.id})).remove(card);
-        CardListItem.create!(#{params_undo})
-      END
-    end
 end

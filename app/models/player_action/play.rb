@@ -24,8 +24,11 @@ class Play < Base
   end
 
   def perform
-    @player.play(@card, @game)
-    @undo_statement = @player.undo_statement
+    prepare_undo_statement_for_play(@card, @game)
+    ActiveRecord::Base.transaction do
+      @card.card_list(@game).remove(@card)
+      @player.boards_for(@game).find_by(color: @card.color).add(@card)
+    end
   end
 
   def message_after
@@ -35,6 +38,18 @@ class Play < Base
   def to_s
     "Play#{@card}"
   end
+
+  private
+
+    def prepare_undo_statement_for_play(card, game)
+      params_undo = card.card_list(game).card_list_items.find_by(card: card)
+                      .attributes.reject { |k, _v| k == 'id' }
+      @undo_statement = <<~END
+        card = Card.find(#{card.id});
+        card.card_list(Game.find_by(#{game.id})).remove(card);
+        CardListItem.create!(#{params_undo})
+      END
+    end
 end
 
 end
