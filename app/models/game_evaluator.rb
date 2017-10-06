@@ -120,4 +120,8 @@ class GameEvaluator
       ['CONQUEST'      , "10000"                            ],
       ['VICTORY'       , "1000000"                          ],
     ]
+
+    FACTOR_FOR_VICTORY = Integer(MACRO_REPLACEMENTS.find { |pair|
+      pair.first == 'VICTORY'
+    }.last)
 end

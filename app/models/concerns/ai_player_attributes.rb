@@ -58,7 +58,11 @@ module AiPlayerAttributes
       def adjust_weights
         option_draw = @options.find(&:draw?)
         if option_draw
-          if @options.none?(&:play?)
+          if option_draw.action.no_card?
+            option_draw.weight = @game.other_players_than(@player).any? { |player|
+              player.influence_point(@game) >= @player.influence_point(@game)
+            } ? 0 : GameEvaluator::FACTOR_FOR_VICTORY
+          elsif @options.none?(&:play?)
             option_draw.weight *= 2
           elsif option_draw.action.age < max_age_of_plays
             option_draw.weight = 0

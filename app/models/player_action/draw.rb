@@ -15,8 +15,12 @@ class Draw < Base
     @stock = @game.non_empty_stock(age)
   end
 
+  def no_card?
+    @stock.nil?
+  end
+
   def age
-    @stock.age.level
+    @stock&.age&.level
   end
 
   def perform
@@ -28,7 +32,7 @@ class Draw < Base
   end
 
   def to_s
-    "Draw[#{@stock.age.level}]"
+    "Draw[#{age || 'X'}]"
   end
 end
 
