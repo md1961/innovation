@@ -33,8 +33,9 @@ class GamesController < ApplicationController
   def draw
     age_level = Integer(params[:age_level])
     age = Age.find_by(level: age_level)
-    stock = @game.stocks.find_by(age: age)
-    @game.current_player.draw_from(stock)
+    action = PlayerAction::Draw.new(@game, @game.current_player, age)
+    action.perform
+    save_undo_statement(action.undo_statement)
     redirect_to @game
   end
 
