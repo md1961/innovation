@@ -230,7 +230,7 @@ class CardEffect < ActiveRecord::Base
                 "(([BOARD_yellow, BOARD_blue].find_all(&:expandable_upward?).map { |b| b.cards.size }.max || 0) - 2) * 100 / 3 + 200"]],
     ['住宅地', ["(HAND.cards.size - 2) * 100 / 3 + 100"]],
     ['エコロジー', ["(HAND.cards.size - 2) * 100 / 3 + 100"]],
-    ['小型化', ["HAND.max_age == 10 ? 150 + [INFLUENCE.cards.map(&:age).map(&:level).uniq.size, @game.stocks.find_by(age: Age.find_by(level: 10)).cards.size].min * 50 : 0"]],
+    ['小型化', ["HAND.max_age == 10 ? 100 + [INFLUENCE.cards.map(&:age).map(&:level).uniq.size, @game.stocks.find_by(age: Age.find_by(level: 10)).cards.size].min * 50 : 0"]],
     ['ロボット工学', ["(BOARD_green.active_card.age.level * 10) + (BOARD_green.active_card_decreasing_age? ? 100 : 50)"]],
     ['人工知能', ["200",
                   "OTHERS.all? { |p| p.influence_point(@game) > @player.influence_point(@game) } ? VICTORY : 0"]],
@@ -245,6 +245,6 @@ class CardEffect < ActiveRecord::Base
     # TODO: Use factor func for['ホームオートメーション', ["AC_CARDS.any? { |c| c.title != 'ホームオートメーション' && c.effects.any? { |e| e.is_for_all } }"]],
     ['生物工学', ["((OTHERS.flat_map { |p| p.active_cards(@game) }.find_all { |c| c.has_resource?('木') }.map(&:age).map(&:level).max || 0) - 7) * 50 + 100",
                   "OTHERS.all? { |p| p.resource_counts(@game)[Resource.woods] < RES_COUNTS[Resource.woods] } ? VICTORY : 0"]],
-  ['幹細胞', ["points = HAND.cards.map(&:age).map(&:level).sum; point_diff = @player.influence_point(@game) - OTHERS.map { |p| p.influence_point(@game) }.max; point_diff_after = point_diff + points; (point_diff.negative? && point_diff_after.positive? ? 300 : 0) + (points * 5) - ([(HAND.cards.size - 3) * 50 + 50, 0].max)"]],
+    ['幹細胞', ["points = HAND.cards.map(&:age).map(&:level).sum; point_diff = @player.influence_point(@game) - OTHERS.map { |p| p.influence_point(@game) }.max; point_diff_after = point_diff + points; (point_diff.negative? && point_diff_after.positive? ? 300 : 0) + (points * 5) - ([(HAND.cards.size - 3) * 50 + 50, 0].max)"]],
   ].to_h
 end
