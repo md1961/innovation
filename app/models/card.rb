@@ -20,7 +20,7 @@ class Card < ActiveRecord::Base
   BOTTOM = POSITIONS_AT_BOTTOM
 
   def resource_at(position_abbr)
-    card_resources.joins(:position).where('resource_positions.abbr = ?', position_abbr).first&.resource
+    h_resources_by_position[position_abbr]
   end
 
   def resources_at(card_side_for_position_abbrs)
@@ -88,4 +88,15 @@ class Card < ActiveRecord::Base
   def to_s
     "[#{age.level}]#{title}"
   end
+
+  private
+
+    def h_resources_by_position
+      @h_resources_by_position ||= \
+        card_resources.joins(:resource, :position)
+        .select('resource_positions.abbr', 'resources.name_eng').map { |r|
+          attrs = r.attributes
+          [attrs['abbr'], Resource.send(attrs['name_eng'].downcase)]
+        }.to_h
+    end
 end
