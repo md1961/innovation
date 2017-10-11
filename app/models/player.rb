@@ -51,13 +51,6 @@ class Player < ActiveRecord::Base
     influence_for(game).cards.map(&:age).map(&:level).sum
   end
 
-  # TODO: Add method to return params to create *Conquest in Age and Category.
-  def conquer(target, game)
-    type = "#{target.class}Conquest"
-    type_attr = :"#{target.class.name.downcase}"
-    conquests_for(game).create!(type: type, type_attr => target)
-  end
-
   def eql?(other)
     other.is_a?(self.class) && id == other.id
   end

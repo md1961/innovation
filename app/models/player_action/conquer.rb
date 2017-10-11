@@ -19,8 +19,13 @@ class Conquer < Base
     @target = target
   end
 
+  # TODO: Add method to return params to create *Conquest in Age and Category.
   def perform
-    @player.conquer(@target, @game)
+    type = "#{@target.class}Conquest"
+    type_attr = :"#{@target.class.name.downcase}"
+    @player.conquests_for(@game).create!(type: type, type_attr => @target).tap do |conquest|
+      @undo_statement = "#{type}.destroy(#{conquest.id})"
+    end
   end
 
   def message_after

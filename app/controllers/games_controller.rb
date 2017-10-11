@@ -79,6 +79,14 @@ class GamesController < ApplicationController
     redirect_to @game
   end
 
+  def conquer
+    target = params[:target_type].constantize.find(params[:target_id])
+    action = PlayerAction::Conquer.new(@game, @game.current_player, target)
+    action.perform
+    save_undo_statement(action.undo_statement)
+    redirect_to @game
+  end
+
   def unexpand
     board = Board.find(params[:board_id])
     board.not_expanded!
@@ -135,12 +143,6 @@ class GamesController < ApplicationController
 
   def increment_action
     @game.increment!(:num_actions_left)
-  end
-
-  def conquer
-    target = params[:target_type].constantize.find(params[:target_id])
-    @game.current_player.conquer(target, @game)
-    redirect_to @game
   end
 
   def action_options
