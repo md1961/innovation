@@ -34,6 +34,11 @@ class Game < ActiveRecord::Base
     players - [player]
   end
 
+  def current_stock
+    age = Age.find_by(level: current_player.max_age_on_boards(self))
+    non_empty_stock(age)
+  end
+
   def non_empty_stock(age)
     stocks.joins(:age).where('ages.level >= ?', age.level).detect { |stock| !stock.empty? }
   end

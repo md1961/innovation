@@ -10,6 +10,11 @@
         </div>
       <% end -%>
     </div>
+    <% if @game.current_stock -%>
+      <div class="stock current">
+        <%= render @game.current_stock %>
+      </div>
+    <% end -%>
     <div id="link_to_cards_index">
       <%= link_to '□', cards_path, target: '_blank' %>
     </div>
