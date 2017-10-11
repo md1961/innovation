@@ -51,13 +51,6 @@ class Player < ActiveRecord::Base
     influence_for(game).cards.map(&:age).map(&:level).sum
   end
 
-  def score(card, game)
-    self.class.transaction do
-      card.card_list(game).card_list_items.find_by(card: card).destroy
-      influence_for(game).add(card)
-    end
-  end
-
   def store(card, game)
     self.class.transaction do
       card.card_list(game).card_list_items.find_by(card: card).destroy

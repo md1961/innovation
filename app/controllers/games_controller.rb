@@ -64,7 +64,9 @@ class GamesController < ApplicationController
   def score
     card = Card.find(params[:card_id])
     player = card.card_list(@game).player
-    player.score(card, @game)
+    action = PlayerAction::Score.new(@game, player, card)
+    action.perform
+    save_undo_statement(action.undo_statement)
     redirect_to @game
   end
 
