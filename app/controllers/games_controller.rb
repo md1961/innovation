@@ -60,7 +60,9 @@ class GamesController < ApplicationController
   def offer
     card = Card.find(params[:card_id])
     dest = params[:dest].constantize
-    card.offer(dest, @game)
+    action = PlayerAction::Offer.new(@game, card, dest)
+    action.perform
+    save_undo_statement(action.undo_statement)
     redirect_to @game
   end
 

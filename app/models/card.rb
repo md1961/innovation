@@ -49,26 +49,6 @@ class Card < ActiveRecord::Base
       || (effects.size == 2 && !effects.first.is_for_all && effects.last.conditional_on_effect_above?)
   end
 
-  def offer(dest, game)
-    card_list_from = card_list(game)
-    player_from = card_list_from.player
-    player_to = game.next_player(player_from)
-    card_list_to = \
-      if dest == Hand
-        player_to.hand_for(game)
-      elsif dest == Board
-        player_to.boards_for(game).find_by(color: color)
-      elsif dest == Influence
-        player_to.influence_for(game)
-      else
-        raise "Illegal destination '#{dest}'"
-      end
-    self.class.transaction do
-      card_list_from.remove(self)
-      card_list_to.add(self)
-    end
-  end
-
   def eql?(other)
     other.is_a?(self.class) && id == other.id
   end
