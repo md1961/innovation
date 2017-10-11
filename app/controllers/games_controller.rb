@@ -73,7 +73,9 @@ class GamesController < ApplicationController
   def store
     card = Card.find(params[:card_id])
     player = card.card_list(@game).player
-    player.store(card, @game)
+    action = PlayerAction::Store.new(@game, player, card)
+    action.perform
+    save_undo_statement(action.undo_statement)
     redirect_to @game
   end
 

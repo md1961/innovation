@@ -51,13 +51,6 @@ class Player < ActiveRecord::Base
     influence_for(game).cards.map(&:age).map(&:level).sum
   end
 
-  def store(card, game)
-    self.class.transaction do
-      card.card_list(game).card_list_items.find_by(card: card).destroy
-      boards_for(game).find_by(color: card.color).unshift(card)
-    end
-  end
-
   # TODO: Add method to return params to create *Conquest in Age and Category.
   def conquer(target, game)
     type = "#{target.class}Conquest"
