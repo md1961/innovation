@@ -49,14 +49,6 @@ class Card < ActiveRecord::Base
       || (effects.size == 2 && !effects.first.is_for_all && effects.last.conditional_on_effect_above?)
   end
 
-  def reuse(game)
-    stock = game.stocks.find_by(age: age)
-    self.class.transaction do
-      card_list(game).remove(self)
-      stock.add(self)
-    end
-  end
-
   def offer(dest, game)
     card_list_from = card_list(game)
     player_from = card_list_from.player

@@ -50,7 +50,10 @@ class GamesController < ApplicationController
 
   def reuse
     card = Card.find(params[:card_id])
-    card.reuse(@game)
+    player = card.card_list(@game).player
+    action = PlayerAction::Reuse.new(@game, player, card)
+    action.perform
+    save_undo_statement(action.undo_statement)
     redirect_to @game
   end
 
