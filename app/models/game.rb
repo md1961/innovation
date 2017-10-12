@@ -40,6 +40,7 @@ class Game < ActiveRecord::Base
   end
 
   def non_empty_stock(age)
+    age = Age.find_by(level: 1) unless age
     stocks.joins(:age).where('ages.level >= ?', age.level).detect { |stock| !stock.empty? }
   end
 
