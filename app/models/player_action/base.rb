@@ -20,7 +20,7 @@ class Base
                       .attributes.reject { |k, _v| k == 'id' }
       @undo_statement = <<~END
         card = Card.find(#{card.id});
-        card.card_list(Game.find_by(#{@game.id})).remove(card);
+        card.card_list(Game.find(#{@game.id})).remove(card);
         CardListItem.create!(#{params_undo})
       END
     end
