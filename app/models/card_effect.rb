@@ -10,27 +10,25 @@ class CardEffect < ActiveRecord::Base
     game_evaluator.boolean_eval(necessary_condition, resource, is_for_all)
   end
 
-  def necessary_condition
-    condition(H_NECESSARY_CONDITIONS)
-  end
-
   def effect_factor(game_evaluator, assumes_executable = false)
     return 0 unless executable?(game_evaluator) || assumes_executable
     game_evaluator.factor_eval(evaluation_f, resource, is_for_all)
   end
 
+  def necessary_condition
+    get_statement(H_NECESSARY_CONDITIONS, 'true')
+  end
+
   def evaluation_f
-    index = card.effects.index(self)
-    evaluation_fs = H_EVALUATION_F[card.title]
-    (evaluation_fs && evaluation_fs[index]) || '100'
+    get_statement(H_EVALUATION_F, '100')
   end
 
   private
 
-    def condition(h_data)
+    def get_statement(h_statements, default = '')
       index = card.effects.index(self)
-      conditions = h_data[card.title]
-      (conditions && conditions[index]) || 'true'
+      statements = h_statements[card.title]
+      (statements && statements[index]) || default
     end
 
   H_NECESSARY_CONDITIONS = [
