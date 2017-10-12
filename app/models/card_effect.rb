@@ -15,6 +15,10 @@ class CardEffect < ActiveRecord::Base
     game_evaluator.factor_eval(evaluation_f, resource, is_for_all)
   end
 
+  def actions(card_effect_executor)
+    card_effect_executor.prepare_actions(action_preparing_statements)
+  end
+
   def necessary_condition
     get_statement(H_NECESSARY_CONDITIONS, 'true')
   end
@@ -23,9 +27,13 @@ class CardEffect < ActiveRecord::Base
     get_statement(H_EVALUATION_F, '100')
   end
 
+  def action_preparing_statements
+    get_statement(H_ACTION_PREPARING_STATEMENTS)
+  end
+
   private
 
-    def get_statement(h_statements, default = '')
+    def get_statement(h_statements, default = nil)
       index = card.effects.index(self)
       statements = h_statements[card.title]
       (statements && statements[index]) || default
@@ -273,5 +281,9 @@ class CardEffect < ActiveRecord::Base
     ['生物工学', ["((OTHERS.flat_map { |p| p.active_cards(@game) }.find_all { |c| c.has_resource?('木') }.map(&:age).map(&:level).max || 0) - 7) * 50 + 100",
                   "OTHERS.all? { |p| p.resource_counts(@game)[Resource.woods] < RES_COUNTS[Resource.woods] } ? VICTORY : 0"]],
     ['幹細胞', ["points = HAND.cards.map(&:age).map(&:level).sum; point_diff = @player.influence_point(@game) - OTHERS.map { |p| p.influence_point(@game) }.max; point_diff_after = point_diff + points; (point_diff.negative? && point_diff_after.positive? ? 300 : 0) + (points * 5) - ([(HAND.cards.size - 3) * 50 + 50, 0].max)"]],
+  ].to_h
+
+  H_ACTION_PREPARING_STATEMENTS = [
+    ['車輪', [["[PlayerAction::Draw.new(@game, @player)] * 2"]]],
   ].to_h
 end

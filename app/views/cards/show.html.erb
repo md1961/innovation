@@ -33,12 +33,25 @@
           <td><%= effect.evaluation_f %></td>
         </tr>
         <% game.players.each do |player| -%>
-            <% ge = GameEvaluator.new(game, player) -%>
-            <tr>
-              <td><%= "#{player}: #{effect.effect_factor(ge, assumes_executable = true)}" %></td>
-            </tr>
-          <% end -%>
+          <% ge = GameEvaluator.new(game, player) -%>
+          <tr>
+            <td><%= "#{player}: #{effect.effect_factor(ge, assumes_executable = true)}" %></td>
+          </tr>
         <% end -%>
+      <% end -%>
+      <tr>
+        <td><%= "==> 実行文 <==" %></td>
+      </tr>
+      <% @card.effects.each do |effect| -%>
+        <tr>
+          <td><%= effect.action_preparing_statements || '（未設定）' %></td>
+        </tr>
+        <tr>
+          <% player = game.current_player
+             cee = CardEffectExecutor.new(game, player) -%>
+          <td><%= "#{player}: #{effect.actions(cee).map(&:to_s)}" %></td>
+        </tr>
+      <% end -%>
     </table>
   </div>
 </div>
