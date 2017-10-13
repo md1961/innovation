@@ -7,6 +7,7 @@ class CardEffectExecutor
 
   def prepare_actions(action_preparing_statements)
     statement, condition = action_preparing_statements
+    statement = '[]' unless statement
     instance_eval(statement)
   end
 end
