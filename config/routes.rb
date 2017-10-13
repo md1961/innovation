@@ -16,6 +16,7 @@ Rails.application.routes.draw do
       get :switch_player, :to_turn_player, :end_action, :end_turn
       get :increment_action, :action_options, :board_info
       post :conquer
+      get :test
     end
   end
 

@@ -85,6 +85,12 @@ class GamesController < ApplicationController
     redirect_to @game
   end
 
+  def test
+    ge = GameEvaluator.new(@game, @game.current_player)
+    actions = []
+    action_sequence = PlayerAction::Sequence.new(ge, actions)
+  end
+
   def end_action
     action = nil
     if @game.uses_ai && @game.turn_player.is_computer && @game.num_actions_left > 0
