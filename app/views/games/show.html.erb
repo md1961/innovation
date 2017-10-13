@@ -97,6 +97,15 @@
                 <%= render card %>
               </div>
             <% end -%>
+            <% if is_current -%>
+              <div class="open_area">
+                <% (open_cards = []).each do |card| -%>
+                  <div class="open_card">
+                    <%= render card %>
+                  </div>
+                <% end -%>
+              </div>
+            <% end -%>
           </div>
           <% if is_turn && is_current -%>
             <div class="hand_actions">

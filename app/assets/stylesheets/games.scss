@@ -121,12 +121,16 @@ table#game_list {
   background-color: lightgray;
 }
 
-.hand_card {
+.hand_card, .open_card {
   float: left;
 
   .card {
     margin-right: 5px;
   }
+}
+
+.open_area {
+  margin-left: 300px;
 }
 
 .hand_actions {
