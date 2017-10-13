@@ -31,6 +31,7 @@ class Draw < Base
       card = @stock.draw
       @player.hand_for(@game).add(card)
     end
+    card
   end
 
   def message_after
