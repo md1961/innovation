@@ -34,8 +34,7 @@ class GamesController < ApplicationController
     age_level = Integer(params[:age_level])
     age = Age.find_by(level: age_level)
     action = PlayerAction::Draw.new(@game, @game.current_player, age)
-    action.perform
-    save_undo_statement(action.undo_statement)
+    perform_action(action)
     redirect_to @game
   end
 
@@ -43,8 +42,7 @@ class GamesController < ApplicationController
     card = Card.find(params[:card_id])
     player = card.card_list(@game).player
     action = PlayerAction::Play.new(@game, player, card)
-    action.perform
-    save_undo_statement(action.undo_statement)
+    perform_action(action)
     redirect_to @game
   end
 
@@ -52,8 +50,7 @@ class GamesController < ApplicationController
     card = Card.find(params[:card_id])
     player = card.card_list(@game).player
     action = PlayerAction::Reuse.new(@game, player, card)
-    action.perform
-    save_undo_statement(action.undo_statement)
+    perform_action(action)
     redirect_to @game
   end
 
@@ -61,8 +58,7 @@ class GamesController < ApplicationController
     card = Card.find(params[:card_id])
     dest = params[:dest].constantize
     action = PlayerAction::Offer.new(@game, card, dest)
-    action.perform
-    save_undo_statement(action.undo_statement)
+    perform_action(action)
     redirect_to @game
   end
 
@@ -70,8 +66,7 @@ class GamesController < ApplicationController
     card = Card.find(params[:card_id])
     player = card.card_list(@game).player
     action = PlayerAction::Score.new(@game, player, card)
-    action.perform
-    save_undo_statement(action.undo_statement)
+    perform_action(action)
     redirect_to @game
   end
 
@@ -79,16 +74,32 @@ class GamesController < ApplicationController
     card = Card.find(params[:card_id])
     player = card.card_list(@game).player
     action = PlayerAction::Store.new(@game, player, card)
-    action.perform
-    save_undo_statement(action.undo_statement)
+    perform_action(action)
     redirect_to @game
   end
 
   def conquer
     target = params[:target_type].constantize.find(params[:target_id])
     action = PlayerAction::Conquer.new(@game, @game.current_player, target)
-    action.perform
-    save_undo_statement(action.undo_statement)
+    perform_action(action)
+    redirect_to @game
+  end
+
+  def end_action
+    action = nil
+    if @game.uses_ai && @game.turn_player.is_computer && @game.num_actions_left > 0
+      player = @game.turn_player
+      action = player.choose_action(@game)
+      session[KEY_FOR_ACTION_OPTIONS] = player.action_options
+      perform_action(action)
+    end
+    @game.end_action unless action&.conquer_category?
+    redirect_to @game, notice: action&.message_after
+  end
+
+  def undo
+    instance_eval(session[KEY_FOR_UNDO_STATEMENT])
+    clear_undo
     redirect_to @game
   end
 
@@ -126,26 +137,6 @@ class GamesController < ApplicationController
     redirect_to @game
   end
 
-  def end_action
-    notice = nil
-    if @game.uses_ai && @game.turn_player.is_computer && @game.num_actions_left > 0
-      player = @game.turn_player
-      action = player.choose_action(@game)
-      session[KEY_FOR_ACTION_OPTIONS] = player.action_options
-      action.perform
-      save_undo_statement(action.undo_statement)
-      notice = action.message_after
-    end
-    @game.end_action unless action&.conquer_category?
-    redirect_to @game, notice: notice
-  end
-
-  def undo
-    instance_eval(session[KEY_FOR_UNDO_STATEMENT])
-    clear_undo
-    redirect_to @game
-  end
-
   def increment_action
     @game.increment!(:num_actions_left)
   end
@@ -169,6 +160,11 @@ class GamesController < ApplicationController
       else
         redirect_to games_path
       end
+    end
+
+    def perform_action(action)
+      action.perform
+      save_undo_statement(action.undo_statement)
     end
 
     def clear_undo
