@@ -13,6 +13,7 @@ class Store < Base
       @card.card_list(@game).remove(@card)
       @player.boards_for(@game).find_by(color: @card.color).unshift(@card)
     end
+    @card
   end
 end
 

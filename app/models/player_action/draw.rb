@@ -28,10 +28,10 @@ class Draw < Base
   def perform
     prepare_undo_statement_for_card_move(@stock.next_card)
     ActiveRecord::Base.transaction do
-      card = @stock.draw
-      @player.hand_for(@game).add(card)
+      @card = @stock.draw
+      @player.hand_for(@game).add(@card)
     end
-    card
+    @card
   end
 
   def message_after

@@ -17,6 +17,7 @@ class Execute < Base
   end
 
   def perform
+    @board.active_card
   end
 
   def message_after

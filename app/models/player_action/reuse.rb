@@ -14,6 +14,7 @@ class Reuse < Base
       @card.card_list(@game).remove(@card)
       stock.add(@card)
     end
+    @card
   end
 end
 

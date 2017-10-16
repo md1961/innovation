@@ -13,6 +13,7 @@ class Score < Base
       @card.card_list(@game).remove(@card)
       @player.influence_for(@game).add(@card)
     end
+    @card
   end
 end
 

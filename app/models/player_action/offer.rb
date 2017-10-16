@@ -22,6 +22,7 @@ class Offer < Base
       card_list_from.remove(@card)
       card_list_to.add(@card)
     end
+    @card
   end
 
   private

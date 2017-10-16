@@ -29,6 +29,7 @@ class Play < Base
       @card.card_list(@game).remove(@card)
       @player.boards_for(@game).find_by(color: @card.color).add(@card)
     end
+    @card
   end
 
   def message_after
