@@ -18,11 +18,7 @@ class Game < ActiveRecord::Base
   NUM_ACTIONS_PER_TURN = 2
 
   def players_reversed_with_current_last
-    players_dup = players.to_a
-    until players_dup.first == current_player do
-      players_dup << players_dup.shift
-    end
-    players_dup.reverse
+    players.rotate(players.index(current_player)).reverse
   end
 
   def next_player(player)
