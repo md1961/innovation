@@ -11,6 +11,10 @@ div.card {
   border: 1px solid black;
 }
 
+div.card.in_use {
+  border: 2px solid black;
+}
+
 div.card_top, div.card_bottom {
   display: flex;
 
