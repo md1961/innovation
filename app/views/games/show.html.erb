@@ -109,7 +109,7 @@
               </div>
             <% end -%>
           </div>
-          <% if is_turn && is_at_bottom -%>
+          <% if (is_turn || @game.human?) && is_at_bottom -%>
             <div class="hand_actions">
               <%= button_to '=>', end_action_game_path(@game), method: :get %>
               (<span id="num_actions_left"><%= @game.num_actions_left %></span>&nbsp;left)&nbsp;
