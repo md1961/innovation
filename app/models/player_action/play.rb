@@ -9,11 +9,15 @@ class Play < Base
     ge = GameEvaluator.new(game, player)
 
     is_max_age_updatable = ge.max_age_updatable?
+    active_colors = player.active_colors(game)
+
     hand = player.hand_for(game)
     max_age_in_hand = hand.max_age
     hand.cards.each do |card|
       next if ge.decrease_active_card_age?(card)
-      pct_weight = is_max_age_updatable && card.age.level == max_age_in_hand ? 200 : 100
+      pct_weight = 100
+      pct_weight *= 2 if is_max_age_updatable && card.age.level == max_age_in_hand
+      pct_weight *= 2 unless active_colors.include?(card.color)
       chooser.add(new(game, player, card), pct_weight)
     end
   end
