@@ -18,11 +18,11 @@ class Game < ActiveRecord::Base
   NUM_ACTIONS_PER_TURN = 2
 
   def human?
-    players.any? { |player| !player.is_computer }
+    players.any?(&:human?)
   end
 
   def human_player
-    players.detect { |player| !player.is_computer }
+    players.detect(&:human?)
   end
 
   def players_ordered_for_display

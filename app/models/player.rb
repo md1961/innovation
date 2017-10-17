@@ -9,6 +9,10 @@ class Player < ActiveRecord::Base
 
   attr_reader :undo_statement, :action_options
 
+  def human?
+    !is_computer
+  end
+
   def hand_for(game)
     hands.find_by(game: game)
   end
