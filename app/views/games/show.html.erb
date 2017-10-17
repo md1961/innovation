@@ -25,7 +25,7 @@
          is_turn    = player == @game.turn_player
          influence_cards = player.influence_for(@game).cards -%>
       <div class="board_and_influence">
-        <div class="board <%= is_turn ? '' : 'non_turn' %> <%= is_current ? 'current' : '' %>">
+        <div class="board <%= is_turn ? '' : 'non_turn' %>">
           <div class="board_scores">
             <div class="board_owner">
               <span class="player_name <%= is_turn ? 'turn' : '' %>">
