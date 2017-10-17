@@ -20,7 +20,7 @@
     </div>
   </div>
   <div class="boards">
-    <% @game.players_reversed_with_current_last.each do |player| -%>
+    <% @game.players_ordered_for_display.each do |player| -%>
       <% is_current = player == @game.current_player
          is_turn    = player == @game.turn_player
          influence_cards = player.influence_for(@game).cards -%>
@@ -80,7 +80,7 @@
     <% end -%>
   </div>
   <div class="hands">
-    <% @game.players_reversed_with_current_last.each do |player| -%>
+    <% @game.players_ordered_for_display.each do |player| -%>
       <% is_current = player == @game.current_player
          is_turn    = player == @game.turn_player
          hand_cards = player.cards_in_hand(@game) -%>

@@ -17,8 +17,17 @@ class Game < ActiveRecord::Base
 
   NUM_ACTIONS_PER_TURN = 2
 
-  def players_reversed_with_current_last
-    players.rotate(players.index(current_player)).reverse
+  def human?
+    players.any? { |player| !player.is_computer }
+  end
+
+  def human_player
+    players.detect { |player| !player.is_computer }
+  end
+
+  def players_ordered_for_display
+    player_showing_hand = human? ? human_player : current_player
+    players.rotate(players.index(player_showing_hand)).reverse
   end
 
   def next_player(player)
