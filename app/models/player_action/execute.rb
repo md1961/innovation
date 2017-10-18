@@ -20,6 +20,10 @@ class Execute < Base
     @board = board
   end
 
+  def execute?
+    true
+  end
+
   def perform
     @board.active_card
   end

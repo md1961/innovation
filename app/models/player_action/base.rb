@@ -9,6 +9,10 @@ class Base
     @player = player
   end
 
+  def execute?
+    false
+  end
+
   def conquer_category?
     false
   end
