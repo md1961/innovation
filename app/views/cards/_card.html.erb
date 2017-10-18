@@ -1,4 +1,4 @@
-<div class="card <%= in_use?(card) ? 'in_use' : '' %>">
+<div class="card <%= @action_info.target_in_use?(card) ? 'in_use' : '' %>">
   <div class="card_top">
     <%= card_resource_in_div(card, Card::POS_LT) %>
     <% unless @uses_color -%>
