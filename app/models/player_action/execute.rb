@@ -6,14 +6,18 @@ class Execute < Base
     game   = chooser.game
     player = chooser.player
     BoardSelect.build_instances(game, player).each do |board_select|
-      chooser.add(new(game, player, board_select), board_select.pct_weight)
+      chooser.add(
+        new(game, player, board_select.board).tap { |execute|
+          execute.effect_factor = board_select.effect_factor
+        },
+        board_select.pct_weight
+      )
     end
   end
 
-  def initialize(game, player, board_select)
+  def initialize(game, player, board)
     super(game, player)
-    @board         = board_select.board
-    @effect_factor = board_select.effect_factor
+    @board = board
   end
 
   def perform
