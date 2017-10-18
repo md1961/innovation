@@ -1,7 +1,9 @@
 <% players_ordered_for_display = @game.players_ordered_for_display -%>
 
 <% if @action_info.executing? -%>
-  <div class="only_a_flag" id="flag_for_executing" hidden></div>
+  <div class="only_a_flag" id="flag_for_executing" hidden
+       data-card="<%= @action_info.target_cards.first.to_s %>">
+  </div>
 <% end -%>
 
 <div class="game_area">

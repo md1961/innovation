@@ -24,4 +24,5 @@ $ ->
     $('#action_options').text('')
 
   if $('#flag_for_executing').length > 0
-    alert('Executing...')
+    card = $('#flag_for_executing').first().data('card')
+    alert('Will execute ' + card + '...')

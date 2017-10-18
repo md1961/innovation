@@ -5,8 +5,15 @@ class ActionInfo
     @is_executing
   end
 
+  def h_action_targets
+    @h_action_targets ||= {}
+  end
+
   def target_in_use?(target)
-    return false unless @h_action_targets
-    @h_action_targets[target.class.name]&.include?(target.id)
+    h_action_targets[target.class.name]&.include?(target.id)
+  end
+
+  def target_cards
+    h_action_targets['Card']&.map { |id| Card.find(id) } || []
   end
 end
