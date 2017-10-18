@@ -14,6 +14,10 @@ module AiPlayerAttributes
       PlayerAction::Execute.add_options_to(chooser)
     end
 
+    if true && chooser.instance_variable_get('@options').any? { |option| option.action.execute? && option.weight > 0 }
+      chooser.instance_variable_set('@options', chooser.instance_variable_get('@options').find_all { |option| option.action.execute? && option.weight > 0 })
+    end
+
     action = chooser.choose
     @action_options = chooser.to_s
     action

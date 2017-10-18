@@ -14,6 +14,7 @@ class GamesController < ApplicationController
 
   def show
     @game_evaluator = GameEvaluator.new(@game, @game.current_player)
+    @action_info = ActionInfo.new.tap { |ac| ac.is_executing = params[:execute] == 'true' }
     @h_action_targets = load_action_targets
     @game.undo_statement = session[KEY_FOR_UNDO_STATEMENT]
     @game.action_options = session[KEY_FOR_ACTION_OPTIONS]
@@ -102,7 +103,7 @@ class GamesController < ApplicationController
       perform_action(action)
     end
     @game.end_action unless action&.conquer_category?
-    redirect_to @game, notice: action&.message_after
+    redirect_to game_path(@game, execute: action.execute?), notice: action&.message_after
   end
 
   def undo

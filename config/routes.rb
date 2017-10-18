@@ -15,6 +15,7 @@ Rails.application.routes.draw do
       get :unexpand, :expand_left, :expand_right, :expand_upward
       get :switch_player, :to_turn_player, :end_action, :end_turn
       get :increment_action, :action_options, :board_info
+      get :execute
       post :conquer
       get :test
     end

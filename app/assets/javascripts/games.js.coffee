@@ -22,3 +22,6 @@ $ ->
 
   $('#clear_action_options').on 'click', ->
     $('#action_options').text('')
+
+  if $('#flag_for_executing').length > 0
+    alert('Executing...')
