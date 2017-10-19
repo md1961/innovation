@@ -17,6 +17,8 @@ class GamesController < ApplicationController
     @action_info = ActionInfo.new.tap { |ac|
       ac.is_executing = params[:execute] == 'true'
       ac.h_action_targets = load_action_targets
+      ac.action_message = flash[:notice]
+      flash[:notice] = nil
     }
     @game.undo_statement = session[KEY_FOR_UNDO_STATEMENT]
     @game.action_options = session[KEY_FOR_ACTION_OPTIONS]

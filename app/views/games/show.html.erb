@@ -98,6 +98,9 @@
             <span class="show_hand player_name <%= is_turn ? 'turn' : '' %>">
               <%= "[#{player}](#{hand_cards.size})" %>
             </span>
+            <% if is_at_bottom -%>
+              <span id="action_message"><%= @action_info.action_message %></span>
+            <% end -%>
           </div>
           <div class="hand_cards <%= is_turn ? '' : 'non_turn' %>" <%= is_at_bottom ? '' : 'hidden' %>>
             <% hand_cards.each do |card| -%>

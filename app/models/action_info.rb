@@ -1,5 +1,6 @@
 class ActionInfo
   attr_writer :is_executing, :h_action_targets
+  attr_accessor :action_message
 
   def executing?
     @is_executing

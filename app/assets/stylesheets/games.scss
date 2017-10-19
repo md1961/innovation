@@ -113,6 +113,11 @@ table#game_list {
   cursor: pointer;
 }
 
+span#action_message {
+  font-weight: bold;
+  margin-left: 15px;
+}
+
 .hand_cards {
   overflow: hidden;
 }
