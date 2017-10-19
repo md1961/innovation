@@ -92,6 +92,10 @@ class GamesController < ApplicationController
     redirect_to @game
   end
 
+  def do_execute
+
+  end
+
   def test
     ge = GameEvaluator.new(@game, @game.current_player)
     actions = []

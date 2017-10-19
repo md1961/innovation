@@ -23,6 +23,10 @@ $ ->
   $('#clear_action_options').on 'click', ->
     $('#action_options').text('')
 
+
   if $('#flag_for_executing').length > 0
-    card = $('#flag_for_executing').first().data('card')
+    $it = $('#flag_for_executing')
+    game_id = $it.data('game_id')
+    card    = $it.data('card')
     alert('Will execute ' + card + '...')
+    $.post '/games/' + game_id + '/do_execute'

@@ -2,7 +2,9 @@
 
 <% if @action_info.executing? -%>
   <div class="only_a_flag" id="flag_for_executing" hidden
-       data-card="<%= @action_info.target_cards.first.to_s %>">
+       data-game_id="<%= @game.id %>"
+       data-card="<%= @action_info.target_cards.first.to_s %>"
+       >
   </div>
 <% end -%>
 
