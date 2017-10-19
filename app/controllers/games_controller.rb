@@ -3,6 +3,8 @@ class GamesController < ApplicationController
   before_action :clear_undo, except: %i[index show undo]
   before_action :clear_info, except: %i[index show]
 
+  KEY_FOR_ACTION_INFO = :action_info
+
   KEY_FOR_ACTION_TARGETS = :action_targets
   KEY_FOR_UNDO_STATEMENT = :undo_statement
   KEY_FOR_ACTION_OPTIONS = :action_options
@@ -14,12 +16,12 @@ class GamesController < ApplicationController
 
   def show
     @game_evaluator = GameEvaluator.new(@game, @game.current_player)
-    @action_info = ActionInfo.new.tap { |ac|
+    @action_info = ActionInfo.new(session[KEY_FOR_ACTION_INFO]).tap { |ac|
       ac.is_executing = params[:execute] == 'true'
-      ac.h_action_targets = load_action_targets
       ac.action_message = flash[:notice]
       flash[:notice] = nil
     }
+    session[KEY_FOR_ACTION_INFO] = @action_info.dup_cleared(:action_targets)
     @game.undo_statement = session[KEY_FOR_UNDO_STATEMENT]
     @game.action_options = session[KEY_FOR_ACTION_OPTIONS]
   end
@@ -181,25 +183,12 @@ class GamesController < ApplicationController
 
     def perform_action(action)
       targets = action.perform
-      save_action_targets(Array(targets))
+      session[KEY_FOR_ACTION_INFO] = ActionInfo.new.tap { |ai| ai.action_targets = targets }
       save_undo_statement(action.undo_statement)
     end
 
     def clear_undo
       session[KEY_FOR_UNDO_STATEMENT] = nil
-    end
-
-    def save_action_targets(targets)
-      session[KEY_FOR_ACTION_TARGETS] = \
-        targets.each_with_object(Hash.new { |h, k| h[k] = [] }) { |target, h|
-          h[target.class.name] << target.id
-        }
-    end
-
-    def load_action_targets
-      h = session[KEY_FOR_ACTION_TARGETS]&.dup
-      session[KEY_FOR_ACTION_TARGETS] = nil
-      h
     end
 
     def save_undo_statement(statement)
