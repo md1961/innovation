@@ -171,8 +171,7 @@ class GamesController < ApplicationController
 
     def set_action_info
       @action_info = ActionInfo.new(session[KEY_FOR_ACTION_INFO])
-      session[KEY_FOR_ACTION_INFO] \
-        = @action_info.dup_cleared(:is_executing, :action_targets, :action_message)
+      clear_action_info(:is_executing, :action_targets, :action_message)
     end
 
     def perform_action(action, action_options = nil)
@@ -187,10 +186,14 @@ class GamesController < ApplicationController
     end
 
     def clear_undo_statement
-      session[KEY_FOR_ACTION_INFO] = @action_info.dup_cleared(:undo_statement)
+      clear_action_info(:undo_statement)
     end
 
     def clear_action_options
-      session[KEY_FOR_ACTION_INFO] = @action_info.dup_cleared(:action_options)
+      clear_action_info(:action_options)
+    end
+
+    def clear_action_info(*attr_names)
+      session[KEY_FOR_ACTION_INFO] = @action_info.dup_cleared(*attr_names)
     end
 end
