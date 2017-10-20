@@ -17,7 +17,6 @@ class GamesController < ApplicationController
 
   def show
     @game_evaluator = GameEvaluator.new(@game, @game.current_player)
-    session[KEY_FOR_ACTION_INFO] = @action_info.dup_cleared(:is_executing, :action_targets)
     @game.undo_statement = session[KEY_FOR_UNDO_STATEMENT]
   end
 
@@ -107,7 +106,7 @@ class GamesController < ApplicationController
       perform_action(action, player.action_options)
     end
     @game.end_action unless action&.conquer_category?
-    redirect_to @game, notice: action&.message_after
+    redirect_to @game
   end
 
   def undo
@@ -176,10 +175,9 @@ class GamesController < ApplicationController
     end
 
     def set_action_info
-      @action_info = ActionInfo.new(session[KEY_FOR_ACTION_INFO]).tap { |ai|
-        ai.action_message = flash[:notice]
-        flash[:notice] = nil
-      }
+      @action_info = ActionInfo.new(session[KEY_FOR_ACTION_INFO])
+      session[KEY_FOR_ACTION_INFO] \
+        = @action_info.dup_cleared(:is_executing, :action_targets, :action_message)
     end
 
     def perform_action(action, action_options = nil)
@@ -188,6 +186,7 @@ class GamesController < ApplicationController
         ai.is_executing = action.execute?
         ai.action_targets = targets
         ai.action_options = action_options
+        ai.action_message = action.message_after
       }
       save_undo_statement(action.undo_statement)
     end
