@@ -1,7 +1,8 @@
 class GamesController < ApplicationController
-  before_action :set_game  , except: %i[index new]
-  before_action :clear_undo, except: %i[index show undo]
-  before_action :clear_info, except: %i[index show]
+  before_action :set_game            , except: %i[index new]
+  before_action :set_action_info     , except: %i[index]
+  before_action :clear_undo          , except: %i[index show undo]
+  before_action :clear_action_options, except: %i[index show]
 
   KEY_FOR_ACTION_INFO = :action_info
 
@@ -16,13 +17,8 @@ class GamesController < ApplicationController
 
   def show
     @game_evaluator = GameEvaluator.new(@game, @game.current_player)
-    @action_info = ActionInfo.new(session[KEY_FOR_ACTION_INFO]).tap { |ai|
-      ai.action_message = flash[:notice]
-      flash[:notice] = nil
-    }
     session[KEY_FOR_ACTION_INFO] = @action_info.dup_cleared(:is_executing, :action_targets)
     @game.undo_statement = session[KEY_FOR_UNDO_STATEMENT]
-    @game.action_options = session[KEY_FOR_ACTION_OPTIONS]
   end
 
   # TODO: Move player adding process to a model or a service.
@@ -108,8 +104,7 @@ class GamesController < ApplicationController
     if @game.uses_ai && @game.turn_player.is_computer && @game.num_actions_left > 0
       player = @game.turn_player
       action = player.choose_action(@game)
-      session[KEY_FOR_ACTION_OPTIONS] = player.action_options
-      perform_action(action)
+      perform_action(action, player.action_options)
     end
     @game.end_action unless action&.conquer_category?
     redirect_to @game, notice: action&.message_after
@@ -180,11 +175,19 @@ class GamesController < ApplicationController
       end
     end
 
-    def perform_action(action)
+    def set_action_info
+      @action_info = ActionInfo.new(session[KEY_FOR_ACTION_INFO]).tap { |ai|
+        ai.action_message = flash[:notice]
+        flash[:notice] = nil
+      }
+    end
+
+    def perform_action(action, action_options = nil)
       targets = action.perform
       session[KEY_FOR_ACTION_INFO] = ActionInfo.new.tap { |ai|
         ai.is_executing = action.execute?
         ai.action_targets = targets
+        ai.action_options = action_options
       }
       save_undo_statement(action.undo_statement)
     end
@@ -197,7 +200,7 @@ class GamesController < ApplicationController
       session[KEY_FOR_UNDO_STATEMENT] = statement
     end
 
-    def clear_info
-      session[KEY_FOR_ACTION_OPTIONS] = nil
+    def clear_action_options
+      session[KEY_FOR_ACTION_INFO] = @action_info.dup_cleared(:action_options)
     end
 end

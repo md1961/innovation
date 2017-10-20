@@ -1,6 +1,6 @@
 class ActionInfo
   attr_writer :is_executing, :h_action_targets
-  attr_accessor :action_message
+  attr_accessor :action_options, :action_message
 
   def initialize(h_attrs = {})
     (h_attrs || {}).each do |name, value|
