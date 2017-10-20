@@ -127,7 +127,7 @@
               <%= button_to '+', increment_action_game_path(@game), method: :get, remote: true,
                     disabled: @game.num_actions_left >= 2 %>
               <%= button_to 'undo', undo_game_path(@game), method: :get, id: 'undo_button',
-                    disabled: !@game.undo_statement %>
+                    disabled: !@action_info.undo_statement %>
               <%= link_to '<o>', action_options_game_path(@game), method: :get, remote: true,
                     id: 'action_options_link' %>
               <span id="clear_action_options">[c]</span>
@@ -157,7 +157,7 @@
       <span id="toggle_conquests">[+]</span>
       <div>
         <div>
-          <%= @game.undo_statement %>
+          <%= @action_info.undo_statement %>
         </div>
         <div id="action_options">
           <%= action_options_display(@action_info.action_options) %>
