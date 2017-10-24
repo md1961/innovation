@@ -49,6 +49,10 @@ class Card < ActiveRecord::Base
       || (effects.size == 2 && !effects.first.is_for_all && effects.last.conditional_on_effect_above?)
   end
 
+  def effect_factor_sum(game_evaluator)
+    effects.to_a.sum { |effect| effect.effect_factor(game_evaluator) }
+  end
+
   def eql?(other)
     other.is_a?(self.class) && id == other.id
   end
