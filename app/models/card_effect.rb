@@ -237,7 +237,7 @@ class CardEffect < ActiveRecord::Base
     ['公衆衛生', ["((HAND.cards.size - 2) * 25 + 50) + [(((@game.turn_player.hand_for(@game).min_age || 10) - 5) * -50 + 50), 50].max"]],
     ['鉄道', ["(HAND.cards.find_all { |c| c.age.level < @player.max_age_on_boards(@game) }.size - 1) * 100 / 3 + 100",
               "((BOARDS.find_all(&:expanded_right?).map { |b| b.cards.size }.max || 0) - 2) * 100 / 3 + 200"]],
-    ['内燃機関', []],  # TODO
+    ['内燃機関', ["(INFLUENCE.cards.map(&:age).map(&:level).sort[0, 2].sum || 0) * 20 + 100"]],
     ['爆薬', ["(HAND.cards.size - 3) * 100 / 3 + 100"]],
     ['街灯', ["(HAND.cards.find_all { |c| c.age.level < @player.max_age_on_boards(@game) }.size - 1) * 100 / 3 + 100"]],
     ['電気', ["boards = BOARDS.reject(&:empty?).find_all { |b| !b.active_card.has_resource?('製造') }; num_good = boards.count { |b| b.active_card_decreasing_age? }; diff = num_good - (boards.size - num_good); (diff - 1) * 100 + 100"]],
@@ -278,7 +278,7 @@ class CardEffect < ActiveRecord::Base
                       "@game.players.none? { |p| r_counts = p.resource_counts(@game); r_counts[Resource.woods] > r_counts[Resource.manufacture] } && OTHERS.all? { |p| p.influence_point(@game) < @player.influence_point(@game) } ? VICTORY : 0"]],
     ['ソフトウェア', ["100",
                       "200"]],
-    # TODO: Use factor func for['ホームオートメーション', ["AC_CARDS.any? { |c| c.title != 'ホームオートメーション' && c.effects.any? { |e| e.is_for_all } }"]],
+    ['ホームオートメーション', ["AC_CARDS.find_all { |c| c.title != 'ホームオートメーション' && c.effects.any? { |e| e.is_for_all } }.map { |c| c.effects.map { |e| e.effect_factor(self) }.sum }.max || 0"]],
     ['生物工学', ["((OTHERS.flat_map { |p| p.active_cards(@game) }.find_all { |c| c.has_resource?('木') }.map(&:age).map(&:level).max || 0) - 7) * 50 + 100",
                   "OTHERS.all? { |p| p.resource_counts(@game)[Resource.woods] < RES_COUNTS[Resource.woods] } ? VICTORY : 0"]],
     ['幹細胞', ["points = HAND.cards.map(&:age).map(&:level).sum; point_diff = @player.influence_point(@game) - OTHERS.map { |p| p.influence_point(@game) }.max; point_diff_after = point_diff + points; (point_diff.negative? && point_diff_after.positive? ? 300 : 0) + (points * 5) - ([(HAND.cards.size - 3) * 50 + 50, 0].max)"]],
