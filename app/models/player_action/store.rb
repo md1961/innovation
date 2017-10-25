@@ -15,6 +15,10 @@ class Store < Base
     end
     @card
   end
+
+  def to_s
+    "Store#{@card}"
+  end
 end
 
 end

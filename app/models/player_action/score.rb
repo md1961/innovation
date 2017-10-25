@@ -15,6 +15,10 @@ class Score < Base
     end
     @card
   end
+
+  def to_s
+    "Score#{@card}"
+  end
 end
 
 end

@@ -22,6 +22,10 @@ class Sequence
       }
     }
   end
+
+  def to_s
+    @actions.join(' ; ')
+  end
 end
 
 end

@@ -16,6 +16,10 @@ class Reuse < Base
     end
     @card
   end
+
+  def to_s
+    "Reuse#{@card}"
+  end
 end
 
 end

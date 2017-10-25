@@ -25,6 +25,10 @@ class Offer < Base
     @card
   end
 
+  def to_s
+    "Offer#{@card}-#{@dest}"
+  end
+
   private
 
     def dest_to_card_list(player)
