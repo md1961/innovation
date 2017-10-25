@@ -9,7 +9,6 @@
   <%= render @card %>
 
   <div class="effects">
-    <% game = Game.last -%>
     <table>
       <tr>
         <td><%= "==> 必要条件 <==" %></td>
@@ -18,8 +17,8 @@
         <tr>
           <td><%= effect.necessary_condition %></td>
         </tr>
-        <% game.players.each do |player| -%>
-          <% ge = GameEvaluator.new(game, player) -%>
+        <% @game.players.each do |player| -%>
+          <% ge = GameEvaluator.new(@game, player) -%>
           <tr>
             <td><%= "#{player}: #{effect.executable?(ge)}" %></td>
           </tr>
@@ -32,8 +31,8 @@
         <tr>
           <td><%= effect.evaluation_f %></td>
         </tr>
-        <% game.players.each do |player| -%>
-          <% ge = GameEvaluator.new(game, player) -%>
+        <% @game.players.each do |player| -%>
+          <% ge = GameEvaluator.new(@game, player) -%>
           <tr>
             <td><%= "#{player}: #{effect.effect_factor(ge, assumes_executable = true)}" %></td>
           </tr>
@@ -43,14 +42,12 @@
         <td><%= "==> 実行文 <==" %></td>
       </tr>
       <% @card.effects.each do |effect| -%>
-        <tr>
-          <td><%= effect.action_preparing_statements || '（未設定）' %></td>
-        </tr>
-        <tr>
-          <% player = game.current_player
-             cee = CardEffectExecutor.new(game, player) -%>
-          <td><%= "#{player}: #{effect.actions(cee).map(&:to_s)}" %></td>
-        </tr>
+        <% f_action_preparer = effect.action_preparer(@game) -%>
+        <% @game.players.each do |player| -%>
+          <tr>
+            <td><%= "#{player}: #{f_action_preparer.call(player)}" %></td>
+          </tr>
+        <% end -%>
       <% end -%>
     </table>
   </div>
