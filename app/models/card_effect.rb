@@ -27,8 +27,9 @@ class CardEffect < ActiveRecord::Base
     get_statement(H_EVALUATION_F, '100')
   end
 
-  def action_preparing_statements
-    get_statement(H_ACTION_PREPARING_STATEMENTS)
+  def action_preparer(game)
+    cee = CardEffectExecutor.new(game)
+    cee.action_preparer(card.title, card.effects.index(self))
   end
 
   private
@@ -282,9 +283,5 @@ class CardEffect < ActiveRecord::Base
     ['生物工学', ["((OTHERS.flat_map { |p| p.active_cards(@game) }.find_all { |c| c.has_resource?('木') }.map(&:age).map(&:level).max || 0) - 7) * 50 + 100",
                   "OTHERS.all? { |p| p.resource_counts(@game)[Resource.woods] < RES_COUNTS[Resource.woods] } ? VICTORY : 0"]],
     ['幹細胞', ["points = HAND.cards.map(&:age).map(&:level).sum; point_diff = @player.influence_point(@game) - OTHERS.map { |p| p.influence_point(@game) }.max; point_diff_after = point_diff + points; (point_diff.negative? && point_diff_after.positive? ? 300 : 0) + (points * 5) - ([(HAND.cards.size - 3) * 50 + 50, 0].max)"]],
-  ].to_h
-
-  H_ACTION_PREPARING_STATEMENTS = [
-    ['車輪', [["[PlayerAction::Draw.new(@game, @player)] * 2"]]],
   ].to_h
 end
